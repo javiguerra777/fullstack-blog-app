@@ -84,7 +84,7 @@ router.get('/posts', async (req, res) => {
 router.post('/posts', async (req, res) => {
   try {
     const data = new Post({
-      username: req.body.username,
+      username: req.body.username.toLowerCase(),
       title: req.body.title,
       body: req.body.body,
       category: req.body.category,
@@ -103,7 +103,7 @@ router.post('/categories', async (req, res) => {
   try {
     const data = new Category({
       category: req.body.category,
-      username: req.body.username,
+      username: req.body.username.toLowerCase(),
       date: req.body.date,
     });
     const category = await data.save();
