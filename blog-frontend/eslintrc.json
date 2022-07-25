@@ -2,7 +2,8 @@
   "extends": [
     "airbnb",
     "airbnb/hooks",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "airbnb-typescript"
   ],
   "globals": {
     "window": true,
@@ -45,5 +46,9 @@
         ]
       }
     }
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "sourceType": "module"
   }
 }

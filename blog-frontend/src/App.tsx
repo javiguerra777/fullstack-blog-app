@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
-import getAllPosts from './utils/api';
+import React, { useEffect, useState } from 'react';
+import Footer from './components/Footer';
 
 function App() {
-  useEffect(() => {
-  getAllPosts()
-      .then((res) => console.log(res));
-  }, []);
-  return (
+    return (
     <main>
-      <h1>Testing axios calls with ts</h1>
+      <h1>Hello World</h1>
    </main>
   );
 }
