@@ -6,7 +6,8 @@ const routes = require('./routes/routes');
 
 const app = express();
 const port = 5000 || process.env.PORT;
-// used mongo cloud to get this to work
+
+// connection with mongoDB cloud
 mongoose.connect(process.env.MONGOKEY, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -17,10 +18,15 @@ db.once('open', () => {
   console.log('Connected to database successfully');
 });
 
+// cors and json to get the backend server functioning with no issues
 app.use(cors());
 app.use(express.json());
+
+// express routes
 app.use('/api', routes);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+module.exports = db;

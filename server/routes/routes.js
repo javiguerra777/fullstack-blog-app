@@ -3,10 +3,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../schema/user');
 const Post = require('../schema/post');
+const Category = require('../schema/category');
 
+// salt rounds necessary to make bcrypt work, salt rounds are used for extra protection against hackers
 const saltRounds = 10;
 const router = express.Router();
 
+// public endpoints
 router.post('/signup', async (req, res) => {
   try {
     let user;
@@ -40,16 +43,42 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    console.log('login route works');
-
-    res.status(200).json(req.body);
+    const [user] = await User.find({
+      username: req.body.username,
+    });
+    if (!user) {
+      console.log('user does not exist');
+      res.status(404).json({ error: 'user not found' });
+    }
+    const bodyPassword = req.body.password;
+    // first argument has to be the req.body.password for bcrypt.compare, second argument is the user password
+    const compare = await bcrypt.compare(bodyPassword, user.password);
+    if (compare) {
+      res.status(200).json(user);
+    } else {
+      res.status(400).json({ error: 'password does not match' });
+    }
   } catch (err) {
     console.log(err.message);
   }
 });
+
+// middleware
+
+// input middleware here
+
+// private endpoints, where a user has to be authenticated to hit these endpoints
+
+// posts routes
 router.get('/posts', async (req, res) => {
-  console.log('Getting all posts...');
+  try {
+    const posts = await Post.find();
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log(err.message);
+  }
 });
+
 router.post('/posts', async (req, res) => {
   try {
     const data = new Post({
@@ -59,11 +88,28 @@ router.post('/posts', async (req, res) => {
       category: req.body.category,
       date: req.body.date,
     });
-    const postedData = await data.save();
+    const post = await data.save();
     console.log('New Post created in database');
-    res.status(200).json(postedData);
+    res.status(200).json(post);
   } catch (err) {
     console.log(err.message);
   }
 });
+
+// categories routes
+router.post('/categories', async (req, res) => {
+  try {
+    const data = new Category({
+      category: req.body.category,
+      username: req.body.username,
+      date: req.body.date,
+    });
+    const category = await data.save();
+    console.log('New category created');
+    res.status(200).json(category);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 module.exports = router;
