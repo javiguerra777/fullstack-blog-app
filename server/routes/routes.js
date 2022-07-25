@@ -108,7 +108,7 @@ router.post('/posts', async (req, res) => {
 });
 
 // categories routes
-router.get('/categoires', async (req, res) => {
+router.get('/categories', async (req, res) => {
   try {
     const categories = await Category.find();
     res.status(200).json(categories);
