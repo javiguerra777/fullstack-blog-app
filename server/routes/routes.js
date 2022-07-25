@@ -40,6 +40,7 @@ router.post('/signup', async (req, res) => {
     res.status(200).json(encodedUser);
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
@@ -63,10 +64,11 @@ router.post('/login', async (req, res) => {
       const encodedUser = jwt.sign(payload, process.env.JWT_KEY);
       res.status(200).json(encodedUser);
     } else {
-      res.status(400).json({ error: 'password does not match' });
+      res.status(404).json({ error: 'password does not match' });
     }
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
@@ -83,6 +85,7 @@ router.get('/posts', async (req, res) => {
     res.status(200).json(posts);
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
@@ -100,10 +103,21 @@ router.post('/posts', async (req, res) => {
     res.status(200).json(post);
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
 // categories routes
+router.get('/categoires', async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.status(200).json(categories);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
 router.post('/categories', async (req, res) => {
   try {
     const data = new Category({
@@ -116,6 +130,7 @@ router.post('/categories', async (req, res) => {
     res.status(200).json(category);
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
