@@ -18,7 +18,7 @@ router.post('/signup', async (req, res) => {
       .then(async (hash) => {
         try {
           const data = new User({
-            username: req.body.username,
+            username: req.body.username.toLowerCase(),
             password: hash,
             date: req.body.date,
           });
@@ -26,6 +26,7 @@ router.post('/signup', async (req, res) => {
           console.log(user);
         } catch (err) {
           console.log(err.message);
+          res.status(400).json(err.message);
         }
       });
     const encodedUser = jwt.sign(
@@ -45,7 +46,7 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const [user] = await User.find({
-      username: req.body.username,
+      username: req.body.username.toLowerCase(),
     });
     if (!user) {
       console.log('user does not exist');
