@@ -56,7 +56,12 @@ router.post('/login', async (req, res) => {
     // first argument has to be the req.body.password for bcrypt.compare, second argument is the user password
     const compare = await bcrypt.compare(bodyPassword, user.password);
     if (compare) {
-      res.status(200).json(user);
+      const payload = {
+        userId: user.id,
+        username: user.username,
+      };
+      const encodedUser = jwt.sign(payload, process.env.JWT_KEY);
+      res.status(200).json(encodedUser);
     } else {
       res.status(400).json({ error: 'password does not match' });
     }
