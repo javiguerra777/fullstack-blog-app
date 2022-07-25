@@ -1,35 +1,37 @@
 {
-  "env":{
-    "browser": true,
-    "jest": true,
-    "node": true,
-    "es2021": true
-  },
   "extends": [
     "airbnb",
     "airbnb/hooks",
     "plugin:prettier/recommended"
   ],
+  "globals": {
+    "window": true,
+    "document": true
+  },
   "plugins": [
     "react",
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": ["error",{
-      "endOfLine": "auto"
-    }],
+    "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-console": "warn",
     "func-names": "off",
     "no-process-exit": "off",
     "object-shorthand": "off",
+    "no-param-reassign": "off",
     "class-methods-use-this": "off",
+    "react/prop-types": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
     "react/jsx-filename-extension": [
       1,
       {
         "extensions": [
           ".js",
-          ".jsx"
+          ".jsx",
+          ".ts",
+          ".tsx"
         ]
       }
     ]
