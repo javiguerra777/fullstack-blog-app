@@ -20,6 +20,7 @@ router.post('/signup', async (req, res) => {
           const data = new User({
             username: req.body.username,
             password: hash,
+            date: req.body.date,
           });
           user = await data.save();
           console.log(user);
