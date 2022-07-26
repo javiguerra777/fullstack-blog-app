@@ -1,9 +1,71 @@
 import React from 'react';
-const Footer = () => {
+import styled from 'styled-components';
+import { AiOutlineCamera, AiOutlineVideoCamera, AiOutlineGif } from 'react-icons/ai';
+import { BsFileEarmarkPlus } from 'react-icons/bs';
+
+const FooterWrapper = styled.footer`
+display: flex;
+flex-direction: column;
+width: 75%;
+height: auto;
+background-color: white;
+border-radius: 0.5em;
+padding: 1em 0.5em 1em 0.5em;
+header {
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid #f2f3f4 0.1em;
+  img {
+  height: 3em;
+  width: 3em;
+  cursor: pointer;
+  border-radius: 10em;
+  margin-right: 0.5em;
+  }
+  textarea {
+    resize:none;
+    width: 95%;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+}
+main {
+  margin-top: 0.5em;
+  button {
+    cursor:pointer;
+    background: none;
+    border: none;
+    margin-right: 1em;
+  }
+}
+`;
+const Footer = () => { 
+  // const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setImage(URL.createObjectURL(e.target!.files![0]));
+  // };
+  const clickPost = () => {
+    console.log('Going to create new post');
+  }
   return (
-    <footer>
-      <h1>Footer</h1>
-    </footer>
+    <FooterWrapper>
+      <header>
+        {/* placeholder image for styling purposes */}
+        <img src="https://i.pinimg.com/originals/bd/99/9b/bd999b06afebf8273b9da22abbebbd45.png" alt="yoshi" />
+      <textarea
+        name="sharePost"
+        id="sharePost"
+        placeholder="Share what's on your mind..."
+        onClick={clickPost}
+      ></textarea>
+      </header>
+      <main>
+        <button type='button'><AiOutlineCamera/></button>
+        <button type='button'><AiOutlineVideoCamera/></button>
+        <button type='button'><BsFileEarmarkPlus/></button>
+        <button type='button'><AiOutlineGif/></button>
+      </main>
+    </FooterWrapper>
   )
 };
 

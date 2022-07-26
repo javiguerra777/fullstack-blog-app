@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Footer from './components/Footer';
 
 function App() {
+
     return (
     <main>
-      <h1>Hello World</h1>
+      <Footer/>
    </main>
   );
 }
