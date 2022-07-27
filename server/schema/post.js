@@ -15,6 +15,7 @@ const postSchema = new mongoose.Schema({
   },
   image: {
     required: false,
+    type: String,
   },
   category: {
     required: false,
@@ -23,6 +24,10 @@ const postSchema = new mongoose.Schema({
   date: {
     required: true,
     type: Number,
+  },
+  comments: {
+    required: false,
+    type: Array,
   },
 });
 

@@ -95,6 +95,23 @@ router.post(
   },
 );
 
+router.put('/posts/:id', checkAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const options = { new: true };
+    const result = await Post.findByIdAndUpdate(
+      id,
+      updateData,
+      options,
+    );
+    console.log('Updating post, here is the result:', result);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
 router.delete('/posts/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -127,7 +144,15 @@ router.post('/categories', checkAuth, async (req, res) => {
 router.put('/categories/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('Updating category...');
+    const updateData = req.body;
+    const options = { new: true };
+    const result = await Category.findByIdAndUpdate(
+      id,
+      updateData,
+      options,
+    );
+    console.log('Updating category, here is the result', result);
+    res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
     res.status(400).json(err.message);
