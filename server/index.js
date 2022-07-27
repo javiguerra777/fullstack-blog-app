@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const routes = require('./routes/routes');
+const publicRoutes = require('./routes/publicRoutes');
+const privateRoutes = require('./routes/privateRoutes');
 
 const app = express();
 const port = 5000 || process.env.PORT;
@@ -23,10 +24,9 @@ app.use(cors());
 app.use(express.json());
 
 // express routes
-app.use('/api', routes);
+app.use('/api', publicRoutes);
+app.use('/api', privateRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-
-module.exports = db;
