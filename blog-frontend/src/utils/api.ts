@@ -9,16 +9,16 @@ export type PostParams = {
   title: string;
   body: string;
   image?: string;
-}
+};
 
 export type CategoryParams = {
   category: string;
   username: string;
   date: number;
-}
+};
 
 // get requests
-const getAllPosts = async() => {
+const getAllPosts = async () => {
   const data = await axios.get(`${urlBase}posts`);
   return data;
 };

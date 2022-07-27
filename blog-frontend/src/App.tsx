@@ -1,12 +1,13 @@
 import React from 'react';
 import Footer from './components/Footer';
+// import { addNewPost, PostParams } from './utils/api';
 
 function App() {
-    return (
+  return (
     <main>
-      <Footer/>
-   </main>
+      <Footer />
+    </main>
   );
-};
+}
 
 export default App;
