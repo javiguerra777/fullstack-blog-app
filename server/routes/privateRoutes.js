@@ -111,18 +111,25 @@ router.post('/categories', checkAuth, async (req, res) => {
     res.status(400).json(err.message);
   }
 });
-router.put('/categories/:id', async (req, res) => {
+
+router.put('/categories/:id', checkAuth, async (req, res) => {
   try {
+    const { id } = req.params;
     console.log('Updating category...');
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
-router.delete('/categories/:id', async (req, res) => {
+
+router.delete('/categories/:id', checkAuth, async (req, res) => {
   try {
-    console.log('Deleting category...');
+    const { id } = req.params;
+    const data = await Category.findByIdAndDelete(id);
+    res.send(data);
   } catch (err) {
     console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
