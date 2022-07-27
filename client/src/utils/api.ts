@@ -17,6 +17,18 @@ export type CategoryParams = {
   date: number;
 };
 
+export type PostData = {
+  username: string;
+  body: string;
+  category: string;
+  title: string;
+  date: number;
+};
+
+export type CategoryData = {
+  category: string;
+};
+
 // get requests
 const getAllPosts = async () => {
   const data = await axios.get(`${urlBase}posts`);
