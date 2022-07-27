@@ -48,7 +48,9 @@ function Footer() {
   // const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
   //   setImage(URL.createObjectURL(e.target!.files![0]));
   // };
-  const clickPost = () => 'clicked post';
+  const createNewPost = () => {
+    console.log('creating new post...');
+  };
   // const [image, setImage] = useState('');
   // const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
   //   e.preventDefault();
@@ -83,13 +85,13 @@ function Footer() {
         {/* placeholder image for styling purposes */}
         <img
           src="https://i.pinimg.com/originals/bd/99/9b/bd999b06afebf8273b9da22abbebbd45.png"
-          alt="yoshi"
+          alt="user-img"
         />
         <textarea
           name="sharePost"
           id="sharePost"
           placeholder="Share what's on your mind..."
-          onClick={clickPost}
+          onClick={createNewPost}
         />
       </header>
       <main>
@@ -99,10 +101,14 @@ function Footer() {
         <button type="button" aria-label="Videos">
           <AiOutlineVideoCamera />
         </button>
-        <button type="button" aria-label="Add New Post">
+        <button
+          type="button"
+          aria-label="Add New Post"
+          onClick={createNewPost}
+        >
           <BsFileEarmarkPlus />
         </button>
-        <button type="button" aria-label="Add Giphy">
+        <button type="button" aria-label="Add Gif">
           <AiOutlineGif />
         </button>
       </main>
