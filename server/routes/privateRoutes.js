@@ -55,7 +55,7 @@ router.post(
           image: req.body.image,
           date: req.body.date,
         });
-        const post = postData.save();
+        const post = await postData.save();
         console.log('New Post created in database');
         res.status(200).json(post);
       } else if (typeof req.file !== 'undefined') {
@@ -95,6 +95,18 @@ router.post(
   },
 );
 
+router.delete('/posts/:id', checkAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await Post.findByIdAndDelete(id);
+    console.log('Deleting post...', data);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
 // categories routes
 router.post('/categories', checkAuth, async (req, res) => {
   try {
@@ -126,7 +138,8 @@ router.delete('/categories/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await Category.findByIdAndDelete(id);
-    res.send(data);
+    console.log('Deleting category...', data);
+    res.send('Deleted Category:', data);
   } catch (err) {
     console.log(err.message);
     res.status(400).json(err.message);
