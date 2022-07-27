@@ -85,6 +85,18 @@ router.get('/posts', async (req, res) => {
   }
 });
 
+router.get('/posts/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Post.findById(id);
+    console.log('Grabbing post by id, here is the result', result);
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
 // categories
 router.get('/categories', async (req, res) => {
   try {
