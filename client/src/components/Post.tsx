@@ -2,7 +2,6 @@
 /* eslint-disable object-curly-newline */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { shallowEqual, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import logo from '../img/telegram.png';
 
@@ -92,15 +91,27 @@ const StyledPost = styled.section`
   }
 `;
 
-function Post() {
-  const { id, username, title, content, category } = useSelector(
-    (state: any) => state.post,
-    shallowEqual,
-  );
-  console.log(id);
+type PostProps = {
+  id: string;
+  username: string;
+  title: string;
+  content: string;
+  category: string;
+  date: number;
+};
+
+function Post({
+  id,
+  username,
+  title,
+  content,
+  category,
+  date,
+}: PostProps) {
   return (
     <StyledPost>
       <p className="username">@{username}</p>
+      <p>{date}</p>
       <Link to={`/post/${id}`} className="title">
         {title}
       </Link>

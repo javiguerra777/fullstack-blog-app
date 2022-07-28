@@ -9,7 +9,6 @@ export const getAllCategories = createAsyncThunk(
   'category/getCategories',
   async () => {
     const { data } = await axios.get(`${urlBase}categories`);
-    console.log(data);
     return data;
   },
 );

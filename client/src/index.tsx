@@ -7,7 +7,7 @@ import App from './App';
 import EditPost from './components/EditPost';
 import NewPost from './components/NewPost';
 import Home from './pages/Home';
-import Post from './components/Post';
+import Post from './pages/Post';
 import Signin from './pages/Signin';
 
 const root = ReactDOM.createRoot(

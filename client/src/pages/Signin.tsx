@@ -14,7 +14,7 @@ function Signin() {
       loginUser({ username: username.toLowerCase(), password }),
     );
     if (logginAttempt.error) {
-      console.log('failed login');
+      setPassword('');
     } else {
       dispatch(changeUsername(username));
       navigate('/');
