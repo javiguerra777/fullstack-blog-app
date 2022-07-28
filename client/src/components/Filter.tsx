@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
+import { useSelector, shallowEqual } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 const StyledFilter = styled.section`
   height: 150px;
   width: 250px;
-  position: absolute;
   margin: 2rem;
   border-radius: 5px;
   display: flex;
@@ -33,14 +34,25 @@ const StyledFilter = styled.section`
     font-size: 1.1rem;
   }
 `;
-function Filter() {
-  const [category, setCategory] = useState<string>();
 
+type Category = {
+  _id: string;
+  category: string;
+  username: string;
+  date: number;
+  __v: number;
+};
+
+function Filter() {
+  const { categories } = useSelector(
+    (state: any) => state.category,
+    shallowEqual,
+  );
+  const [category, setCategory] = useState<string>();
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
-
-  console.log(category);
+  // console.log(category);
   return (
     <StyledFilter>
       <form>
@@ -50,11 +62,14 @@ function Filter() {
             id="category"
             onChange={handleChange}
           >
-            <option>Sports</option>
+            {categories.map((categ: Category) => (
+              <option key={uuidv4()}>{categ.category}</option>
+            ))}
+            {/* <option>Sports</option>
             <option>Movies</option>
             <option>Food</option>
             <option>Social Events</option>
-            <option>Misc.</option>
+            <option>Misc.</option> */}
           </select>
         </label>
         <button type="submit">View Category</button>

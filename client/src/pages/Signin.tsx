@@ -1,19 +1,23 @@
 import React, { useState, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../store/UserSlice';
+import { useNavigate } from 'react-router-dom';
+import { loginUser, changeUsername } from '../store/UserSlice';
 
-function Login() {
+function Signin() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const { logginError } = useSelector((state: any) => state.user);
   const submitLoginForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const logginAttempt = await dispatch<any>(
-      loginUser({ username, password }),
+      loginUser({ username: username.toLowerCase(), password }),
     );
     if (logginAttempt.error) {
       console.log('failed login');
+    } else {
+      dispatch(changeUsername(username));
+      navigate('/');
     }
   };
 
@@ -39,4 +43,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signin;

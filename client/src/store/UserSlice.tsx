@@ -25,14 +25,12 @@ export type UserState = {
   username: string;
   error: boolean;
   loggedIn: boolean;
-  logginError: boolean;
 };
 const initialState = {
   userId: '',
   username: '',
   error: false,
   loggedIn: false,
-  logginError: false,
 } as UserState;
 
 export const userSlice = createSlice({
@@ -54,20 +52,13 @@ export const userSlice = createSlice({
       state.userId = payload;
       state.loggedIn = true;
       state.error = false;
-      state.logginError = false;
     });
     builder.addCase(loginUser.rejected, (state) => {
       state.error = true;
-      state.logginError = true;
     });
   },
 });
 
-// export const {
-//   setCurrentId,
-//   setCurrentUsername,
-//   setCurrentTitle,
-//   setCurrentContent,
-// } = postSlice.actions;
+export const { toggleLoggedin, changeUsername } = userSlice.actions;
 
 export default userSlice.reducer;
