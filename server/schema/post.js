@@ -25,10 +25,6 @@ const postSchema = new mongoose.Schema({
     required: true,
     type: Number,
   },
-  comments: {
-    required: false,
-    type: Array,
-  },
 });
 
 module.exports = mongoose.model('Posts', postSchema);

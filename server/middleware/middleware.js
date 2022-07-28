@@ -42,7 +42,7 @@ module.exports = async function (req, res, next) {
     // } else {
     //   throw (err.status || 500, err.message);
     // }
-    console.log('Inavlid authorization', err.message);
+    console.log('Invalid authorization', err.message);
     return res.status(err.status || 500).json(err.message);
   }
 

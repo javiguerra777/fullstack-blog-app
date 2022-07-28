@@ -15,6 +15,7 @@ router.post('/signup', async (req, res) => {
     let user;
     await bcrypt
       .hash(req.body.password, saltRounds)
+      // eslint-disable-next-line consistent-return
       .then(async (hash) => {
         try {
           const data = new User({
@@ -26,7 +27,6 @@ router.post('/signup', async (req, res) => {
           console.log(user);
         } catch (err) {
           console.log(err.message);
-          res.status(400).json(err.message);
         }
       });
     const encodedUser = jwt.sign(
@@ -37,10 +37,10 @@ router.post('/signup', async (req, res) => {
       process.env.JWT_KEY,
     );
     console.log('New User created in database');
-    res.status(200).json(encodedUser);
+    return res.status(200).json(encodedUser);
   } catch (err) {
     console.log(err.message);
-    res.status(400).json(err.message);
+    return res.status(400).json(err.message);
   }
 });
 
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
     });
     if (!user) {
       console.log('user does not exist');
-      res.status(404).json({ error: 'user not found' });
+      return res.status(404).json({ error: 'user not found' });
     }
     const bodyPassword = req.body.password;
     // first argument has to be the req.body.password for bcrypt.compare, second argument is the user password
@@ -63,13 +63,13 @@ router.post('/login', async (req, res) => {
       };
       const encodedUser = jwt.sign(payload, process.env.JWT_KEY);
       console.log('user successfully logged in...');
-      res.status(200).json(encodedUser);
-    } else {
-      res.status(404).json({ error: 'password does not match' });
+      return res.status(200).json(encodedUser);
     }
+    console.log('Password does not match');
+    return res.status(404).json({ error: 'password does not match' });
   } catch (err) {
     console.log(err.message);
-    res.status(400).json(err.message);
+    return res.status(400).json(err.message);
   }
 });
 
@@ -97,7 +97,7 @@ router.get('/posts/:id', async (req, res) => {
   }
 });
 
-// categories
+// categories routes
 router.get('/categories', async (req, res) => {
   try {
     const categories = await Category.find();
