@@ -5,8 +5,8 @@ import axios from 'axios';
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
 // api calls using async thunk
-export const getUser = createAsyncThunk(
-  'user/getUser',
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
   async (request: RequestParams) => {
     const { data } = await axios.post(`${urlBase}login`, request, {
       headers: {
@@ -16,36 +16,49 @@ export const getUser = createAsyncThunk(
     return data;
   },
 );
-type RequestParams = {
+export type RequestParams = {
   username: string;
   password: string;
 };
-type UserState = {
+export type UserState = {
   userId: string;
   username: string;
   error: boolean;
   loggedIn: boolean;
+  logginError: boolean;
 };
 const initialState = {
   userId: '',
   username: '',
   error: false,
+  loggedIn: false,
+  logginError: false,
 } as UserState;
 
-export const postSlice = createSlice({
-  name: 'post',
+export const userSlice = createSlice({
+  name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    changeUsername(state, { payload }) {
+      state.username = payload;
+    },
+    toggleLoggedin(state) {
+      state.loggedIn = !state.loggedIn;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getUser.pending, (state) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.error = false;
     });
-    builder.addCase(getUser.fulfilled, (state, { payload }) => {
-      console.log(payload);
+    builder.addCase(loginUser.fulfilled, (state, { payload }) => {
+      state.userId = payload;
       state.loggedIn = true;
+      state.error = false;
+      state.logginError = false;
     });
-    builder.addCase(getUser.rejected, (state) => {
+    builder.addCase(loginUser.rejected, (state) => {
       state.error = true;
+      state.logginError = true;
     });
   },
 });
@@ -57,4 +70,4 @@ export const postSlice = createSlice({
 //   setCurrentContent,
 // } = postSlice.actions;
 
-export default postSlice.reducer;
+export default userSlice.reducer;

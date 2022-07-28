@@ -8,6 +8,7 @@ import EditPost from './components/EditPost';
 import NewPost from './components/NewPost';
 import Home from './pages/Home';
 import Post from './components/Post';
+import Login from './pages/Login';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -22,6 +23,7 @@ root.render(
             <Route path="/newPost" element={<NewPost />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/editPost/:id" element={<EditPost />} />
+            <Route path="/login" element={<Login />} />
           </Route>
         </Routes>
       </BrowserRouter>
