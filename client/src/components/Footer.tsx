@@ -45,42 +45,11 @@ const FooterWrapper = styled.footer`
   }
 `;
 function Footer() {
-  // const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setImage(URL.createObjectURL(e.target!.files![0]));
-  // };
   const createNewPost = () => {
     console.log('creating new post...');
   };
-  // const [image, setImage] = useState('');
-  // const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   setImage('hello');
-  // };
-  // const submitPost = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const post: PostParams = {
-  //     username: 'admin',
-  //     date: Date.now(),
-  //     category: 'miscellaneous',
-  //     title: 'Testing AWS',
-  //     body: 'Set up AWS to handle images with MONGODB',
-  //     image,
-  //   };
-  //   await addNewPost(post);
-  // };
   return (
     <FooterWrapper>
-      {/* <form onSubmit={submitPost}>
-        <label htmlFor="image">
-          <input
-            type="file"
-            name="image"
-            id="image"
-            onChange={imageHandler}
-          />
-        </label>
-        <button type="submit">Submit Post</button>
-      </form> */}
       <header>
         {/* placeholder image for styling purposes */}
         <img

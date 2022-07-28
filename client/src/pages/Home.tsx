@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import Post from '../components/Post';
 import NewPostBtn from '../components/NewPostBtn';
 import GlobalStyles from '../styles/GlobalStyles';
 import Filter from '../components/Filter';
+import { getAllPosts } from '../store/PostSlice';
 
 const PostWrapper = styled.div`
   height: 100%;
@@ -14,6 +16,10 @@ const PostWrapper = styled.div`
   align-items: center;
 `;
 function Home() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch<any>(getAllPosts());
+  }, [dispatch]);
   return (
     <>
       <GlobalStyles />

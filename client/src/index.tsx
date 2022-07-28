@@ -18,7 +18,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route path="/" element={<Home />} />
+            <Route index element={<Home />} />
             <Route path="/newPost" element={<NewPost />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/editPost/:id" element={<EditPost />} />
