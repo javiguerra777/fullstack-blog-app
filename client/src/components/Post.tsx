@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable object-curly-newline */
 import React from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/telegram.png';
 
 const StyledPost = styled.section`
-  width: 65%;
+  width: 65vw;
   height: 300px;
   display: flex;
   justify-content: center;
@@ -108,6 +109,10 @@ function Post({
   category,
   date,
 }: PostProps) {
+  const currentUser = useSelector(
+    (state: any) => state.user.username,
+    shallowEqual,
+  );
   return (
     <StyledPost>
       <p className="username">@{username}</p>
@@ -119,9 +124,15 @@ function Post({
       <p className="category">
         Category: <strong>{category}</strong>
       </p>
-      <Link to={`/editPost/${id}`} className="edit">
-        edit post...
-      </Link>
+      {currentUser === username ? (
+        <Link to={`/editPost/${id}`} className="edit">
+          edit post...
+        </Link>
+      ) : (
+        <Link className="edit" to={`/post/${id}`}>
+          View Post
+        </Link>
+      )}
       <form>
         <input type="text" placeholder="Share your thoughts..." />
         <button type="submit">

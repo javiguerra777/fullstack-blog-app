@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useSelector, shallowEqual } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -52,18 +52,25 @@ function Filter() {
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
+  const changeCategory = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Changing category to', category);
+  };
   // console.log(category);
   return (
     <StyledFilter>
-      <form>
+      <form onSubmit={changeCategory}>
         <label htmlFor="category">
           <select
             value={category}
             id="category"
             onChange={handleChange}
           >
+            <option defaultValue="-">-</option>
             {categories.map((categ: Category) => (
-              <option key={uuidv4()}>{categ.category}</option>
+              <option key={uuidv4()} value={categ.category}>
+                {categ.category}
+              </option>
             ))}
             {/* <option>Sports</option>
             <option>Movies</option>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { signOut } from '../store/UserSlice';
 import icon from '../img/telegram.png';
 
 const StyledNavbar = styled.nav`
@@ -29,6 +31,14 @@ const StyledNavbar = styled.nav`
 `;
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const { loggedIn } = useSelector(
+    (state: any) => state.user,
+    shallowEqual,
+  );
+  const buttonSignOut = () => {
+    dispatch(signOut());
+  };
   return (
     <StyledNavbar>
       <div className="logo">
@@ -38,7 +48,13 @@ function Navbar() {
         </NavLink>
       </div>
       <div>
-        <NavLink to="/signin">Sign in</NavLink>
+        {loggedIn ? (
+          <button type="button" onClick={buttonSignOut}>
+            Sign out
+          </button>
+        ) : (
+          <NavLink to="/signin">Sign in</NavLink>
+        )}
       </div>
     </StyledNavbar>
   );

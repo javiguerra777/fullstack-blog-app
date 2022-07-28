@@ -12,20 +12,25 @@ export const getAllPosts = createAsyncThunk(
     return data;
   },
 );
+export const getPost = createAsyncThunk(
+  'post/getPost',
+  async (id: string) => {
+    const { data } = await axios.get(`${urlBase}posts/${id}`);
+    return data;
+  },
+);
 type PostState = {
-  id: string;
-  username: string;
   title: string;
   content: string;
+  post: Record<string, unknown>;
   posts: [];
   loading: boolean;
   error: boolean;
 };
 const initialState = {
-  id: 'test',
-  username: 'test',
-  title: 'test',
-  content: 'test',
+  title: '',
+  content: '',
+  post: {},
   posts: [],
   loading: true,
   error: false,
@@ -35,12 +40,6 @@ export const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    setCurrentId(state, { payload }) {
-      state.id = payload;
-    },
-    setCurrentUsername(state, { payload }) {
-      state.username = payload;
-    },
     setCurrentTitle(state, { payload }) {
       state.title = payload;
     },
@@ -48,7 +47,9 @@ export const postSlice = createSlice({
       state.content = payload;
     },
   },
+  // extra reducers
   extraReducers: (builder) => {
+    // getAllPosts cases
     builder.addCase(getAllPosts.pending, (state) => {
       state.loading = true;
       state.error = false;
@@ -61,14 +62,24 @@ export const postSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
+    // getPost cases
+    builder.addCase(getPost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(getPost.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.post = payload;
+    });
+    builder.addCase(getPost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
   },
 });
 
-export const {
-  setCurrentId,
-  setCurrentUsername,
-  setCurrentTitle,
-  setCurrentContent,
-} = postSlice.actions;
+// eslint-disable-next-line operator-linebreak
+export const { setCurrentTitle, setCurrentContent } =
+  postSlice.actions;
 
 export default postSlice.reducer;

@@ -9,21 +9,20 @@ function Posts() {
     shallowEqual,
   );
   return (
-    <div>
+    <section>
       {posts.map((post: any) => (
-        <div key={uuidv4()}>
-          <Post
-            // eslint-disable-next-line no-underscore-dangle
-            id={post._id}
-            username={post.username}
-            title={post.title}
-            content={post.body}
-            category={post.category}
-            date={post.date}
-          />
-        </div>
+        <Post
+          key={uuidv4()}
+          // eslint-disable-next-line no-underscore-dangle
+          id={post._id}
+          username={post.username}
+          title={post.title}
+          content={post.body}
+          category={post.category}
+          date={post.date}
+        />
       ))}
-    </div>
+    </section>
   );
 }
 
