@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
