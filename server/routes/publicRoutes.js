@@ -97,7 +97,7 @@ router.get('/posts/:id', async (req, res) => {
   }
 });
 
-router.get('/filteredpost', async (req, res) => {
+router.post('/filteredpost', async (req, res) => {
   try {
     const { category } = req.body;
     const data = await Post.find({

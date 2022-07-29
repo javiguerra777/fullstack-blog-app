@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
 // api calls using async thunk
@@ -16,6 +15,22 @@ export const getPost = createAsyncThunk(
   'post/getPost',
   async (id: string) => {
     const { data } = await axios.get(`${urlBase}posts/${id}`);
+    return data;
+  },
+);
+export const getPostByCategory = createAsyncThunk(
+  'post/getByCategory',
+  async (category: Record<string, unknown>) => {
+    const { data } = await axios.post(
+      `${urlBase}filteredpost`,
+      category,
+
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
     return data;
   },
 );
@@ -72,6 +87,22 @@ export const postSlice = createSlice({
       state.post = payload;
     });
     builder.addCase(getPost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+    // getPostByCategory cases
+    builder.addCase(getPostByCategory.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(
+      getPostByCategory.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.posts = payload;
+      },
+    );
+    builder.addCase(getPostByCategory.rejected, (state) => {
       state.loading = false;
       state.error = true;
     });

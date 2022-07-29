@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { getPostByCategory } from '../store/PostSlice';
 
 const StyledFilter = styled.section`
   height: 150px;
@@ -44,6 +45,7 @@ type Category = {
 };
 
 function Filter() {
+  const dispatch = useDispatch();
   const { categories } = useSelector(
     (state: any) => state.category,
     shallowEqual,
@@ -52,9 +54,9 @@ function Filter() {
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
-  const changeCategory = (e: FormEvent<HTMLFormElement>) => {
+  const changeCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Changing category to', category);
+    dispatch<any>(getPostByCategory({ category }));
   };
   // console.log(category);
   return (
