@@ -97,6 +97,20 @@ router.get('/posts/:id', async (req, res) => {
   }
 });
 
+router.get('/filteredpost', async (req, res) => {
+  try {
+    const { category } = req.body;
+    const data = await Post.find({
+      category: category.toLowerCase(),
+    });
+    console.log(data);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err.message);
+  }
+});
+
 // categories routes
 router.get('/categories', async (req, res) => {
   try {
@@ -106,6 +120,17 @@ router.get('/categories', async (req, res) => {
   } catch (err) {
     console.log(err.message);
     res.status(400).json(err.message);
+  }
+});
+
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    console.log('Obtaining all users...');
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err.message);
+    res.status.json(err.message);
   }
 });
 
