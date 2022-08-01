@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import Post from '../components/Post';
 // import NewPostBtn from '../components/NewPostBtn';
 import GlobalStyles from '../styles/GlobalStyles';
+import Footer from '../components/Footer';
 import Filter from '../components/Filter';
 import Posts from '../components/Posts';
 import { getAllPosts } from '../store/PostSlice';
@@ -25,6 +26,7 @@ const HomeWrapper = styled.main`
 //   align-items: center;
 // `;
 function Home() {
+  const { loggedIn } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch<any>(getAllPosts());
@@ -39,6 +41,7 @@ function Home() {
       <HomeWrapper>
         <Filter />
         <Posts />
+        {loggedIn && <Footer />}
       </HomeWrapper>
       {/* <PostWrapper>
         <NewPostBtn />

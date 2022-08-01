@@ -6,8 +6,11 @@ import {
   AiOutlineGif,
 } from 'react-icons/ai';
 import { BsFileEarmarkPlus } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const FooterWrapper = styled.footer`
+  position: fixed;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   width: 75%;
@@ -45,8 +48,9 @@ const FooterWrapper = styled.footer`
   }
 `;
 function Footer() {
+  const navigate = useNavigate();
   const createNewPost = () => {
-    console.log('creating new post...');
+    navigate('/newPost');
   };
   return (
     <FooterWrapper>

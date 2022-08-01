@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { getPostByCategory } from '../store/PostSlice';
+import { getPostByCategory, getAllPosts } from '../store/PostSlice';
 
 const StyledFilter = styled.section`
   height: 150px;
@@ -33,6 +33,7 @@ const StyledFilter = styled.section`
     background: #0f3d3e;
     color: #e2dcc8;
     font-size: 1.1rem;
+    cursor: pointer;
   }
 `;
 
@@ -56,9 +57,12 @@ function Filter() {
   }
   const changeCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch<any>(getPostByCategory({ category }));
+    if (category === '') {
+      dispatch<any>(getAllPosts());
+    } else {
+      dispatch<any>(getPostByCategory({ category }));
+    }
   };
-  // console.log(category);
   return (
     <StyledFilter>
       <form onSubmit={changeCategory}>
@@ -68,17 +72,12 @@ function Filter() {
             id="category"
             onChange={handleChange}
           >
-            <option defaultValue="-">-</option>
+            <option value="">-</option>
             {categories.map((categ: Category) => (
               <option key={uuidv4()} value={categ.category}>
                 {categ.category}
               </option>
             ))}
-            {/* <option>Sports</option>
-            <option>Movies</option>
-            <option>Food</option>
-            <option>Social Events</option>
-            <option>Misc.</option> */}
           </select>
         </label>
         <button type="submit">View Category</button>

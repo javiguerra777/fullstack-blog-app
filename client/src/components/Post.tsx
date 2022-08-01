@@ -5,6 +5,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/telegram.png';
+import convertUnixToDate from '../utils/functions';
 
 const StyledPost = styled.section`
   width: 65vw;
@@ -116,7 +117,7 @@ function Post({
   return (
     <StyledPost>
       <p className="username">@{username}</p>
-      <p>{date}</p>
+      <p>{convertUnixToDate(date)}</p>
       <Link to={`/post/${id}`} className="title">
         {title}
       </Link>
