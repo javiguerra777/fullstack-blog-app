@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -67,6 +67,8 @@ const StyledNewPost = styled.section`
 function NewPost() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // redux useSelectors
   const { title, content } = useSelector(
     (state: any) => state.post,
     shallowEqual,
@@ -75,6 +77,16 @@ function NewPost() {
     (state: any) => state.user,
     shallowEqual,
   );
+
+  // states used in component
+  const [image, setImage] = useState({});
+
+  // function to handle image change
+  const changeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    setImage(e.target!.files![0]);
+  };
+
+  // submit function to upload new post
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const newPost = {
@@ -83,6 +95,7 @@ function NewPost() {
         body: content,
         date: Date.now(),
         username,
+        image,
       },
       userId,
     };
@@ -91,7 +104,7 @@ function NewPost() {
       navigate('/');
     }
   }
-
+  console.log(image);
   return (
     <StyledNewPost>
       <p>New Post</p>
@@ -112,6 +125,10 @@ function NewPost() {
             id="content"
             value={content}
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
+          />
+          <input
+            type="file"
+            onChange={changeImage}
           />
         </div>
         <button type="submit">Post</button>

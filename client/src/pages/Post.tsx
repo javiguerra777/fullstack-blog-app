@@ -4,6 +4,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
+import axios from 'axios';
 import { getPost } from '../store/PostSlice';
 
 const PostWrapper = styled.section`
@@ -29,20 +30,36 @@ function Post() {
   );
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<any[]>([]);
+
+  // grab post by id from params
   useEffect(() => {
     dispatch<any>(getPost(id!));
   }, [dispatch, id]);
+
+  // grab comments from the database
   useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/comments')
+      .then((response: any) => setComments(response.data));
+  }, []);
+
+  // retrieve live comments from the server
+  useEffect(() => {
+    // to retrieve comments from socket server
     socket.on('receive_comment', (data: any) => {
-      setComments((prev: any) => [...prev, data]);
+      // setComments((prev: any) => [...prev, data]);
+      setComments(data);
     });
   }, []);
+
   const sendComment = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // to send comments to socket server
     socket.emit('send_comment', {
-      username: username || 'unregistered user',
+      username: username || 'unregistered-user',
       comment,
       postId: id,
+      date: Date.now(),
     });
     setComment('');
   };

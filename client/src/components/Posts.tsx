@@ -12,6 +12,7 @@ function Posts() {
     (state: any) => state.post,
     shallowEqual,
   );
+  console.log(posts);
   return (
     <PostsWrapper>
       {posts.map((post: any) => (
@@ -24,6 +25,7 @@ function Posts() {
           content={post.body}
           category={post.category}
           date={post.date}
+          image={post.image}
         />
       ))}
     </PostsWrapper>

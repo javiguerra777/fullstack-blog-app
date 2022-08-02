@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
+const Comment = require('./schema/comment');
 
 const app = express();
 const server = http.createServer(app);
@@ -27,12 +28,22 @@ const io = new Server(server, {
   },
 });
 
-// initializing Socket,io server for connections
+// initializing Socket.io server for connections
 io.on('connection', (socket) => {
   console.log(`User connected, ${socket.id}`);
-  socket.on('send_comment', (data) => {
-    console.log(data);
-    io.sockets.emit('receive_comment', data);
+  // comment function for live comments
+  socket.on('send_comment', async (data) => {
+    console.log('The data object:', data);
+    const commentData = new Comment({
+      username: data.username,
+      comment: data.comment,
+      date: data.date,
+      postId: data.postId,
+    });
+    await commentData.save();
+    const comments = await Comment.find();
+    console.log('Comments:', comments);
+    io.sockets.emit('receive_comment', comments);
   });
 });
 

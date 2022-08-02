@@ -47,7 +47,7 @@ export const addNewPost = createAsyncThunk(
   async (post: Record<string, unknown>) => {
     const { data } = await axios.post(`${urlBase}posts`, post.post, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${post.userId}`,
       },
     });

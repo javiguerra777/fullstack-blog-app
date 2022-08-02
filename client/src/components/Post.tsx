@@ -17,6 +17,10 @@ const StyledPost = styled.section`
   border-radius: 5px;
   position: relative;
   margin: 2rem 0;
+  .post-image {
+    height: 50px;
+    width: 50px;
+  }
   & a {
     color: #000;
     text-decoration: none;
@@ -99,6 +103,7 @@ type PostProps = {
   content: string;
   category: string;
   date: number;
+  image: string;
 };
 
 function Post({
@@ -108,6 +113,7 @@ function Post({
   content,
   category,
   date,
+  image,
 }: PostProps) {
   const currentUser = useSelector(
     (state: any) => state.user.username,
@@ -145,6 +151,9 @@ function Post({
         <Link className="edit" to={`/post/${id}`}>
           View Post
         </Link>
+      )}
+      {image !== '' && (
+        <img className="post-image" src={image} alt="pic" />
       )}
       <form onSubmit={addComment}>
         <input type="text" placeholder="Share your thoughts..." />

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../schema/user');
 const Post = require('../schema/post');
 const Category = require('../schema/category');
+const Comment = require('../schema/comment');
 
 // salt rounds necessary to make bcrypt work, salt rounds are used for extra protection against hackers
 const saltRounds = 10;
@@ -130,7 +131,19 @@ router.get('/users', async (req, res) => {
     res.status(200).json(users);
   } catch (err) {
     console.log(err.message);
-    res.status.json(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
+// comments routes
+router.get('/comments', async (req, res) => {
+  try {
+    const comments = await Comment.find();
+    console.log(comments);
+    res.status(200).json(comments);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
   }
 });
 
