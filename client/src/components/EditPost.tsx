@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -84,9 +85,7 @@ function NewPost() {
               type="text"
               placeholder="Title of post"
               value={title}
-              onChange={(e) =>
-                dispatch(setCurrentTitle(e.target.value))
-              }
+              onChange={(e) => dispatch(setCurrentTitle(e.target.value))}
             />
           </label>
 
@@ -94,9 +93,7 @@ function NewPost() {
             placeholder="Content...."
             id="content"
             value={content}
-            onChange={(e) =>
-              dispatch(setCurrentContent(e.target.value))
-            }
+            onChange={(e) => dispatch(setCurrentContent(e.target.value))}
           />
         </div>
         <button type="submit">Post</button>

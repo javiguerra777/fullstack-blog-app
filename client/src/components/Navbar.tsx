@@ -38,7 +38,7 @@ function Navbar() {
         </NavLink>
       </div>
       <div>
-        <NavLink to="/signIn">Login</NavLink>
+        <NavLink to="/signin">Sign in</NavLink>
       </div>
     </StyledNavbar>
   );
