@@ -1,15 +1,19 @@
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import styled from 'styled-components';
 import Post from './Post';
 
+const PostsWrapper = styled.section`
+  margin-left: 3vw;
+`;
 function Posts() {
   const { posts } = useSelector(
     (state: any) => state.post,
     shallowEqual,
   );
   return (
-    <section>
+    <PostsWrapper>
       {posts.map((post: any) => (
         <Post
           key={uuidv4()}
@@ -22,7 +26,7 @@ function Posts() {
           date={post.date}
         />
       ))}
-    </section>
+    </PostsWrapper>
   );
 }
 

@@ -4,6 +4,8 @@ import axios from 'axios';
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
 // api calls using async thunk
+
+// gets all the posts from the database
 export const getAllPosts = createAsyncThunk(
   'post/getPosts',
   async () => {
@@ -11,6 +13,8 @@ export const getAllPosts = createAsyncThunk(
     return data;
   },
 );
+
+// gets a single post from the database
 export const getPost = createAsyncThunk(
   'post/getPost',
   async (id: string) => {
@@ -18,6 +22,8 @@ export const getPost = createAsyncThunk(
     return data;
   },
 );
+
+// gets all posts from the database based on category
 export const getPostByCategory = createAsyncThunk(
   'post/getByCategory',
   async (category: Record<string, unknown>) => {
@@ -34,6 +40,21 @@ export const getPostByCategory = createAsyncThunk(
     return data;
   },
 );
+
+// adds post to the database
+export const addNewPost = createAsyncThunk(
+  'post/addNewPost',
+  async (post: Record<string, unknown>) => {
+    const { data } = await axios.post(`${urlBase}posts`, post.post, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${post.userId}`,
+      },
+    });
+    return data;
+  },
+);
+
 type PostState = {
   title: string;
   content: string;
@@ -103,6 +124,20 @@ export const postSlice = createSlice({
       },
     );
     builder.addCase(getPostByCategory.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+    // addNewPost cases
+    builder.addCase(addNewPost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(addNewPost.fulfilled, (state) => {
+      state.loading = false;
+      state.title = '';
+      state.content = '';
+    });
+    builder.addCase(addNewPost.rejected, (state) => {
       state.loading = false;
       state.error = true;
     });

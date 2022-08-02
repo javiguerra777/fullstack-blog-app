@@ -6,7 +6,7 @@ const publicRoutes = require('./routes/publicRoutes');
 const privateRoutes = require('./routes/privateRoutes');
 
 const app = express();
-const port = 5000 || process.env.PORT;
+const port = 5000 || process.env.EXPRESS_PORT;
 
 // connection with mongoDB cloud
 mongoose.connect(process.env.MONGOKEY, {
@@ -16,7 +16,9 @@ mongoose.connect(process.env.MONGOKEY, {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', () => {
-  console.log('Connected to database successfully');
+  console.log(
+    'Connected to database successfully on Express HTTP Port',
+  );
 });
 
 // cors and json to get the backend server functioning with no issues

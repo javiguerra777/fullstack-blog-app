@@ -30,7 +30,7 @@ const StyledNewPost = styled.section`
       justify-content: center;
       align-items: center;
       & input {
-        width: 900px;
+        width: 30em;
         height: 30px;
         margin: 1rem;
         border-radius: 5px;
@@ -39,12 +39,13 @@ const StyledNewPost = styled.section`
         font-size: 1.3rem;
       }
       & textarea {
-        height: 500px;
-        width: 900px;
+        height: 10em;
+        width: 30em;
         border: 1px solid #000;
         border-radius: 5px;
         font-family: 'Quicksand', sans-serif;
         font-size: 1.25rem;
+        resize: none;
       }
     }
     & button {

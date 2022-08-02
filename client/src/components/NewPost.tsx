@@ -2,9 +2,11 @@
 import React, { FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   setCurrentContent,
   setCurrentTitle,
+  addNewPost,
 } from '../store/PostSlice';
 
 const StyledNewPost = styled.section`
@@ -64,18 +66,30 @@ const StyledNewPost = styled.section`
 
 function NewPost() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { title, content } = useSelector(
     (state: any) => state.post,
     shallowEqual,
   );
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const { username, userId } = useSelector(
+    (state: any) => state.user,
+    shallowEqual,
+  );
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    dispatch(setCurrentTitle(''));
-    dispatch(setCurrentContent(''));
-    console.log(title);
-    console.log(content);
+    const newPost = {
+      post: {
+        title,
+        body: content,
+        date: Date.now(),
+        username,
+      },
+      userId,
+    };
+    const createPost = await dispatch<any>(addNewPost(newPost));
+    if (!createPost.error) {
+      navigate('/');
+    }
   }
 
   return (

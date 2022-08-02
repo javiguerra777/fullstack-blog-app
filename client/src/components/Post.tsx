@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable object-curly-newline */
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,7 +7,7 @@ import logo from '../img/telegram.png';
 import convertUnixToDate from '../utils/functions';
 
 const StyledPost = styled.section`
-  width: 65vw;
+  width: 60vw;
   height: 300px;
   display: flex;
   justify-content: center;
@@ -114,6 +113,18 @@ function Post({
     (state: any) => state.user.username,
     shallowEqual,
   );
+  const { loggedIn } = useSelector(
+    (state: any) => state.user,
+    shallowEqual,
+  );
+
+  const addComment = (e: FormEvent<HTMLFormElement>): boolean => {
+    e.preventDefault();
+    if (!loggedIn) {
+      return false;
+    }
+    return true;
+  };
   return (
     <StyledPost>
       <p className="username">@{username}</p>
@@ -123,7 +134,8 @@ function Post({
       </Link>
       <p className="content">{content}</p>
       <p className="category">
-        Category: <strong>{category}</strong>
+        Category:
+        <strong>{category}</strong>
       </p>
       {currentUser === username ? (
         <Link to={`/editPost/${id}`} className="edit">
@@ -134,7 +146,7 @@ function Post({
           View Post
         </Link>
       )}
-      <form>
+      <form onSubmit={addComment}>
         <input type="text" placeholder="Share your thoughts..." />
         <button type="submit">
           <img src={logo} alt="Logo of a paper airplane" />

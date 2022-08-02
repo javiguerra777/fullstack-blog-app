@@ -6,7 +6,7 @@ import { getPostByCategory, getAllPosts } from '../store/PostSlice';
 
 const StyledFilter = styled.section`
   height: 150px;
-  width: 250px;
+  width: 25vw;
   margin: 2rem;
   border-radius: 5px;
   display: flex;
