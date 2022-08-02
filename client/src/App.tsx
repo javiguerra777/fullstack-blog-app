@@ -30,6 +30,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Main />}>
         <Route index element={<Home />} />
+        {/*
+        NewPost is a protected route and requires
+        a user to be logged in to access this page
+         */}
         <Route
           path="/newPost"
           element={
@@ -39,7 +43,18 @@ function App() {
           }
         />
         <Route path="/post/:id" element={<Post />} />
-        <Route path="/editPost/:id" element={<EditPost />} />
+        {/*
+        EditPost is a protected route and requires
+        a user to be logged in to access this page
+        */}
+        <Route
+          path="/editPost/:id"
+          element={
+            <ProtectedRoute loggedin={loggedIn}>
+              <EditPost />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/signin" element={<Signin />} />
       </Route>
     </Routes>
