@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<<< HEAD:client/.prettierrc
 {
   "semi": true,
   "trailingComma": "all",
@@ -8,15 +5,3 @@
   "printWidth": 70,
   "tabWidth": 2
 }
-========
->>>>>>> javi-frontend
-{
-  "semi": true,
-  "trailingComma": "all",
-  "singleQuote": true,
-  "printWidth": 70
-}
-<<<<<<< HEAD
-=======
->>>>>>>> javi-frontend:blog-frontend/.prettierrc
->>>>>>> javi-frontend
