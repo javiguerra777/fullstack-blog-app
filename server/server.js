@@ -44,9 +44,9 @@ io.on('connection', (socket) => {
   console.log(`User connected, ${socket.id}`);
 
   //  for a new user joining a specific post
-  socket.on('join_post', ({ username, postId }) => {
+  socket.on('join_post', async ({ username, postId }) => {
     // create user
-    const pUser = joinUser(socket.id, username, postId);
+    const pUser = await joinUser(socket.id, username, postId);
     console.log('user joined post', postId);
     console.log(socket.id, '=id');
     socket.join(pUser.room);
@@ -55,8 +55,8 @@ io.on('connection', (socket) => {
   // comment function for live comments
   socket.on('send_comment', async (data) => {
     // gets the post user and the comment sent
-    const pUser = getCurrentUser(socket.id);
-    console.log(pUser);
+    const pUser = await getCurrentUser(socket.id);
+    console.log('pUser:', pUser);
     // console.log('The data object:', data);
     const commentData = new Comment({
       username: data.username,
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
 
     await commentData.save();
     const comments = await Comment.find({
-      postId: data.postId,
+      postId: pUser.room,
     });
     // console.log('Comments:', comments);
 
@@ -75,9 +75,10 @@ io.on('connection', (socket) => {
   });
 
   // when the user exits the post
-  socket.on('disconnect_from_room', () => {
+  socket.on('unsubscribe', async (room) => {
     // the user is deleted from the array of users
-    const pUser = userDisconnect(socket.id);
+    socket.leave(room);
+    const pUser = await userDisconnect(socket.id);
     console.log('user disconnected from room', pUser);
   });
 });

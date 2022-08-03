@@ -48,6 +48,9 @@ function Post() {
       username: username || 'unregistered-user',
       postId: id,
     });
+    return () => {
+      socket.emit('unsubscribe', id);
+    };
   }, []);
 
   // retrieve live comments from the server
@@ -56,13 +59,6 @@ function Post() {
     socket.on('receive_comment', (data: any) => {
       setComments(data);
     });
-  }, []);
-
-  // eslint-disable-next-line arrow-body-style
-  useEffect(() => {
-    return () => {
-      socket.emit('disconnect_from_room');
-    };
   }, []);
 
   const sendComment = (e: FormEvent<HTMLFormElement>) => {
