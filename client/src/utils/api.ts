@@ -29,24 +29,13 @@ export type CategoryData = {
   category: string;
 };
 
-// get requests
-const getAllPosts = async () => {
-  const data = await axios.get(`${urlBase}posts`);
-  return data;
-};
-
-export const getAllCategories = async () => {
-  const data = await axios.get(`${urlBase}categories`);
-  return data;
-};
-
 // post requests
 export const addNewPost = async (post: PostParams) => {
   axios.post(`${urlBase}posts`, post);
 };
 
-export const addNewCategory = async (category: CategoryParams) => {
+const addNewCategory = async (category: CategoryParams) => {
   axios.post(`${urlBase}categories`, category);
 };
 
-export default getAllPosts;
+export default addNewCategory;

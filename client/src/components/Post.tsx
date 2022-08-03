@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable object-curly-newline */
-import React from 'react';
+import React, { FormEvent } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/telegram.png';
+import convertUnixToDate from '../utils/functions';
 
 const StyledPost = styled.section`
-  width: 65%;
+  width: 60vw;
   height: 300px;
   display: flex;
   justify-content: center;
@@ -16,6 +17,10 @@ const StyledPost = styled.section`
   border-radius: 5px;
   position: relative;
   margin: 2rem 0;
+  .post-image {
+    height: 50px;
+    width: 50px;
+  }
   & a {
     color: #000;
     text-decoration: none;
@@ -98,6 +103,7 @@ type PostProps = {
   content: string;
   category: string;
   date: number;
+  image: string;
 };
 
 function Post({
@@ -107,22 +113,47 @@ function Post({
   content,
   category,
   date,
+  image,
 }: PostProps) {
+  const currentUser = useSelector(
+    (state: any) => state.user.username,
+    shallowEqual,
+  );
+  const { loggedIn } = useSelector(
+    (state: any) => state.user,
+    shallowEqual,
+  );
+
+  const addComment = (e: FormEvent<HTMLFormElement>): boolean => {
+    e.preventDefault();
+    if (!loggedIn) {
+      return false;
+    }
+    return true;
+  };
   return (
     <StyledPost>
       <p className="username">@{username}</p>
-      <p>{date}</p>
+      <p>{convertUnixToDate(date)}</p>
       <Link to={`/post/${id}`} className="title">
         {title}
       </Link>
       <p className="content">{content}</p>
       <p className="category">
-        Category: <strong>{category}</strong>
+        Category:
+        <strong>{category}</strong>
       </p>
-      <Link to={`/editPost/${id}`} className="edit">
-        edit post...
-      </Link>
-      <form>
+      {currentUser === username ? (
+        <Link to={`/editPost/${id}`} className="edit">
+          edit post...
+        </Link>
+      ) : (
+        <Link className="edit" to={`/post/${id}`}>
+          View Post
+        </Link>
+      )}
+      {image && <img className="post-image" src={image} alt="pic" />}
+      <form onSubmit={addComment}>
         <input type="text" placeholder="Share your thoughts..." />
         <button type="submit">
           <img src={logo} alt="Logo of a paper airplane" />

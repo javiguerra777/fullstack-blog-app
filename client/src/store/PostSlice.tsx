@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
 // api calls using async thunk
+
+// gets all the posts from the database
 export const getAllPosts = createAsyncThunk(
   'post/getPosts',
   async () => {
@@ -12,20 +13,60 @@ export const getAllPosts = createAsyncThunk(
     return data;
   },
 );
+
+// gets a single post from the database
+export const getPost = createAsyncThunk(
+  'post/getPost',
+  async (id: string) => {
+    const { data } = await axios.get(`${urlBase}posts/${id}`);
+    return data;
+  },
+);
+
+// gets all posts from the database based on category
+export const getPostByCategory = createAsyncThunk(
+  'post/getByCategory',
+  async (category: Record<string, unknown>) => {
+    const { data } = await axios.post(
+      `${urlBase}filteredpost`,
+      category,
+
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    return data;
+  },
+);
+
+// adds post to the database
+export const addNewPost = createAsyncThunk(
+  'post/addNewPost',
+  async (post: Record<string, unknown>) => {
+    const { data } = await axios.post(`${urlBase}posts`, post.post, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${post.userId}`,
+      },
+    });
+    return data;
+  },
+);
+
 type PostState = {
-  id: string;
-  username: string;
   title: string;
   content: string;
+  post: Record<string, unknown>;
   posts: [];
   loading: boolean;
   error: boolean;
 };
 const initialState = {
-  id: 'test',
-  username: 'test',
-  title: 'test',
-  content: 'test',
+  title: '',
+  content: '',
+  post: {},
   posts: [],
   loading: true,
   error: false,
@@ -35,12 +76,6 @@ export const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    setCurrentId(state, { payload }) {
-      state.id = payload;
-    },
-    setCurrentUsername(state, { payload }) {
-      state.username = payload;
-    },
     setCurrentTitle(state, { payload }) {
       state.title = payload;
     },
@@ -48,7 +83,9 @@ export const postSlice = createSlice({
       state.content = payload;
     },
   },
+  // extra reducers
   extraReducers: (builder) => {
+    // getAllPosts cases
     builder.addCase(getAllPosts.pending, (state) => {
       state.loading = true;
       state.error = false;
@@ -61,14 +98,54 @@ export const postSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
+    // getPost cases
+    builder.addCase(getPost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(getPost.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.post = payload;
+    });
+    builder.addCase(getPost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+    // getPostByCategory cases
+    builder.addCase(getPostByCategory.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(
+      getPostByCategory.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.posts = payload;
+      },
+    );
+    builder.addCase(getPostByCategory.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+    // addNewPost cases
+    builder.addCase(addNewPost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(addNewPost.fulfilled, (state) => {
+      state.loading = false;
+      state.title = '';
+      state.content = '';
+    });
+    builder.addCase(addNewPost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
   },
 });
 
-export const {
-  setCurrentId,
-  setCurrentUsername,
-  setCurrentTitle,
-  setCurrentContent,
-} = postSlice.actions;
+// eslint-disable-next-line operator-linebreak
+export const { setCurrentTitle, setCurrentContent } =
+  postSlice.actions;
 
 export default postSlice.reducer;

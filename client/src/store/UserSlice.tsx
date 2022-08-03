@@ -40,8 +40,10 @@ export const userSlice = createSlice({
     changeUsername(state, { payload }) {
       state.username = payload;
     },
-    toggleLoggedin(state) {
-      state.loggedIn = !state.loggedIn;
+    signOut(state) {
+      state.loggedIn = false;
+      state.userId = '';
+      state.username = '';
     },
   },
   extraReducers: (builder) => {
@@ -59,6 +61,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { toggleLoggedin, changeUsername } = userSlice.actions;
+export const { signOut, changeUsername } = userSlice.actions;
 
 export default userSlice.reducer;

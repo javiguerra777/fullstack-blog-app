@@ -45,7 +45,8 @@ router.post(
   async (req, res) => {
     try {
       // check for req.file to see if image exists
-      console.log(req.file);
+      console.log('body', req.body);
+      console.log('file:', req.file);
       if (typeof req.file === 'undefined') {
         const postData = new Post({
           username: req.body.username.toLowerCase(),
@@ -56,11 +57,14 @@ router.post(
           date: req.body.date,
         });
         const post = await postData.save();
-        console.log('New Post created in database');
+        console.log(
+          'New Post created in database, no image was sent',
+        );
         res.status(200).json(post);
       } else if (typeof req.file !== 'undefined') {
         // if image exists then this post gets made to include the image
         // defining the params variable to upload the photo
+        console.log('file exists');
         const params = {
           Bucket: process.env.AWS_BUCKET_NAME,
           Key: req.file.originalname,
@@ -72,7 +76,8 @@ router.post(
         // uploading the photo using s3 instance and saving the link in the database
         s3.upload(params, (error, data) => {
           if (error) {
-            res.status(500).json({ error });
+            console.log(error);
+            return res.status(400).json({ error });
           }
           console.log(data);
           const postData = new Post({
@@ -80,12 +85,12 @@ router.post(
             title: req.body.title,
             body: req.body.body,
             category: req.body.category,
-            image: req.body.image,
+            image: data.Location,
             date: req.body.date,
           });
           const post = postData.save();
           console.log('New Post created in database');
-          res.status(200).json(post);
+          return res.status(200).json(post);
         });
       }
     } catch (err) {

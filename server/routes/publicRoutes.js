@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../schema/user');
 const Post = require('../schema/post');
 const Category = require('../schema/category');
+const Comment = require('../schema/comment');
 
 // salt rounds necessary to make bcrypt work, salt rounds are used for extra protection against hackers
 const saltRounds = 10;
@@ -97,12 +98,55 @@ router.get('/posts/:id', async (req, res) => {
   }
 });
 
+router.post('/filteredpost', async (req, res) => {
+  try {
+    const { category } = req.body;
+    const data = await Post.find({
+      category: category.toLowerCase(),
+    });
+    console.log(data);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err.message);
+  }
+});
+
 // categories routes
 router.get('/categories', async (req, res) => {
   try {
     const categories = await Category.find();
     console.log('Obtaining all categories');
     res.status(200).json(categories);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    console.log('Obtaining all users...');
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
+// get comments from database based off post id
+router.get('/comments/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await Comment.find({
+      postId: id,
+    });
+    console.log(
+      `Comments from post that has post id ${id}`,
+      comments,
+    );
+    res.status(200).json(comments);
   } catch (err) {
     console.log(err.message);
     res.status(400).json(err.message);

@@ -8,6 +8,7 @@ const GlobalStyles = createGlobalStyle`
         scroll-behavior: smooth;
         font-family: 'Quicksand', sans-serif;
         background: #F1F1F1;
+        overflow-x: hidden;
     }
 `;
 

@@ -1,11 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { getPostByCategory, getAllPosts } from '../store/PostSlice';
 
 const StyledFilter = styled.section`
   height: 150px;
-  width: 250px;
+  width: 25vw;
   margin: 2rem;
   border-radius: 5px;
   display: flex;
@@ -32,6 +33,7 @@ const StyledFilter = styled.section`
     background: #0f3d3e;
     color: #e2dcc8;
     font-size: 1.1rem;
+    cursor: pointer;
   }
 `;
 
@@ -44,6 +46,7 @@ type Category = {
 };
 
 function Filter() {
+  const dispatch = useDispatch();
   const { categories } = useSelector(
     (state: any) => state.category,
     shallowEqual,
@@ -52,24 +55,29 @@ function Filter() {
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
-  // console.log(category);
+  const changeCategory = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (category === '') {
+      dispatch<any>(getAllPosts());
+    } else {
+      dispatch<any>(getPostByCategory({ category }));
+    }
+  };
   return (
     <StyledFilter>
-      <form>
+      <form onSubmit={changeCategory}>
         <label htmlFor="category">
           <select
             value={category}
             id="category"
             onChange={handleChange}
           >
+            <option value="">none</option>
             {categories.map((categ: Category) => (
-              <option key={uuidv4()}>{categ.category}</option>
+              <option key={uuidv4()} value={categ.category}>
+                {categ.category}
+              </option>
             ))}
-            {/* <option>Sports</option>
-            <option>Movies</option>
-            <option>Food</option>
-            <option>Social Events</option>
-            <option>Misc.</option> */}
           </select>
         </label>
         <button type="submit">View Category</button>
