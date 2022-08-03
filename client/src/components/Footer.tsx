@@ -13,7 +13,7 @@ const FooterWrapper = styled.footer`
   bottom: 0;
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 100%;
   height: auto;
   background-color: white;
   border-radius: 0.5em;

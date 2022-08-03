@@ -152,9 +152,7 @@ function Post({
           View Post
         </Link>
       )}
-      {image !== '' && (
-        <img className="post-image" src={image} alt="pic" />
-      )}
+      {image && <img className="post-image" src={image} alt="pic" />}
       <form onSubmit={addComment}>
         <input type="text" placeholder="Share your thoughts..." />
         <button type="submit">
