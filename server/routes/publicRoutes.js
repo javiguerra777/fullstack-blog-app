@@ -135,11 +135,17 @@ router.get('/users', async (req, res) => {
   }
 });
 
-// comments routes
-router.get('/comments', async (req, res) => {
+// get comments from database based off post id
+router.get('/comments/:id', async (req, res) => {
   try {
-    const comments = await Comment.find();
-    console.log(comments);
+    const { id } = req.params;
+    const comments = await Comment.find({
+      postId: id,
+    });
+    console.log(
+      `Comments from post that has post id ${id}`,
+      comments,
+    );
     res.status(200).json(comments);
   } catch (err) {
     console.log(err.message);
