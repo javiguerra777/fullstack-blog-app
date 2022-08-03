@@ -36,20 +36,33 @@ function Post() {
     dispatch<any>(getPost(id!));
   }, [dispatch, id]);
 
-  // grab comments from the database
+  // grab comments from the database based off post id
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/comments')
+      .get(`http://localhost:5000/api/comments/${id}`)
       .then((response: any) => setComments(response.data));
+  }, [id]);
+  // user joins specific post id and sends it to server
+  useEffect(() => {
+    socket.emit('join_post', {
+      username: username || 'unregistered-user',
+      postId: id,
+    });
   }, []);
 
   // retrieve live comments from the server
   useEffect(() => {
     // to retrieve comments from socket server
     socket.on('receive_comment', (data: any) => {
-      // setComments((prev: any) => [...prev, data]);
       setComments(data);
     });
+  }, []);
+
+  // eslint-disable-next-line arrow-body-style
+  useEffect(() => {
+    return () => {
+      socket.emit('disconnect_from_room');
+    };
   }, []);
 
   const sendComment = (e: FormEvent<HTMLFormElement>) => {
@@ -72,14 +85,12 @@ function Post() {
       <section>
         {/* eslint-disable-next-line operator-linebreak */}
         {comments.length > 0 &&
-          comments
-            .filter((com: any) => com.postId === id)
-            .map((com: any) => (
-              <div key={uuidv4()}>
-                <h1>{com.username}</h1>
-                <p>{com.comment}</p>
-              </div>
-            ))}
+          comments.map((com: any) => (
+            <div key={uuidv4()}>
+              <h1>{com.username}</h1>
+              <p>{com.comment}</p>
+            </div>
+          ))}
       </section>
       <section className="form-container">
         <form onSubmit={sendComment}>
