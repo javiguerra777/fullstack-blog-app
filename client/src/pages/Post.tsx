@@ -4,7 +4,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { getPost } from '../store/PostSlice';
 
 const PostWrapper = styled.section`
@@ -14,6 +14,7 @@ const PostWrapper = styled.section`
     width: 100%;
   }
 `;
+
 // create connection with socket.io server
 const socket = io('http://localhost:5500');
 
@@ -33,14 +34,14 @@ function Post() {
 
   // grab post by id from params
   useEffect(() => {
-    dispatch<any>(getPost(id!));
+    dispatch<any>(getPost(id || ''));
   }, [dispatch, id]);
 
   // grab comments from the database based off post id
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/comments/${id}`)
-      .then((response: any) => setComments(response.data));
+      .then((response: AxiosResponse) => setComments(response.data));
   }, [id]);
   // user joins specific post id and sends it to server
   useEffect(() => {
@@ -51,12 +52,12 @@ function Post() {
     return () => {
       socket.emit('unsubscribe', id);
     };
-  }, []);
+  }, [id, username]);
 
   // retrieve live comments from the server
   useEffect(() => {
     // to retrieve comments from socket server
-    socket.on('receive_comment', (data: any) => {
+    socket.on('receive_comment', (data) => {
       setComments(data);
     });
   }, []);

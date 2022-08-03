@@ -7,7 +7,7 @@ import icon from '../img/telegram.png';
 
 const StyledNavbar = styled.nav`
   width: 100%;
-  height: 65px;
+  height: 10vh;
   background: #e2dcc8;
   color: #0f3d3e;
   font-weight: 500;

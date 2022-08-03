@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Post from './pages/Post';
 import Signin from './pages/Signin';
 import Main from './pages/Main';
+import NotFound from './pages/NotFound';
 
 type RoutesType = {
   loggedin: boolean;
@@ -56,6 +57,7 @@ function App() {
           }
         />
         <Route path="/signin" element={<Signin />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

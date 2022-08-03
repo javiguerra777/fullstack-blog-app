@@ -64,7 +64,12 @@ router.post('/login', async (req, res) => {
       };
       const encodedUser = jwt.sign(payload, process.env.JWT_KEY);
       console.log('user successfully logged in...');
-      return res.status(200).json(encodedUser);
+      const userInfo = {
+        token: encodedUser,
+        username: user.username,
+        profileImage: user.image,
+      };
+      return res.status(200).json(userInfo);
     }
     console.log('Password does not match');
     return res.status(404).json({ error: 'password does not match' });

@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, changeUsername } from '../store/UserSlice';
+import { loginUser } from '../store/UserSlice';
 
 function Signin() {
   const dispatch = useDispatch();
@@ -16,7 +16,6 @@ function Signin() {
     if (logginAttempt.error) {
       setPassword('');
     } else {
-      dispatch(changeUsername(username));
       navigate('/');
     }
   };

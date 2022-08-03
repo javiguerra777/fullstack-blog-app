@@ -23,12 +23,14 @@ export type RequestParams = {
 export type UserState = {
   userId: string;
   username: string;
+  image: string;
   error: boolean;
   loggedIn: boolean;
 };
 const initialState = {
   userId: '',
   username: '',
+  image: '',
   error: false,
   loggedIn: false,
 } as UserState;
@@ -44,17 +46,23 @@ export const userSlice = createSlice({
       state.loggedIn = false;
       state.userId = '';
       state.username = '';
+      state.image = '';
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
       state.error = false;
     });
-    builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-      state.userId = payload;
-      state.loggedIn = true;
-      state.error = false;
-    });
+    builder.addCase(
+      loginUser.fulfilled,
+      (state, { payload: { token, username, profileImage } }) => {
+        state.userId = token;
+        state.username = username;
+        state.image = profileImage;
+        state.loggedIn = true;
+        state.error = false;
+      },
+    );
     builder.addCase(loginUser.rejected, (state) => {
       state.error = true;
     });
