@@ -90,7 +90,7 @@ router.get('/posts/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Post.findById(id);
-    console.log('Grabbing post by id, here is the result', result);
+    // console.log('Grabbing post by id, here is the result', result);
     res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
@@ -142,10 +142,10 @@ router.get('/comments/:id', async (req, res) => {
     const comments = await Comment.find({
       postId: id,
     });
-    console.log(
-      `Comments from post that has post id ${id}`,
-      comments,
-    );
+    // console.log(
+    //   `Comments from post that has post id ${id}`,
+    //   comments,
+    // );
     res.status(200).json(comments);
   } catch (err) {
     console.log(err.message);
