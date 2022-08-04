@@ -65,7 +65,7 @@ const StyledNewPost = styled.section`
   }
 `;
 
-function NewPost() {
+function EditPost() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams<string>();
@@ -122,4 +122,4 @@ function NewPost() {
   );
 }
 
-export default NewPost;
+export default EditPost;

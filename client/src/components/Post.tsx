@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { FormEvent } from 'react';
+import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../img/telegram.png';
+// import logo from '../img/telegram.png';
 import convertUnixToDate from '../utils/functions';
+import likeBtn from '../img/heart.png';
+import colorLikeBtn from '../img/heartRed.png';
 
 const StyledPost = styled.section`
   width: 60vw;
@@ -36,11 +38,14 @@ const StyledPost = styled.section`
     font-size: 1.3rem;
     font-weight: 600;
     color: #0f3d3e;
+    & small {
+      font-weight: 400;
+    }
   }
   & .title {
     position: absolute;
-    top: 0;
-    right: 50%;
+    top: 10%;
+    text-align: center;
     font-size: 1.85rem;
   }
   & .category {
@@ -54,6 +59,7 @@ const StyledPost = styled.section`
     width: 90%;
     line-height: 1.5rem;
     font-weight: 500;
+    text-align: center;
   }
   & .edit {
     position: absolute;
@@ -68,31 +74,17 @@ const StyledPost = styled.section`
       text-decoration: underline;
     }
   }
-  & form {
+  & .like-btn {
+    background: none;
+    border: none;
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    margin: 1rem;
-    & input {
-      width: 35%;
-      height: 30px;
-      border-radius: 15px;
-      border: 1px solid #000;
-      &:focus {
-        border: none;
-      }
-    }
-    & button {
-      background: none;
-      border: none;
-      transform: translate(-45px, 5px);
-      cursor: pointer;
-      & img {
-        width: 20px;
-        height: 20px;
-      }
-    }
+    margin: 1.5rem;
+  }
+  & img {
+    height: 25px;
+    width: 25px;
   }
 `;
 
@@ -119,29 +111,36 @@ function Post({
     (state: any) => state.user.username,
     shallowEqual,
   );
-  const { loggedIn } = useSelector(
-    (state: any) => state.user,
-    shallowEqual,
-  );
+  // const { loggedIn } = useSelector(
+  //   (state: any) => state.user,
+  //   shallowEqual,
+  // );
 
-  const addComment = (e: FormEvent<HTMLFormElement>): boolean => {
-    e.preventDefault();
-    if (!loggedIn) {
-      return false;
-    }
-    return true;
-  };
+  // const addComment = (e: FormEvent<HTMLFormElement>): boolean => {
+  //   e.preventDefault();
+  //   if (!loggedIn) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  function handleLikes() {
+    console.log(isLiked);
+    // eslint-disable-next-line no-unused-expressions
+    isLiked ? setIsLiked(false) : setIsLiked(true);
+  }
+
   return (
     <StyledPost>
-      <p className="username">@{username}</p>
-      <p>{convertUnixToDate(date)}</p>
+      <p className="username">
+        @{username} - <small>{convertUnixToDate(date)}</small>
+      </p>
       <Link to={`/post/${id}`} className="title">
         {title}
       </Link>
       <p className="content">{content}</p>
       <p className="category">
-        Category:
-        <strong>{category}</strong>
+        Category: <strong>{category}</strong>
       </p>
       {currentUser === username ? (
         <Link to={`/editPost/${id}`} className="edit">
@@ -153,12 +152,30 @@ function Post({
         </Link>
       )}
       {image && <img className="post-image" src={image} alt="pic" />}
-      <form onSubmit={addComment}>
+      {isLiked ? (
+        <button
+          className="like-btn"
+          type="button"
+          onClick={handleLikes}
+        >
+          <img src={colorLikeBtn} alt="heart" />
+        </button>
+      ) : (
+        <button
+          className="like-btn"
+          type="button"
+          onClick={handleLikes}
+        >
+          <img src={likeBtn} alt="heart filled red" />
+        </button>
+      )}
+
+      {/* <form onSubmit={addComment}>
         <input type="text" placeholder="Share your thoughts..." />
         <button type="submit">
           <img src={logo} alt="Logo of a paper airplane" />
         </button>
-      </form>
+      </form> */}
     </StyledPost>
   );
 }

@@ -6,6 +6,7 @@ import NewPost from './components/NewPost';
 import Home from './pages/Home';
 import Post from './pages/Post';
 import Signin from './pages/Signin';
+import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 
@@ -58,6 +59,7 @@ function App() {
         />
         <Route path="/signin" element={<Signin />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/signup" element={<SignUp />} />
       </Route>
     </Routes>
   );
