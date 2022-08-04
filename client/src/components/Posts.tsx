@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Post from './Post';
 
 const PostsWrapper = styled.section`
-  margin-left: 3vw;
+  margin-left: 1vw;
 `;
 function Posts() {
   const { posts } = useSelector(

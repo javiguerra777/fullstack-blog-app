@@ -8,6 +8,12 @@ import axios from 'axios';
 import { getPost } from '../store/PostSlice';
 
 const PostWrapper = styled.section`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .form-container {
     position: fixed;
     bottom: 0;
