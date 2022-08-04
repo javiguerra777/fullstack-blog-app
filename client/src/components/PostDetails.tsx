@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 type PostProps = {
   post: {
@@ -8,14 +9,17 @@ type PostProps = {
   };
 };
 
+const PostDetailsWrapper = styled.section`
+  height: 35vh;
+`;
 function PostDetails({ post }: PostProps) {
   const { username, body, image } = post;
   return (
-    <section>
+    <PostDetailsWrapper>
       <h1>{username}</h1>
       <p>{body}</p>
       {image && <img src={image} alt="img" />}
-    </section>
+    </PostDetailsWrapper>
   );
 }
 

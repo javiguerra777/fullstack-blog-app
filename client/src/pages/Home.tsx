@@ -6,6 +6,7 @@ import GlobalStyles from '../styles/GlobalStyles';
 import Footer from '../components/Footer';
 import Filter from '../components/Filter';
 import Posts from '../components/Posts';
+import LoginPrompt from '../components/LoginPrompt';
 import { getAllPosts } from '../store/PostSlice';
 import { getAllCategories } from '../store/CategorySlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
@@ -21,7 +22,7 @@ type PostState = {
 
 const HomeWrapper = styled.main`
   position: relative;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   display: flex;
   flex-direction: row;
@@ -29,7 +30,7 @@ const HomeWrapper = styled.main`
 
 function Home() {
   const dispatch = useDispatch();
-  const { loggedIn } = useSelector(
+  const { loggedIn, displayLogInPrompt } = useSelector(
     (state: any) => state.user,
     shallowEqual,
   );
@@ -56,11 +57,8 @@ function Home() {
         {categoriesLoading ? <LoadingSpinner /> : <Filter />}
         {postsLoading ? <LoadingSpinner /> : <Posts />}
         {loggedIn && <Footer />}
+        {displayLogInPrompt && <LoginPrompt />}
       </HomeWrapper>
-      {/* <PostWrapper>
-        <NewPostBtn />
-        <Post />
-      </PostWrapper> */}
     </>
   );
 }

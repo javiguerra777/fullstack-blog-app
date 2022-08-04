@@ -76,6 +76,15 @@ function EditPost() {
   const { userId } = useSelector((state: any) => state.user, shallowEqual);
   useEffect(() => {
     dispatch<any>(getPost(id || ''));
+    /*
+    If the user decides to leave the page
+    before submitting the edited post
+    this will clear the content and title in the redux slice
+    */
+    return () => {
+      dispatch(setCurrentContent(''));
+      dispatch(setCurrentTitle(''));
+    };
   }, [id, dispatch]);
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

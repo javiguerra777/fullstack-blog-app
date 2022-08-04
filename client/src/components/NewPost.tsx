@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { FormEvent, useState, ChangeEvent } from 'react';
+import React, {
+  FormEvent, useState, ChangeEvent, useEffect,
+} from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -81,8 +83,20 @@ function NewPost() {
   // states used in component
   const [image, setImage] = useState({});
 
+  // useEffect to clear Title and Content on render of the page and on unmount of page
+  useEffect(() => {
+    // on initial render useEffect
+    dispatch(setCurrentTitle(''));
+    dispatch(setCurrentContent(''));
+    // on unmount useEffect
+    return () => {
+      dispatch(setCurrentTitle(''));
+      dispatch(setCurrentContent(''));
+    };
+  }, [dispatch]);
   // function to handle image change
   const changeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setImage(e.target!.files![0]);
   };
 
@@ -104,7 +118,6 @@ function NewPost() {
       navigate('/');
     }
   }
-  console.log(image);
   return (
     <StyledNewPost>
       <p>New Post</p>

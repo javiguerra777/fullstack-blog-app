@@ -6,6 +6,8 @@ import Post from './Post';
 
 const PostsWrapper = styled.section`
   margin-left: 1vw;
+  overflow-y: scroll;
+  padding-bottom: 10vh;
 `;
 type PostsType = {
   body: string;

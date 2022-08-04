@@ -2,13 +2,8 @@
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-<<<<<<< HEAD
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../store/UserSlice';
-=======
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser, changeUsername } from '../store/UserSlice';
->>>>>>> ui-mock-up
+import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
   height: 100vh;
