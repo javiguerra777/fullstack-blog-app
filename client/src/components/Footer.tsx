@@ -7,6 +7,8 @@ import {
 } from 'react-icons/ai';
 import { BsFileEarmarkPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import defaultImage from '../img/default_user_image.png';
 
 const FooterWrapper = styled.footer`
   position: fixed;
@@ -49,6 +51,11 @@ const FooterWrapper = styled.footer`
 `;
 function Footer() {
   const navigate = useNavigate();
+  const { image } = useSelector(
+    (state: any) => state.user,
+    shallowEqual,
+  );
+  // eslint-disable-next-line prettier/prettier
   const createNewPost = () => {
     navigate('/newPost');
   };
@@ -56,10 +63,7 @@ function Footer() {
     <FooterWrapper>
       <header>
         {/* placeholder image for styling purposes */}
-        <img
-          src="https://i.pinimg.com/originals/bd/99/9b/bd999b06afebf8273b9da22abbebbd45.png"
-          alt="user-img"
-        />
+        <img src={image || defaultImage} alt="user-img" />
         <textarea
           name="sharePost"
           id="sharePost"

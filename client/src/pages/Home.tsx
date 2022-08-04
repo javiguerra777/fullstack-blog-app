@@ -8,6 +8,16 @@ import Filter from '../components/Filter';
 import Posts from '../components/Posts';
 import { getAllPosts } from '../store/PostSlice';
 import { getAllCategories } from '../store/CategorySlice';
+import LoadingSpinner from '../styles/LoadingSpinner';
+
+type PostState = {
+  title: string;
+  content: string;
+  post: Record<string, unknown>;
+  posts: [];
+  loading: boolean;
+  error: boolean;
+};
 
 const HomeWrapper = styled.main`
   position: relative;
@@ -18,11 +28,20 @@ const HomeWrapper = styled.main`
 `;
 
 function Home() {
+  const dispatch = useDispatch();
   const { loggedIn } = useSelector(
     (state: any) => state.user,
     shallowEqual,
   );
-  const dispatch = useDispatch();
+  const postsLoading = useSelector(
+    (state: PostState) => state.post.loading,
+    shallowEqual,
+  );
+  const categoriesLoading: boolean = useSelector(
+    (state: any) => state.category.loading,
+    shallowEqual,
+  );
+
   useEffect(() => {
     dispatch<any>(getAllPosts());
   }, [dispatch]);
@@ -34,8 +53,8 @@ function Home() {
     <>
       <GlobalStyles />
       <HomeWrapper>
-        <Filter />
-        <Posts />
+        {categoriesLoading ? <LoadingSpinner /> : <Filter />}
+        {postsLoading ? <LoadingSpinner /> : <Posts />}
         {loggedIn && <Footer />}
       </HomeWrapper>
       {/* <PostWrapper>

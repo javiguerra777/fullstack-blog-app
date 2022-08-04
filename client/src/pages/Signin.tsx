@@ -2,8 +2,8 @@
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser, changeUsername } from '../store/UserSlice';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
   height: 100vh;
@@ -72,7 +72,6 @@ function Signin() {
     if (logginAttempt.error) {
       setPassword('');
     } else {
-      dispatch(changeUsername(username));
       navigate('/');
     }
   };
