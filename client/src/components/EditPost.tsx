@@ -1,10 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   setCurrentContent,
   setCurrentTitle,
+  getPost,
+  editPost,
 } from '../store/PostSlice';
 
 const StyledNewPost = styled.section`
@@ -64,15 +67,31 @@ const StyledNewPost = styled.section`
 
 function NewPost() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams<string>();
   const { title, content } = useSelector(
     (state: any) => state.post,
     shallowEqual,
   );
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const { userId } = useSelector((state: any) => state.user, shallowEqual);
+  useEffect(() => {
+    dispatch<any>(getPost(id || ''));
+  }, [id, dispatch]);
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(title);
-    console.log(content);
+    const editInformation = {
+      userId,
+      postId: id,
+      post: {
+        title,
+        body: content,
+        date: Date.now(),
+      },
+    };
+    const editPostResults = await dispatch<any>(editPost(editInformation));
+    if (!editPostResults.error) {
+      navigate('/');
+    }
   }
 
   return (
