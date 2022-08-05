@@ -49,6 +49,7 @@ const FooterWrapper = styled.footer`
     }
   }
 `;
+
 function Footer() {
   const navigate = useNavigate();
   const { image } = useSelector(

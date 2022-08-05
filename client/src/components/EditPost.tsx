@@ -1,14 +1,18 @@
 /* eslint-disable prettier/prettier */
-import React, { FormEvent, useEffect } from 'react';
+import React, {
+  FormEvent, useEffect, useState, ChangeEvent,
+} from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import {
   setCurrentContent,
   setCurrentTitle,
   getPost,
   editPost,
 } from '../store/PostSlice';
+import { Category } from '../types/types';
 
 const StyledNewPost = styled.section`
   height: 90vh;
@@ -73,7 +77,11 @@ function EditPost() {
     (state: any) => state.post,
     shallowEqual,
   );
+  const { categories } = useSelector((state: any) => state.category, shallowEqual);
+
   const { userId } = useSelector((state: any) => state.user, shallowEqual);
+  const [category, setCategory] = useState<string>();
+
   useEffect(() => {
     dispatch<any>(getPost(id || ''));
     /*
@@ -86,6 +94,11 @@ function EditPost() {
       dispatch(setCurrentTitle(''));
     };
   }, [id, dispatch]);
+
+  // handle category change
+  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
+    setCategory(e.target.value);
+  }
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const editInformation = {
@@ -95,6 +108,7 @@ function EditPost() {
         title,
         body: content,
         date: Date.now(),
+        category,
       },
     };
     const editPostResults = await dispatch<any>(editPost(editInformation));
@@ -106,6 +120,15 @@ function EditPost() {
   return (
     <StyledNewPost>
       <p>Edit Post</p>
+      <select
+        value={category}
+        id="category"
+        onChange={handleChange}
+      >
+        <option value="">none</option>
+        {/* eslint-disable-next-line max-len */}
+        {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+      </select>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">

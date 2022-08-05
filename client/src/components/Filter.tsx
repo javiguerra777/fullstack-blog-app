@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { getPostByCategory, getAllPosts } from '../store/PostSlice';
+import { Category } from '../types/types';
 
 const StyledFilter = styled.section`
   height: 150px;
@@ -36,14 +37,6 @@ const StyledFilter = styled.section`
     cursor: pointer;
   }
 `;
-
-type Category = {
-  _id: string;
-  category: string;
-  username: string;
-  date: number;
-  __v: number;
-};
 
 function Filter() {
   const dispatch = useDispatch();

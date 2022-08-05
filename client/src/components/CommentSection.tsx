@@ -1,22 +1,24 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
+import '../index.css';
 
 type CommentProps = {
   comments: [];
 };
 
 const CommentSectionWrapper = styled.section`
-  height: 65vh;
-  width: 100vw;
+  height: 50vh;
+  max-height: auto;
   overflow-y: scroll;
+  padding-bottom: 3em;
   .comment {
     margin-left: 1.5em;
   }
 `;
 function CommentSection({ comments }: CommentProps) {
   return (
-    <CommentSectionWrapper>
+    <CommentSectionWrapper className="webkit">
       {/* eslint-disable-next-line operator-linebreak */}
       {comments.length > 0 &&
         comments.map(({ username, comment }: any) => (
