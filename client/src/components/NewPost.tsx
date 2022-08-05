@@ -65,6 +65,9 @@ const StyledNewPost = styled.section`
       border: none;
       cursor: pointer;
     }
+    & button:disabled {
+      cursor: default;
+    }
   }
 `;
 
@@ -107,6 +110,13 @@ function NewPost() {
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
+  function validateInputs() {
+    if (title === '' || content === '') {
+      return true;
+    }
+    return false;
+  }
+
   // submit function to upload new post
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -165,7 +175,7 @@ function NewPost() {
             data-testid="file-input"
           />
         </div>
-        <button type="submit">Post</button>
+        <button type="submit" disabled={validateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );
