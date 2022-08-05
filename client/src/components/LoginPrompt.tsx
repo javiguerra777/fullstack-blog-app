@@ -39,6 +39,10 @@ const LoginPromptWrapper = styled.main`
       align-items: center;
       display: flex;
       flex-direction: column;
+      button {
+        background: none;
+        border: none;
+      }
     }
   }
 `;

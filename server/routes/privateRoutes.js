@@ -100,6 +100,37 @@ router.post(
   },
 );
 
+// adds like to likes array in mongoDB
+router.put('/likepost/:id', checkAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Post.findByIdAndUpdate(id, {
+      $push: { likes: req.body.username },
+    });
+    console.log('adding like to post, here are the results:', result);
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+// removes like from likes array in mongoDB
+router.put('/unlikepost/:id', checkAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Post.findByIdAndUpdate(id, {
+      $pull: { likes: req.body.username },
+    });
+    console.log(
+      'removing like from post, here are the results:',
+      result,
+    );
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
 router.put('/posts/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;

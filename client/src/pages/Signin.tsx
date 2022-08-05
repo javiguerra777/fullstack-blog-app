@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
-  height: 100vh;
+  height: 90vh;
   width: 100%;
   display: flex;
   flex-direction: column;

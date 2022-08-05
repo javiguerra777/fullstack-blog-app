@@ -1,16 +1,17 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // import logo from '../img/telegram.png';
 import convertUnixToDate from '../utils/functions';
+import { addLike, removeLike } from '../utils/api';
 import likeBtn from '../img/heart.png';
 import colorLikeBtn from '../img/heartRed.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
 
 const StyledPost = styled.section`
-  width: 60vw;
+  width: 95%;
   height: 300px;
   display: flex;
   justify-content: center;
@@ -21,6 +22,8 @@ const StyledPost = styled.section`
   position: relative;
   margin: 2rem 0;
   .post-image {
+    position: absolute;
+    bottom: 70px;
     height: 50px;
     width: 50px;
   }
@@ -98,6 +101,7 @@ type PostProps = {
   category: string;
   date: number;
   image: string;
+  likes: [];
 };
 
 function Post({
@@ -108,33 +112,48 @@ function Post({
   category,
   date,
   image,
+  likes,
 }: PostProps) {
   const dispatch = useDispatch();
   const currentUser = useSelector(
     (state: any) => state.user.username,
     shallowEqual,
   );
-  const { loggedIn } = useSelector(
+  const { loggedIn, userId } = useSelector(
     (state: any) => state.user,
     shallowEqual,
   );
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  function handleLikes() {
+  useEffect(() => {
+    likes.forEach((like) => {
+      if (currentUser === like) {
+        setIsLiked(true);
+      }
+    });
+  }, [currentUser, likes]);
+  async function handleLikes(thisPostId: string) {
     if (!loggedIn) {
       dispatch(toggleDisplayPrompt());
       return 'not logged In';
     }
     // eslint-disable-next-line no-unused-expressions
     isLiked ? setIsLiked(false) : setIsLiked(true);
+    // params sent to the server to update the likes array
+    const likeParams = {
+      postId: thisPostId,
+      userId,
+      body: { username: currentUser },
+    };
+    // this allows the user to add a like to the likes array in the database
     if (!isLiked) {
-      console.log('sending like to database');
+      await addLike(likeParams);
       return 'sending like';
     }
-    console.log('un-liking post in the database');
+    // this allows a user to remove a like from the likes array in the database
+    await removeLike(likeParams);
     return 'un-liking comment';
   }
-
   return (
     <StyledPost>
       <p className="username">
@@ -161,7 +180,7 @@ function Post({
         <button
           className="like-btn"
           type="button"
-          onClick={handleLikes}
+          onClick={() => handleLikes(id)}
         >
           <img src={colorLikeBtn} alt="heart" />
         </button>
@@ -169,7 +188,7 @@ function Post({
         <button
           className="like-btn"
           type="button"
-          onClick={handleLikes}
+          onClick={() => handleLikes(id)}
         >
           <img src={likeBtn} alt="heart filled red" />
         </button>

@@ -25,6 +25,10 @@ const postSchema = new mongoose.Schema({
     required: true,
     type: Number,
   },
+  likes: {
+    required: false,
+    type: Array,
+  },
 });
 
 module.exports = mongoose.model('Posts', postSchema);

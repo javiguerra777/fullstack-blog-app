@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -5,7 +6,8 @@ import styled from 'styled-components';
 import Post from './Post';
 
 const PostsWrapper = styled.section`
-  margin-left: 1vw;
+  width: 60%;
+  margin-left: 3vw;
   overflow-y: scroll;
   padding-bottom: 10vh;
 `;
@@ -18,6 +20,7 @@ type PostsType = {
   __v: number;
   _id: string;
   image?: string;
+  likes?: [];
 };
 
 function Posts() {
@@ -31,7 +34,7 @@ function Posts() {
         .map((post: PostsType) => (
           <Post
             key={uuidv4()}
-            // eslint-disable-next-line no-underscore-dangle
+              // eslint-disable-next-line no-underscore-dangle
             id={post._id}
             username={post.username}
             title={post.title}
@@ -39,6 +42,7 @@ function Posts() {
             category={post.category}
             date={post.date}
             image={post.image || ''}
+            likes={post.likes || []}
           />
         ))
         // eslint-disable-next-line comma-dangle, prettier/prettier, no-confusing-arrow
