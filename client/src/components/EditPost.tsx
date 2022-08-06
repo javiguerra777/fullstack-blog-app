@@ -125,17 +125,18 @@ function EditPost() {
 
   return (
     <StyledNewPost>
-      <p>Edit Post</p>
+      <p data-testid="edit-post-description">Edit Post</p>
       <select
         value={category}
         id="category"
         onChange={handleChange}
+        data-testid="select-edit-category"
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
         {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
       </select>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} data-testid="edit-form">
         <div>
           <label htmlFor="title">
             <input
@@ -144,6 +145,7 @@ function EditPost() {
               placeholder="Title of post"
               value={title}
               onChange={(e) => dispatch(setCurrentTitle(e.target.value))}
+              data-testid="edit-title"
             />
           </label>
 
@@ -152,6 +154,7 @@ function EditPost() {
             id="content"
             value={content}
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
+            data-testid="edit-content"
           />
         </div>
         <button type="submit" disabled={validateInputs()}>Post</button>
