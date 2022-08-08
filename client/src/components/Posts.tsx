@@ -28,25 +28,27 @@ function Posts() {
     (state: any) => state.post,
     shallowEqual,
   );
+  // fixing bug with array sort method
+  const postsForSort = [...posts];
   return (
     <PostsWrapper>
-      {posts
-        .map((post: PostsType) => (
-          <Post
-            key={uuidv4()}
+      {postsForSort.length > 0
+        && postsForSort
+          .sort((a: PostsType, b: PostsType) => (b.date - a.date))
+          .map((post: PostsType) => (
+            <Post
+              key={uuidv4()}
               // eslint-disable-next-line no-underscore-dangle
-            id={post._id}
-            username={post.username}
-            title={post.title}
-            content={post.body}
-            category={post.category}
-            date={post.date}
-            image={post.image || ''}
-            likes={post.likes || []}
-          />
-        ))
-        // eslint-disable-next-line comma-dangle, prettier/prettier, no-confusing-arrow
-        .sort((a: PostsType, b: PostsType) => a.date < b.date ? 1 : -1,)}
+              id={post._id}
+              username={post.username}
+              title={post.title}
+              content={post.body}
+              category={post.category}
+              date={post.date}
+              image={post.image || ''}
+              likes={post.likes || []}
+            />
+          ))}
     </PostsWrapper>
   );
 }
