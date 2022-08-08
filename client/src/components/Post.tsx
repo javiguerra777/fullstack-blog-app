@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import convertUnixToDate from '../utils/functions';
+// import logo from '../img/telegram.png';
+import convertUnixToDate, {
+  limitCharacters,
+} from '../utils/functions';
 import { addLike, removeLike } from '../utils/api';
 import likeBtn from '../img/heart.png';
 import colorLikeBtn from '../img/heartRed.png';
@@ -128,6 +131,8 @@ function Post({
   image,
   likes,
 }: PostProps) {
+  // max length for trimming content
+  const maxLength = 70;
   const dispatch = useDispatch();
   const currentUser = useSelector(
     (state: any) => state.user.username,
@@ -177,7 +182,12 @@ function Post({
       <Link to={`/post/${id}`} className="title">
         {title}
       </Link>
-      <p className="content">{content}</p>
+      <p className="content">
+        {limitCharacters(content, maxLength)}{' '}
+        {content.length >= maxLength && (
+          <Link to={`/post/${id}`}>...read more</Link>
+        )}
+      </p>
       <p className="category">
         Category:{' '}
         {category === undefined ? (
@@ -188,7 +198,7 @@ function Post({
       </p>
       {currentUser === username ? (
         <Link to={`/editPost/${id}`} className="edit">
-          edit post...
+          Edit post...
         </Link>
       ) : (
         <Link className="edit" to={`/post/${id}`}>

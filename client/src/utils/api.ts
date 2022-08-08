@@ -12,13 +12,15 @@ export type CategoryData = {
   category: string;
 };
 
-// type LikesParams = {
-//   postId: string;
-//   userId: string;
-//   username: string;
-// };
+type LikesParams = {
+  postId: string;
+  userId: string;
+  body: {
+    username: string;
+  };
+};
 
-export const addLike = async (like: any) => {
+export const addLike = async (like: LikesParams) => {
   const { data } = await axios.put(
     `${urlBase}/likepost/${like.postId}`,
 
@@ -33,7 +35,7 @@ export const addLike = async (like: any) => {
   return data;
 };
 
-export const removeLike = async (unlike: any) => {
+export const removeLike = async (unlike: LikesParams) => {
   const { data } = await axios.put(
     `${urlBase}/unlikepost/${unlike.postId}`,
 
