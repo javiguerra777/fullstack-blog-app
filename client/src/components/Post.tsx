@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import logo from '../img/telegram.png';
 import convertUnixToDate from '../utils/functions';
 import likeBtn from '../img/heart.png';
 import colorLikeBtn from '../img/heartRed.png';
@@ -81,6 +80,7 @@ const StyledPost = styled.section`
     bottom: 0;
     left: 0;
     margin: 1.5rem;
+    cursor: pointer;
   }
   & img {
     height: 25px;
@@ -111,18 +111,7 @@ function Post({
     (state: any) => state.user.username,
     shallowEqual,
   );
-  // const { loggedIn } = useSelector(
-  //   (state: any) => state.user,
-  //   shallowEqual,
-  // );
 
-  // const addComment = (e: FormEvent<HTMLFormElement>): boolean => {
-  //   e.preventDefault();
-  //   if (!loggedIn) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
   const [isLiked, setIsLiked] = useState<boolean>(false);
   function handleLikes() {
     console.log(isLiked);
@@ -169,13 +158,6 @@ function Post({
           <img src={likeBtn} alt="heart filled red" />
         </button>
       )}
-
-      {/* <form onSubmit={addComment}>
-        <input type="text" placeholder="Share your thoughts..." />
-        <button type="submit">
-          <img src={logo} alt="Logo of a paper airplane" />
-        </button>
-      </form> */}
     </StyledPost>
   );
 }

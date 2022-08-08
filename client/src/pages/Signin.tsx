@@ -2,7 +2,7 @@
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`

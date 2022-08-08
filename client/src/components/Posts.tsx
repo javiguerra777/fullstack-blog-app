@@ -3,6 +3,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import Post from './Post';
+// import { getComments } from '../store/CommentSlice';
 
 const PostsWrapper = styled.section`
   margin-left: 1vw;
@@ -19,10 +20,24 @@ type PostsType = {
 };
 
 function Posts() {
+  // const dispatch = useDispatch();
   const { posts } = useSelector(
     (state: any) => state.post,
     shallowEqual,
   );
+  const { comments } = useSelector(
+    (state: any) => state.comment,
+    shallowEqual,
+  );
+  console.log(comments);
+
+  // useEffect(() => {
+  //   posts.forEach((post: any) => {
+  //     // eslint-disable-next-line no-underscore-dangle
+  //     dispatch(getComments(post._id));
+  //   });
+  // }, [dispatch, posts]);
+
   return (
     <PostsWrapper>
       {posts
