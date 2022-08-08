@@ -9,11 +9,17 @@ type CommentProps = {
 
 const CommentSectionWrapper = styled.section`
   height: 50vh;
+  width: 100vw;
   max-height: auto;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding-bottom: 3em;
   .comment {
     margin-left: 1.5em;
+    border: 1px solid #000;
   }
 `;
 function CommentSection({ comments }: CommentProps) {

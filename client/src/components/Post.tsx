@@ -7,9 +7,10 @@ import convertUnixToDate from '../utils/functions';
 import { addLike, removeLike } from '../utils/api';
 import likeBtn from '../img/heart.png';
 import colorLikeBtn from '../img/heartRed.png';
+import commentImg from '../img/comment.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
 
-const StyledPost = styled.section`
+export const StyledPost = styled.section`
   width: 95%;
   height: 300px;
   display: flex;
@@ -20,6 +21,11 @@ const StyledPost = styled.section`
   border-radius: 5px;
   position: relative;
   margin: 2rem 0;
+  & small {
+    position: absolute;
+    bottom: 0;
+    margin: 1rem auto;
+  }
   .post-image {
     position: absolute;
     bottom: 70px;
@@ -83,12 +89,21 @@ const StyledPost = styled.section`
     position: absolute;
     bottom: 0;
     left: 0;
-    margin: 1.5rem;
+    margin: 1rem;
     cursor: pointer;
   }
+  & .comments {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 75%;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 1rem 4rem;
+  }
   & img {
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
   }
 `;
 
@@ -154,17 +169,22 @@ function Post({
     await removeLike(likeParams);
     return 'un-liking comment';
   }
+
   return (
     <StyledPost>
-      <p className="username">
-        @{username} - <small>{convertUnixToDate(date)}</small>
-      </p>
+      <p className="username">@{username}</p>
+      <small className="timestamp">{convertUnixToDate(date)}</small>
       <Link to={`/post/${id}`} className="title">
         {title}
       </Link>
       <p className="content">{content}</p>
       <p className="category">
-        Category: <strong>{category}</strong>
+        Category:{' '}
+        {category === undefined ? (
+          <strong>miscellaneous</strong>
+        ) : (
+          <strong>{category}</strong>
+        )}
       </p>
       {currentUser === username ? (
         <Link to={`/editPost/${id}`} className="edit">
@@ -193,6 +213,9 @@ function Post({
           <img src={likeBtn} alt="heart filled red" />
         </button>
       )}
+      <Link to={`/post/${id}`} className="comments">
+        <img src={commentImg} alt="text message bubble" />
+      </Link>
     </StyledPost>
   );
 }

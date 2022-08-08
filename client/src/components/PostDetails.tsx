@@ -13,11 +13,10 @@ type PostProps = {
 const PostDetailsWrapper = styled.section`
   min-height: auto;
   max-height: 50vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 60%;
+  border: 1px solid #000;
   overflow-y: scroll;
+  margin: auto;
   img {
     width: 75%;
     height: 10em;
@@ -28,7 +27,7 @@ function PostDetails({ post }: PostProps) {
   const { username, body, image } = post;
   return (
     <PostDetailsWrapper className="webkit">
-      <h1>{username}</h1>
+      <h1 className="username">{username}</h1>
       <p>{body}</p>
       {image && <img src={image} alt="img" />}
     </PostDetailsWrapper>

@@ -2,11 +2,7 @@
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-<<<<<<< HEAD
 import { useNavigate, Link } from 'react-router-dom';
-=======
-import { Link, useNavigate } from 'react-router-dom';
->>>>>>> javi-frontend
 import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
