@@ -16,6 +16,7 @@ const StyledButton = styled.button`
     color: #000;
   }
 `;
+
 function NewPostBtn() {
   return (
     <StyledButton type="button">

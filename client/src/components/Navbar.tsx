@@ -14,6 +14,17 @@ const StyledNavbar = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+  a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #0f3d3e;
+  }
   & div {
     display: flex;
     justify-content: center;

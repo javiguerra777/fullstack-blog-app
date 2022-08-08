@@ -16,7 +16,7 @@ const FooterWrapper = styled.footer`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: auto;
+  height: 10vh;
   background-color: white;
   border-radius: 0.5em;
   padding: 1em 0.5em 1em 0.5em;
@@ -49,6 +49,7 @@ const FooterWrapper = styled.footer`
     }
   }
 `;
+
 function Footer() {
   const navigate = useNavigate();
   const { image } = useSelector(

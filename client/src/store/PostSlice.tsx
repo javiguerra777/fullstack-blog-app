@@ -55,6 +55,24 @@ export const addNewPost = createAsyncThunk(
   },
 );
 
+// edit post in the database
+export const editPost = createAsyncThunk(
+  'post/editPost',
+  async (post: Record<string, unknown>) => {
+    const { data } = await axios.put(
+      `${urlBase}posts/${post.postId}`,
+      post.post,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${post.userId}`,
+        },
+      },
+    );
+    return data;
+  },
+);
+
 type PostState = {
   title: string;
   content: string;
@@ -106,6 +124,8 @@ export const postSlice = createSlice({
     builder.addCase(getPost.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.post = payload;
+      state.title = payload.title;
+      state.content = payload.body;
     });
     builder.addCase(getPost.rejected, (state) => {
       state.loading = false;
@@ -138,6 +158,20 @@ export const postSlice = createSlice({
       state.content = '';
     });
     builder.addCase(addNewPost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+    // editPost cases
+    builder.addCase(editPost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(editPost.fulfilled, (state) => {
+      state.loading = false;
+      state.title = '';
+      state.content = '';
+    });
+    builder.addCase(editPost.rejected, (state) => {
       state.loading = false;
       state.error = true;
     });

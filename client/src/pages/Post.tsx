@@ -15,15 +15,16 @@ import LoadingSpinner from '../styles/LoadingSpinner';
 
 const PostWrapper = styled.section`
   width: 100vw;
-  height: 100vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  overflow-y: scroll;
   .form-container {
     position: fixed;
     bottom: 0;
+    height: 5vh;
     width: 100%;
+    background-color: black;
   }
   img {
     height: 50px;
@@ -96,7 +97,7 @@ function Post() {
     dispatch(changeComment(''));
   };
   return (
-    <PostWrapper>
+    <PostWrapper className="webkit">
       {loading ? <LoadingSpinner /> : <PostDetails post={post} />}
       {commentLoading ? (
         <LoadingSpinner />

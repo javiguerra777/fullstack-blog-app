@@ -1,11 +1,18 @@
 /* eslint-disable prettier/prettier */
-import React, { FormEvent } from 'react';
+import React, {
+  FormEvent, useEffect, useState, ChangeEvent,
+} from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import {
   setCurrentContent,
   setCurrentTitle,
+  getPost,
+  editPost,
 } from '../store/PostSlice';
+import { Category } from '../types/types';
 
 const StyledNewPost = styled.section`
   height: 90vh;
@@ -62,23 +69,74 @@ const StyledNewPost = styled.section`
   }
 `;
 
-function NewPost() {
+function EditPost() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams<string>();
   const { title, content } = useSelector(
     (state: any) => state.post,
     shallowEqual,
   );
+  const { categories } = useSelector((state: any) => state.category, shallowEqual);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const { userId } = useSelector((state: any) => state.user, shallowEqual);
+  const [category, setCategory] = useState<string>();
+
+  useEffect(() => {
+    dispatch<any>(getPost(id || ''));
+    /*
+    If the user decides to leave the page
+    before submitting the edited post
+    this will clear the content and title in the redux slice
+    */
+    return () => {
+      dispatch(setCurrentContent(''));
+      dispatch(setCurrentTitle(''));
+    };
+  }, [id, dispatch]);
+
+  // handle category change
+  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
+    setCategory(e.target.value);
+  }
+  function validateInputs() {
+    if (title === '' || content === '') {
+      return true;
+    }
+    return false;
+  }
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(title);
-    console.log(content);
+    const editInformation = {
+      userId,
+      postId: id,
+      post: {
+        title,
+        body: content,
+        date: Date.now(),
+        category,
+      },
+    };
+    const editPostResults = await dispatch<any>(editPost(editInformation));
+    if (!editPostResults.error) {
+      navigate('/');
+    }
   }
 
   return (
     <StyledNewPost>
-      <p>Edit Post</p>
-      <form onSubmit={handleSubmit}>
+      <p data-testid="edit-post-description">Edit Post</p>
+      <select
+        value={category}
+        id="category"
+        onChange={handleChange}
+        data-testid="select-edit-category"
+      >
+        <option value="">none</option>
+        {/* eslint-disable-next-line max-len */}
+        {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+      </select>
+      <form onSubmit={handleSubmit} data-testid="edit-form">
         <div>
           <label htmlFor="title">
             <input
@@ -87,6 +145,7 @@ function NewPost() {
               placeholder="Title of post"
               value={title}
               onChange={(e) => dispatch(setCurrentTitle(e.target.value))}
+              data-testid="edit-title"
             />
           </label>
 
@@ -95,12 +154,13 @@ function NewPost() {
             id="content"
             value={content}
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
+            data-testid="edit-content"
           />
         </div>
-        <button type="submit">Post</button>
+        <button type="submit" disabled={validateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );
 }
 
-export default NewPost;
+export default EditPost;

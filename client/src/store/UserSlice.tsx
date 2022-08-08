@@ -20,20 +20,22 @@ export type RequestParams = {
   username: string;
   password: string;
 };
-export type UserState = {
+type UserState = {
   userId: string;
   username: string;
   image: string;
   error: boolean;
   loggedIn: boolean;
+  displayLogInPrompt: boolean;
 };
 const initialState = {
   userId: '',
   username: '',
   image: '',
   error: false,
-  loggedIn: false,
-} as UserState;
+  loggedn: false,
+  displayLogInPrompt: false,
+} as unknown as UserState;
 
 export const userSlice = createSlice({
   name: 'user',
@@ -47,6 +49,9 @@ export const userSlice = createSlice({
       state.userId = '';
       state.username = '';
       state.image = '';
+    },
+    toggleDisplayPrompt(state) {
+      state.displayLogInPrompt = !state.displayLogInPrompt;
     },
   },
   extraReducers: (builder) => {
@@ -69,6 +74,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { signOut, changeUsername } = userSlice.actions;
+// eslint-disable-next-line prettier/prettier
+export const { signOut, changeUsername, toggleDisplayPrompt } = userSlice.actions;
 
 export default userSlice.reducer;
