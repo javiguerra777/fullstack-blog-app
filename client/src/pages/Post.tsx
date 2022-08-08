@@ -71,6 +71,8 @@ function Post() {
       username: username || 'unregistered-user',
       postId: id,
     });
+    // clears the comment form on render of page
+    dispatch(changeComment(''));
     // cleanup so that when the user leaves the page they leave the specific room on unmount
     return () => {
       socket.emit('unsubscribe', id);
@@ -115,7 +117,9 @@ function Post() {
                   // eslint-disable-next-line implicit-arrow-linebreak, prettier/prettier
                   dispatch(changeComment(e.target.value))}
               />
-              <button type="submit">Comment</button>
+              <button type="submit" disabled={comment === ''}>
+                Comment
+              </button>
             </form>
           </section>
         </section>

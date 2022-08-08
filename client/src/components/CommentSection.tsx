@@ -8,10 +8,7 @@ type CommentProps = {
 };
 
 const CommentSectionWrapper = styled.section`
-  height: 50vh;
   max-height: auto;
-  overflow-y: scroll;
-  padding-bottom: 3em;
   .comment {
     margin-left: 1.5em;
   }
