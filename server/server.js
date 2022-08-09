@@ -5,6 +5,7 @@ const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Comment = require('./schema/comment');
+const Post = require('./schema/post');
 const {
   joinUser,
   getCurrentUser,
@@ -54,24 +55,40 @@ io.on('connection', (socket) => {
 
   // comment function for live comments
   socket.on('send_comment', async (data) => {
-    // gets the post user and the comment sent
-    const pUser = await getCurrentUser(socket.id);
-    console.log('pUser:', pUser);
-    // console.log('The data object:', data);
-    const commentData = new Comment({
-      username: data.username,
-      comment: data.comment,
-      date: data.date,
-      postId: data.postId,
-    });
+    try {
+      // gets the post user and the comment sent
+      const pUser = await getCurrentUser(socket.id);
+      const activePost = await Post.findById(pUser.room);
+      console.log('post: ', activePost);
+      // eslint-disable-next-line valid-typeof
+      if (activePost === null) {
+        const errorData = {
+          error: '404 not found',
+          message: 'post has been deleted, comment will not be sent',
+        };
+        console.log('Post has been deleted');
+        socket.emit('not_found', errorData);
+      } else {
+        console.log('pUser:', pUser);
+        // console.log('The data object:', data);
+        const commentData = new Comment({
+          username: data.username,
+          comment: data.comment,
+          date: data.date,
+          postId: data.postId,
+        });
 
-    await commentData.save();
-    const comments = await Comment.find({
-      postId: pUser.room,
-    });
-    // console.log('Comments:', comments);
+        await commentData.save();
+        const comments = await Comment.find({
+          postId: pUser.room,
+        });
+        // console.log('Comments:', comments);
 
-    io.to(pUser.room).emit('receive_comment', comments);
+        io.to(pUser.room).emit('receive_comment', comments);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   });
 
   // when the user exits the post
