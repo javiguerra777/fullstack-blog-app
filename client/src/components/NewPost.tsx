@@ -66,6 +66,7 @@ const StyledNewPost = styled.section`
       cursor: pointer;
     }
     & button:disabled {
+      background: black;
       cursor: default;
     }
   }

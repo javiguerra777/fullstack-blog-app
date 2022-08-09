@@ -78,6 +78,7 @@ type PostState = {
   content: string;
   post: Record<string, unknown>;
   posts: [];
+  image: any;
   loading: boolean;
   error: boolean;
 };
@@ -88,6 +89,7 @@ const initialState = {
   posts: [],
   loading: true,
   error: false,
+  image: '',
 } as PostState;
 
 export const postSlice = createSlice({
@@ -99,6 +101,9 @@ export const postSlice = createSlice({
     },
     setCurrentContent(state, { payload }) {
       state.content = payload;
+    },
+    setCurrentImage(state, { payload }) {
+      state.image = payload;
     },
   },
   // extra reducers
@@ -179,7 +184,7 @@ export const postSlice = createSlice({
 });
 
 // eslint-disable-next-line operator-linebreak
-export const { setCurrentTitle, setCurrentContent } =
+export const { setCurrentTitle, setCurrentContent, setCurrentImage } =
   postSlice.actions;
 
 export default postSlice.reducer;

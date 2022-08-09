@@ -67,7 +67,12 @@ test('check that button is not disabled on render', async () => {
     </Provider>,
   );
   const form = await screen.getByTestId('edit-form');
-  const submitButton = await screen.getByRole('button');
+  const submitButton = await screen.getByRole('button', {
+    name: /post/i,
+  });
+  const title = await screen.getByTestId('edit-title');
+
+  expect(title).toEqual(expect.not.stringMatching(''));
 
   // form and button should be in document
   expect(form).toBeInTheDocument();
@@ -88,7 +93,9 @@ test('check that button is disabled after inputs are cleared', async () => {
   const form = await screen.getByTestId('edit-form');
   const title = await screen.getByTestId('edit-title');
   const textarea = await screen.getByTestId('edit-content');
-  const submitButton = await screen.getByRole('button');
+  const submitButton = await screen.getByRole('button', {
+    name: /post/i,
+  });
 
   // form, button, title and text area should be on screen
   expect(form).toBeInTheDocument();
@@ -116,8 +123,11 @@ test('check that button is not disabled after text is input', async () => {
   const form = await screen.getByTestId('edit-form');
   const title = await screen.getByTestId('edit-title');
   const textarea = await screen.getByTestId('edit-content');
-  const submitButton = await screen.getByRole('button');
+  const submitButton = await screen.getByRole('button', {
+    name: /post/i,
+  });
 
+  console.log(submitButton);
   // form, button, title, text area should be on screen
   expect(form).toBeInTheDocument();
   expect(submitButton).toBeInTheDocument();

@@ -99,8 +99,8 @@ function EditPost() {
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
-  function validateInputs() {
-    if (title === '' || content === '') {
+  function invalidateInputs() {
+    if (!title || !content) {
       return true;
     }
     return false;
@@ -122,7 +122,7 @@ function EditPost() {
       navigate('/');
     }
   }
-
+  // console.log('invalidate inputs function', invalidateInputs());
   return (
     <StyledNewPost>
       <p data-testid="edit-post-description">Edit Post</p>
@@ -157,7 +157,7 @@ function EditPost() {
             data-testid="edit-content"
           />
         </div>
-        <button type="submit" disabled={validateInputs()}>Post</button>
+        <button type="submit" disabled={invalidateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );

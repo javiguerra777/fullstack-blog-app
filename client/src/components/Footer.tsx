@@ -7,7 +7,8 @@ import {
 } from 'react-icons/ai';
 import { BsFileEarmarkPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { toggleDisplayCamera } from '../store/UserSlice';
 import defaultImage from '../img/default_user_image.png';
 
 const FooterWrapper = styled.footer`
@@ -51,6 +52,7 @@ const FooterWrapper = styled.footer`
 `;
 
 function Footer() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { image } = useSelector(
     (state: any) => state.user,
@@ -73,7 +75,11 @@ function Footer() {
         />
       </header>
       <main>
-        <button type="button" aria-label="Photos">
+        <button
+          type="button"
+          aria-label="Photos"
+          onClick={() => dispatch(toggleDisplayCamera())}
+        >
           <AiOutlineCamera />
         </button>
         <button type="button" aria-label="Videos">

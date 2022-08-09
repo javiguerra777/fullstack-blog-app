@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import Filter from '../components/Filter';
 import Posts from '../components/Posts';
 import LoginPrompt from '../components/LoginPrompt';
+import WebcamComponent from '../components/WebcamComponent';
 import { getAllPosts } from '../store/PostSlice';
 import { getAllCategories } from '../store/CategorySlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
@@ -30,7 +31,7 @@ const HomeWrapper = styled.main`
 
 function Home() {
   const dispatch = useDispatch();
-  const { loggedIn, displayLogInPrompt } = useSelector(
+  const { loggedIn, displayLogInPrompt, displayCamera } = useSelector(
     (state: any) => state.user,
     shallowEqual,
   );
@@ -58,6 +59,7 @@ function Home() {
         {postsLoading ? <LoadingSpinner /> : <Posts />}
         {loggedIn && <Footer />}
         {displayLogInPrompt && <LoginPrompt />}
+        {displayCamera && <WebcamComponent />}
       </HomeWrapper>
     </>
   );
