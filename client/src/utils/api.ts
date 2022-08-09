@@ -2,15 +2,23 @@ import axios from 'axios';
 
 const urlBase = 'http://localhost:5000/api/';
 
-export type CategoryParams = {
+type CategoryParams = {
   category: string;
   username: string;
   date: number;
 };
 
-export type CategoryData = {
-  category: string;
-};
+// type ImageParams = {
+//   userId: string;
+//   post: {
+//     username: string;
+//     title: string;
+//     body: string;
+//     date: number;
+//     image: string;
+//     category: string;
+//   };
+// };
 
 type LikesParams = {
   postId: string;
@@ -51,7 +59,18 @@ export const removeLike = async (unlike: LikesParams) => {
 };
 
 const addNewCategory = async (category: CategoryParams) => {
-  axios.post(`${urlBase}categories`, category);
+  const data = axios.post(`${urlBase}categories`, category);
+  return data;
+};
+
+export const sendWebcamImage = async (image: any) => {
+  const data = axios.post(`${urlBase}/image`, image.post, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${image.userId}`,
+    },
+  });
+  return data;
 };
 
 export default addNewCategory;

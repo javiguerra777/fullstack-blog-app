@@ -26,9 +26,17 @@ function WebcamComponent() {
   const capture = useCallback(() => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
+      // const uploadImage = {
+      //   username,
+      //   title: 'image',
+      //   body: 'body',
+      //   category: 'miscellaneous',
+      //   base64: imageSrc,
+      //   date: Date.now(),
+      // };
       dispatch(setCurrentImage(imageSrc));
       dispatch(toggleDisplayCamera());
-      // navigate('/newPost');
+      navigate('/uploadImage');
     }
   }, [webcamRef, dispatch, navigate]);
   return (

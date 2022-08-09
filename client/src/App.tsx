@@ -8,6 +8,7 @@ import Post from './pages/Post';
 import Signin from './pages/Signin';
 import SignUp from './pages/SignUp';
 import Main from './pages/Main';
+import WebCamUpload from './pages/WebCamUpload';
 import NotFound from './pages/NotFound';
 
 type RoutesType = {
@@ -54,6 +55,16 @@ function App() {
           element={
             <ProtectedRoute loggedin={loggedIn}>
               <EditPost />
+            </ProtectedRoute>
+          }
+        />
+        {/* WebCamUpload is a protected route where users
+        upload an image taken from React Webcam */}
+        <Route
+          path="uploadImage"
+          element={
+            <ProtectedRoute loggedin={loggedIn}>
+              <WebCamUpload />
             </ProtectedRoute>
           }
         />

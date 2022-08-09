@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const AWS = require('aws-sdk');
+const { Buffer } = require('buffer/');
 const checkAuth = require('../middleware/middleware');
 const Post = require('../schema/post');
 const Category = require('../schema/category');
@@ -204,6 +205,46 @@ router.delete('/categories/:id', checkAuth, async (req, res) => {
     const data = await Category.findByIdAndDelete(id);
     console.log('Deleting category...', data);
     res.send('Deleted Category:', data);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
+// upload webcam image route
+router.post('/image', checkAuth, async (req, res) => {
+  try {
+    const buf = Buffer.from(
+      req.body.image.replace(/^data:image\/\w+;base64,/, ''),
+      'base64',
+    );
+    console.log(req.body);
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: req.body.imageKey,
+      Body: buf,
+      ACL: 'public-read-write',
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpeg',
+    };
+    s3.upload(params, (error, data) => {
+      if (error) {
+        console.log(error);
+        return res.status(400).json({ error });
+      }
+      console.log(data);
+      const postData = new Post({
+        username: req.body.username.toLowerCase(),
+        title: req.body.title,
+        body: req.body.body,
+        category: req.body.category,
+        image: data.Location,
+        date: req.body.date,
+      });
+      const post = postData.save();
+      console.log('New Post created in database');
+      return res.status(200).json(post);
+    });
   } catch (err) {
     console.log(err.message);
     res.status(400).json(err.message);

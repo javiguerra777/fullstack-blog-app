@@ -23,7 +23,8 @@ db.once('open', () => {
 
 // cors and json to get the backend server functioning with no issues
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb' }));
 
 // express routes
 app.use('/api', publicRoutes);
