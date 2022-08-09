@@ -34,10 +34,10 @@ const initialState = {
   username: '',
   image: '',
   error: false,
-  loggedn: false,
+  loggedIn: false,
   displayLogInPrompt: false,
   displayCamera: false,
-} as unknown as UserState;
+} as UserState;
 
 export const userSlice = createSlice({
   name: 'user',

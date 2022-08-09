@@ -78,7 +78,7 @@ type PostState = {
   content: string;
   post: Record<string, unknown>;
   posts: [];
-  image: any;
+  image: string;
   loading: boolean;
   error: boolean;
 };

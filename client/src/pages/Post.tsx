@@ -1,10 +1,11 @@
-import React, { useEffect, FormEvent } from 'react';
+import React, { useEffect, FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { io } from 'socket.io-client';
 import styled from 'styled-components';
 import PostDetails from '../components/PostDetails';
 import CommentSection from '../components/CommentSection';
+import Notification from '../components/Notification';
 import { getPost } from '../store/PostSlice';
 import {
   getComments,
@@ -54,6 +55,7 @@ function Post() {
     (state: any) => state.comment.loading,
     shallowEqual,
   );
+  const [message, setMessage] = useState('');
 
   // grab post by id from params
   useEffect(() => {
@@ -77,7 +79,7 @@ function Post() {
     return () => {
       socket.emit('unsubscribe', id);
     };
-  }, [id, username]);
+  }, [id, username, dispatch]);
 
   // retrieve live comments from the server
   useEffect(() => {
@@ -86,6 +88,13 @@ function Post() {
       dispatch(changeComments(data));
     });
   }, [dispatch]);
+
+  // retrieve error from socket server
+  useEffect(() => {
+    socket.on('not_found', (data) => {
+      setMessage(data.message);
+    });
+  }, []);
 
   const sendComment = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -97,6 +106,10 @@ function Post() {
       date: Date.now(),
     });
     dispatch(changeComment(''));
+  };
+
+  const clearMessage = () => {
+    setMessage('');
   };
   return (
     <PostWrapper className="webkit">
@@ -123,6 +136,9 @@ function Post() {
             </form>
           </section>
         </section>
+      )}
+      {message && (
+        <Notification message={message} clearMessage={clearMessage} />
       )}
     </PostWrapper>
   );

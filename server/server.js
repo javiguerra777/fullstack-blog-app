@@ -78,7 +78,13 @@ io.on('connection', (socket) => {
           postId: data.postId,
         });
 
+        // saves comment to the database
         await commentData.save();
+        // updates and pushes comment to comments array in post table
+        await Post.findByIdAndUpdate(pUser.room, {
+          $push: { comments: data.comment },
+        });
+
         const comments = await Comment.find({
           postId: pUser.room,
         });
