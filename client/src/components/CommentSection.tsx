@@ -8,6 +8,10 @@ type CommentProps = {
   comments: [];
 };
 
+// const randomNum = () => {
+//   const num = Math.floor(Math.random() * 2);
+// };
+
 const CommentSectionWrapper = styled.section`
   height: 50vh;
   width: 100vw;
