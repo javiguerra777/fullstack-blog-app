@@ -177,7 +177,7 @@ function Post({
       </p>
       {currentUser === username ? (
         <Link to={`/editPost/${id}`} className="edit">
-          Edit post...
+          Edit post
         </Link>
       ) : (
         <Link className="edit" to={`/post/${id}`}>

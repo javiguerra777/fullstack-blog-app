@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 const checkAuth = require('../middleware/middleware');
 const Post = require('../schema/post');
 const Category = require('../schema/category');
+const Comment = require('../schema/comment');
 
 const router = express.Router();
 
@@ -152,7 +153,9 @@ router.delete('/posts/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await Post.findByIdAndDelete(id);
+    const deletedComments = await Comment.deleteMany({ postId: id });
     console.log('Deleting post...', data);
+    console.log('Deleting comments...', deletedComments);
     res.status(200).json(data);
   } catch (err) {
     console.log(err.message);

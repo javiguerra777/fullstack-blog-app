@@ -27,6 +27,7 @@ type UserState = {
   error: boolean;
   loggedIn: boolean;
   displayLogInPrompt: boolean;
+  displayCamera: boolean;
 };
 const initialState = {
   userId: '',
@@ -35,6 +36,7 @@ const initialState = {
   error: false,
   loggedn: false,
   displayLogInPrompt: false,
+  displayCamera: false,
 } as unknown as UserState;
 
 export const userSlice = createSlice({
@@ -52,6 +54,9 @@ export const userSlice = createSlice({
     },
     toggleDisplayPrompt(state) {
       state.displayLogInPrompt = !state.displayLogInPrompt;
+    },
+    toggleDisplayCamera(state) {
+      state.displayCamera = !state.displayCamera;
     },
   },
   extraReducers: (builder) => {
@@ -75,6 +80,11 @@ export const userSlice = createSlice({
 });
 
 // eslint-disable-next-line prettier/prettier
-export const { signOut, changeUsername, toggleDisplayPrompt } = userSlice.actions;
+export const {
+  signOut,
+  changeUsername,
+  toggleDisplayPrompt,
+  toggleDisplayCamera,
+} = userSlice.actions;
 
 export default userSlice.reducer;

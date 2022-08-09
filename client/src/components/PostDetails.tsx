@@ -25,7 +25,8 @@ function PostDetails({ post }: PostProps) {
   const { username, body, image } = post;
   return (
     <PostDetailsWrapper className="webkit">
-      <h1>{username}</h1>
+      {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+      <h1>@{username}</h1>
       <p>{body}</p>
       {image && <img src={image} className="post-image" alt="img" />}
     </PostDetailsWrapper>
