@@ -120,18 +120,18 @@ function WebCamUpload() {
   // console.log('invalidate inputs function', invalidateInputs());
   return (
     <StyledNewPost>
-      <p data-testid="edit-post-description">Upload Image</p>
+      <p data-testid="image-post-description">Upload Image</p>
       <select
         value={category}
         id="category"
         onChange={handleChange}
-        data-testid="select-edit-category"
+        data-testid="select-image-category"
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
         {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
       </select>
-      <form onSubmit={handleSubmit} data-testid="edit-form">
+      <form onSubmit={handleSubmit} data-testid="image-form">
         <div>
           <label htmlFor="title">
             <input
@@ -140,7 +140,7 @@ function WebCamUpload() {
               placeholder="Title of post"
               value={title}
               onChange={(e) => dispatch(setCurrentTitle(e.target.value))}
-              data-testid="edit-title"
+              data-testid="image-title"
             />
           </label>
 
@@ -149,7 +149,7 @@ function WebCamUpload() {
             id="content"
             value={content}
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
-            data-testid="edit-content"
+            data-testid="image-content"
           />
         </div>
         <button type="submit" disabled={invalidateInputs()}>Post</button>
