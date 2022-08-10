@@ -5,6 +5,10 @@ const commentSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  profilepicture: {
+    required: false,
+    type: String,
+  },
   image: {
     required: false,
     type: String,
