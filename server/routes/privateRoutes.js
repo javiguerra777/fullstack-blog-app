@@ -6,6 +6,7 @@ const checkAuth = require('../middleware/middleware');
 const Post = require('../schema/post');
 const Category = require('../schema/category');
 const Comment = require('../schema/comment');
+const User = require('../schema/user');
 
 const router = express.Router();
 
@@ -40,6 +41,7 @@ const s3 = new AWS.S3({
 });
 
 // posts routes
+// upload file from the frontend
 router.post(
   '/posts',
   checkAuth,
@@ -107,7 +109,7 @@ router.put('/likepost/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Post.findByIdAndUpdate(id, {
-      $push: { likes: req.body.username },
+      $push: { likes: req.body.uniqueUserId },
     });
     console.log('adding like to post, here are the results:', result);
     res.status(200).json(result);
@@ -121,7 +123,7 @@ router.put('/unlikepost/:id', checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Post.findByIdAndUpdate(id, {
-      $pull: { likes: req.body.username },
+      $pull: { likes: req.body.uniqueUserId },
     });
     console.log(
       'removing like from post, here are the results:',
@@ -214,11 +216,11 @@ router.delete('/categories/:id', checkAuth, async (req, res) => {
 // upload webcam image route
 router.post('/image', checkAuth, async (req, res) => {
   try {
+    // use Buffer to convert text to base64 to upload to AWS
     const buf = Buffer.from(
       req.body.image.replace(/^data:image\/\w+;base64,/, ''),
       'base64',
     );
-    console.log(req.body);
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: req.body.imageKey,
@@ -249,6 +251,30 @@ router.post('/image', checkAuth, async (req, res) => {
     console.log(err.message);
     res.status(400).json(err.message);
   }
+});
+
+// update user profile routes
+
+router.put('/updateusername', checkAuth, async (req, res) => {
+  // also update the JWT if username is successfully changed
+  try {
+    console.log(req.body.id);
+    await User.findByIdAndUpdate(req.body.id, {
+      username: req.body.newusername.toLowerCase(),
+    });
+    res.status(200).json('username changed successfully');
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
+router.put('/updatepassword', checkAuth, (req, res) => {
+  console.log(req.body);
+});
+
+router.put('/updateprofilepicture', checkAuth, (req, res) => {
+  console.log(req.body);
 });
 
 module.exports = router;

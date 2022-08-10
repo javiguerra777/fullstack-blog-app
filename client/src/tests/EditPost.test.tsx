@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,6 +7,25 @@ import userEvent from '@testing-library/user-event';
 import store from '../store';
 import EditPost from '../components/EditPost';
 
+// // jest mock for the redux store
+// jest.mock('react-redux', () => ({
+//   ...jest.requireActual('react-redux'),
+//   useSelector: jest.fn(),
+// }));
+
+// // mock state
+// const mockState = {
+//   title: 'Hello World',
+//   content: 'Test Content',
+// };
+// beforeAll(() => {
+//   useSelector.mockImplementation((callback) => callback(mockState));
+// });
+// afterAll(() => {
+//   useSelector.mockClear();
+// });
+
+// tests for the EditPost component
 test('check that edit form is displaying', async () => {
   render(
     <Provider store={store}>
@@ -127,7 +147,6 @@ test('check that button is not disabled after text is input', async () => {
     name: /post/i,
   });
 
-  console.log(submitButton);
   // form, button, title, text area should be on screen
   expect(form).toBeInTheDocument();
   expect(submitButton).toBeInTheDocument();

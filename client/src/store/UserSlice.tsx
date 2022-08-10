@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -28,6 +29,7 @@ type UserState = {
   loggedIn: boolean;
   displayLogInPrompt: boolean;
   displayCamera: boolean;
+  id: string;
 };
 const initialState = {
   userId: '',
@@ -37,6 +39,7 @@ const initialState = {
   loggedIn: false,
   displayLogInPrompt: false,
   displayCamera: false,
+  id: '',
 } as UserState;
 
 export const userSlice = createSlice({
@@ -65,12 +68,16 @@ export const userSlice = createSlice({
     });
     builder.addCase(
       loginUser.fulfilled,
-      (state, { payload: { token, username, profileImage } }) => {
+      (
+        state,
+        { payload: { token, username, profileImage, userid } },
+      ) => {
         state.userId = token;
         state.username = username;
         state.image = profileImage;
         state.loggedIn = true;
         state.error = false;
+        state.id = userid;
       },
     );
     builder.addCase(loginUser.rejected, (state) => {

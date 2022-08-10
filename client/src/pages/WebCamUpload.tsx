@@ -111,6 +111,7 @@ function WebCamUpload() {
         date: Date.now(),
         category,
         image,
+        // ensures that file has different name on upload
         imageKey: uuidv4() + username + Date.now(),
       },
     };

@@ -24,7 +24,7 @@ type LikesParams = {
   postId: string;
   userId: string;
   body: {
-    username: string;
+    uniqueUserId: string;
   };
 };
 

@@ -123,15 +123,16 @@ function Post({
     (state: any) => state.user.username,
     shallowEqual,
   );
-  const { loggedIn, userId } = useSelector(
-    (state: any) => state.user,
-    shallowEqual,
-  );
+  const {
+    loggedIn,
+    userId,
+    id: uniqueUserId,
+  } = useSelector((state: any) => state.user, shallowEqual);
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
   useEffect(() => {
     likes.forEach((like) => {
-      if (currentUser === like) {
+      if (uniqueUserId === like) {
         setIsLiked(true);
       }
     });
@@ -147,7 +148,7 @@ function Post({
     const likeParams = {
       postId: thisPostId,
       userId,
-      body: { username: currentUser },
+      body: { uniqueUserId },
     };
     // this allows the user to add a like to the likes array in the database
     if (!isLiked) {

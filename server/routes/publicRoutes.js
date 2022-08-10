@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -32,7 +33,6 @@ router.post('/signup', async (req, res) => {
       });
     const encodedUser = jwt.sign(
       {
-        userId: user.insertId,
         ...req.body,
       },
       process.env.JWT_KEY,
@@ -68,6 +68,7 @@ router.post('/login', async (req, res) => {
         token: encodedUser,
         username: user.username,
         profileImage: user.image,
+        userid: user._id,
       };
       return res.status(200).json(userInfo);
     }
