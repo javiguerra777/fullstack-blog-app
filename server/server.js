@@ -76,6 +76,7 @@ io.on('connection', (socket) => {
           comment: data.comment,
           date: data.date,
           postId: data.postId,
+          profilepicture: data.profilepicture,
         });
 
         // saves comment to the database

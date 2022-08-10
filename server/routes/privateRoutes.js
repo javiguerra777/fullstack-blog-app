@@ -62,6 +62,7 @@ router.post(
           category: req.body.category,
           image: req.body.image,
           date: req.body.date,
+          profilepicture: req.body.profilepicture,
         });
         const post = await postData.save();
         console.log(
@@ -94,6 +95,7 @@ router.post(
             category: req.body.category,
             image: data.Location,
             date: req.body.date,
+            profilepicture: req.body.profilepicture,
           });
           const post = postData.save();
           console.log('New Post created in database');

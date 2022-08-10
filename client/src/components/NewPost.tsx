@@ -81,7 +81,7 @@ function NewPost() {
     (state: any) => state.post,
     shallowEqual,
   );
-  const { username, userId } = useSelector(
+  const { username, userId, image: profilepicture } = useSelector(
     (state: any) => state.user,
     shallowEqual,
   );
@@ -128,6 +128,7 @@ function NewPost() {
         date: Date.now(),
         username,
         image,
+        profilepicture,
         category,
       },
       userId,

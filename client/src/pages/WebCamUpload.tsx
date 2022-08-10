@@ -77,7 +77,11 @@ function WebCamUpload() {
     shallowEqual,
   );
   const { categories } = useSelector((state: any) => state.category, shallowEqual);
-  const { userId, username } = useSelector((state: any) => state.user, shallowEqual);
+  const {
+    userId,
+    username,
+    image: profilepicture,
+  } = useSelector((state: any) => state.user, shallowEqual);
   const [category, setCategory] = useState<string>();
 
   useEffect(() => {
@@ -111,6 +115,7 @@ function WebCamUpload() {
         date: Date.now(),
         category,
         image,
+        profilepicture,
         // ensures that file has different name on upload
         imageKey: uuidv4() + username + Date.now(),
       },

@@ -39,7 +39,7 @@ const socket = io('http://localhost:5500');
 function Post() {
   const { id } = useParams<string>();
   const dispatch = useDispatch();
-  const { username } = useSelector(
+  const { username, image: profilepicture } = useSelector(
     (state: any) => state.user,
     shallowEqual,
   );
@@ -104,6 +104,7 @@ function Post() {
       comment,
       postId: id,
       date: Date.now(),
+      profilepicture: profilepicture || '',
     });
     dispatch(changeComment(''));
   };
