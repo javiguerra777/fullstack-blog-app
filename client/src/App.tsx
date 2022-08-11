@@ -10,6 +10,7 @@ import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
 import NotFound from './pages/NotFound';
+import { RootState } from './store';
 
 type RoutesType = {
   loggedin: boolean;
@@ -26,7 +27,7 @@ function ProtectedRoute({ loggedin, children }: RoutesType) {
 
 function App() {
   const { loggedIn } = useSelector(
-    (state: any) => state.user,
+    (state: RootState) => state.user,
     shallowEqual,
   );
   return (

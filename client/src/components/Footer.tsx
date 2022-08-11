@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { toggleDisplayCamera } from '../store/UserSlice';
 import defaultImage from '../img/default_user_image.png';
+import { RootState } from '../store';
 
 const FooterWrapper = styled.footer`
   position: fixed;
@@ -55,7 +56,7 @@ function Footer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { image } = useSelector(
-    (state: any) => state.user,
+    (state: RootState) => state.user,
     shallowEqual,
   );
   // eslint-disable-next-line prettier/prettier

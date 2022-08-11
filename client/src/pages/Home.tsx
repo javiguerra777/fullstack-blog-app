@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { RootState, AppDispatch } from '../store';
 // import Post from '../components/Post';
 import GlobalStyles from '../styles/GlobalStyles';
 import Footer from '../components/Footer';
@@ -12,15 +13,6 @@ import { getAllPosts } from '../store/PostSlice';
 import { getAllCategories } from '../store/CategorySlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
 
-type PostState = {
-  title: string;
-  content: string;
-  post: Record<string, unknown>;
-  posts: [];
-  loading: boolean;
-  error: boolean;
-};
-
 const HomeWrapper = styled.main`
   position: relative;
   height: 90vh;
@@ -30,26 +22,26 @@ const HomeWrapper = styled.main`
 `;
 
 function Home() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { loggedIn, displayLogInPrompt, displayCamera } = useSelector(
-    (state: any) => state.user,
+    (state: RootState) => state.user,
     shallowEqual,
   );
   const postsLoading = useSelector(
-    (state: PostState) => state.post.loading,
+    (state: RootState) => state.post.loading,
     shallowEqual,
   );
   const categoriesLoading: boolean = useSelector(
-    (state: any) => state.category.loading,
+    (state: RootState) => state.category.loading,
     shallowEqual,
   );
 
   useEffect(() => {
-    dispatch<any>(getAllPosts());
+    dispatch(getAllPosts());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch<any>(getAllCategories());
+    dispatch(getAllCategories());
   }, [dispatch]);
   return (
     <>

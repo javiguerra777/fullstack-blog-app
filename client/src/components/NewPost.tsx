@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { AppDispatch, RootState } from '../store';
 import {
   setCurrentContent,
   setCurrentTitle,
@@ -73,19 +74,19 @@ const StyledNewPost = styled.section`
 `;
 
 function NewPost() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   // redux useSelectors
   const { title, content } = useSelector(
-    (state: any) => state.post,
+    (state: RootState) => state.post,
     shallowEqual,
   );
   const { username, userId, image: profilepicture } = useSelector(
-    (state: any) => state.user,
+    (state: RootState) => state.user,
     shallowEqual,
   );
-  const { categories } = useSelector((state: any) => state.category, shallowEqual);
+  const { categories } = useSelector((state: RootState) => state.category, shallowEqual);
 
   // states used in component
   const [image, setImage] = useState({});
@@ -96,7 +97,7 @@ function NewPost() {
     // on initial render useEffect
     dispatch(setCurrentTitle(''));
     dispatch(setCurrentContent(''));
-    // on unmount useEffect
+    // on unmount useEffect if user leaves page without submitting form
     return () => {
       dispatch(setCurrentTitle(''));
       dispatch(setCurrentContent(''));
@@ -111,7 +112,7 @@ function NewPost() {
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
-  function validateInputs() {
+  function invalidateInputs() {
     if (title === '' || content === '') {
       return true;
     }
@@ -177,7 +178,7 @@ function NewPost() {
             data-testid="file-input"
           />
         </div>
-        <button type="submit" disabled={validateInputs()}>Post</button>
+        <button type="submit" disabled={invalidateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );

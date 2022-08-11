@@ -2,14 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import '../index.css';
 
-type PostProps = {
-  post: {
-    username: string;
-    body: string;
-    image: string;
-  };
-};
-
 const PostDetailsWrapper = styled.section`
   width: 100%;
   display: flex;
@@ -20,7 +12,7 @@ const PostDetailsWrapper = styled.section`
     height: auto;
   }
 `;
-function PostDetails({ post }: PostProps) {
+function PostDetails({ post }: any) {
   // eslint-disable-next-line object-curly-newline
   const { username, body, image } = post;
   return (

@@ -15,8 +15,9 @@ type CategoryParams = {
 //     title: string;
 //     body: string;
 //     date: number;
-//     image: string;
+//     profilepicture: string;
 //     category: string;
+//     imageKey: string;
 //   };
 // };
 
@@ -60,16 +61,6 @@ export const removeLike = async (unlike: LikesParams) => {
 
 const addNewCategory = async (category: CategoryParams) => {
   const data = axios.post(`${urlBase}categories`, category);
-  return data;
-};
-
-export const sendWebcamImage = async (image: any) => {
-  const data = axios.post(`${urlBase}/image`, image.post, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${image.userId}`,
-    },
-  });
   return data;
 };
 

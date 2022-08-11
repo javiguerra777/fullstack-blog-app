@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
+import { RootState } from '../store';
 import Post from './Post';
 
 const PostsWrapper = styled.section`
@@ -25,7 +26,7 @@ type PostsType = {
 
 function Posts() {
   const { posts } = useSelector(
-    (state: any) => state.post,
+    (state: RootState) => state.post,
     shallowEqual,
   );
   // fixing bug with array sort method

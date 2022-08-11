@@ -8,19 +8,19 @@ import App from './App';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
-root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
-);
 // root.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <BrowserRouter>
-//         <App />
-//       </BrowserRouter>
-//     </Provider>
-//   </React.StrictMode>,
+//   <Provider store={store}>
+//     <BrowserRouter>
+//       <App />
+//     </BrowserRouter>
+//   </Provider>,
 // );
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
+);

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { RootState } from '../store';
 // import logo from '../img/telegram.png';
 import convertUnixToDate, {
   limitCharacters,
@@ -119,15 +120,12 @@ function Post({
   // max length for trimming content
   const maxLength = 70;
   const dispatch = useDispatch();
-  const currentUser = useSelector(
-    (state: any) => state.user.username,
-    shallowEqual,
-  );
   const {
     loggedIn,
     userId,
     id: uniqueUserId,
-  } = useSelector((state: any) => state.user, shallowEqual);
+    username: currentUser,
+  } = useSelector((state: RootState) => state.user, shallowEqual);
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
   useEffect(() => {
@@ -136,7 +134,7 @@ function Post({
         setIsLiked(true);
       }
     });
-  }, [currentUser, likes]);
+  }, [currentUser, likes, uniqueUserId]);
   async function handleLikes(thisPostId: string) {
     if (!loggedIn) {
       dispatch(toggleDisplayPrompt());

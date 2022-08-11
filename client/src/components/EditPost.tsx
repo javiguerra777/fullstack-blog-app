@@ -13,6 +13,7 @@ import {
   editPost,
 } from '../store/PostSlice';
 import { Category } from '../types/types';
+import { AppDispatch, RootState } from '../store';
 
 const StyledNewPost = styled.section`
   height: 90vh;
@@ -70,20 +71,20 @@ const StyledNewPost = styled.section`
 `;
 
 function EditPost() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams<string>();
   const { title, content } = useSelector(
-    (state: any) => state.post,
+    (state: RootState) => state.post,
     shallowEqual,
   );
-  const { categories } = useSelector((state: any) => state.category, shallowEqual);
+  const { categories } = useSelector((state: RootState) => state.category, shallowEqual);
 
-  const { userId } = useSelector((state: any) => state.user, shallowEqual);
+  const { userId } = useSelector((state: RootState) => state.user, shallowEqual);
   const [category, setCategory] = useState<string>();
 
   useEffect(() => {
-    dispatch<any>(getPost(id || ''));
+    dispatch(getPost(id || ''));
     /*
     If the user decides to leave the page
     before submitting the edited post

@@ -5,3 +5,9 @@ export interface Category {
   date: number;
   __v: number;
 }
+
+export interface CommentsArray {
+  username: string;
+  comment: string;
+  date: number;
+}

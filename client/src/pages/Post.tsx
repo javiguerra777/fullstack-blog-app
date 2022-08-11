@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { io } from 'socket.io-client';
 import styled from 'styled-components';
+import { AppDispatch, RootState } from '../store';
 import PostDetails from '../components/PostDetails';
 import CommentSection from '../components/CommentSection';
 import Notification from '../components/Notification';
@@ -38,30 +39,30 @@ const socket = io('http://localhost:5500');
 
 function Post() {
   const { id } = useParams<string>();
-  const dispatch = useDispatch();
-  const {
-    username,
-    image: profilepicture,
-    loading: commentLoading,
-  } = useSelector((state: any) => state.user, shallowEqual);
+  const dispatch: AppDispatch = useDispatch();
+  const { username, image: profilepicture } = useSelector(
+    (state: RootState) => state.user,
+    shallowEqual,
+  );
   const { post, loading } = useSelector(
-    (state: any) => state.post,
+    (state: RootState) => state.post,
     shallowEqual,
   );
-  const { comment, comments } = useSelector(
-    (state: any) => state.comment,
-    shallowEqual,
-  );
+  const {
+    comment,
+    comments,
+    loading: commentLoading,
+  } = useSelector((state: RootState) => state.comment, shallowEqual);
   const [message, setMessage] = useState('');
 
   // grab post by id from params
   useEffect(() => {
-    dispatch<any>(getPost(id || ''));
+    dispatch(getPost(id || ''));
   }, [dispatch, id]);
 
   // grab comments from the database based off post id
   useEffect(() => {
-    dispatch<any>(getComments(id || ''));
+    dispatch(getComments(id || ''));
   }, [id, dispatch]);
 
   // user joins specific post id and sends it to server

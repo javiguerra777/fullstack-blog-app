@@ -4,6 +4,7 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { getPostByCategory, getAllPosts } from '../store/PostSlice';
 import { Category } from '../types/types';
+import { RootState, AppDispatch } from '../store';
 
 const StyledFilter = styled.section`
   height: 150px;
@@ -39,9 +40,9 @@ const StyledFilter = styled.section`
 `;
 
 function Filter() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { categories } = useSelector(
-    (state: any) => state.category,
+    (state: RootState) => state.category,
     shallowEqual,
   );
   const [category, setCategory] = useState<string>();
@@ -51,9 +52,9 @@ function Filter() {
   const changeCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (category === '') {
-      dispatch<any>(getAllPosts());
+      dispatch(getAllPosts());
     } else {
-      dispatch<any>(getPostByCategory({ category }));
+      dispatch(getPostByCategory({ category }));
     }
   };
   return (

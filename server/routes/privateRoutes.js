@@ -247,6 +247,7 @@ router.post('/image', checkAuth, async (req, res) => {
         category: req.body.category,
         image: data.Location,
         date: req.body.date,
+        profilepicture: req.body.profilepicture,
       });
       const post = postData.save();
       console.log('New Post created in database');
@@ -254,8 +255,9 @@ router.post('/image', checkAuth, async (req, res) => {
     });
   } catch (err) {
     console.log(err.message);
-    res.status(400).json(err.message);
+    return res.status(400).json(err.message);
   }
+  return true;
 });
 
 // update user profile routes

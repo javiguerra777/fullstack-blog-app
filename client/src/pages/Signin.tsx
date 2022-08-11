@@ -3,6 +3,7 @@ import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+// import { AppDispatch } from '../store';
 import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
@@ -66,10 +67,11 @@ function Signin() {
   const [password, setPassword] = useState('');
   const submitLoginForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const logginAttempt = await dispatch<any>(
+    const loginAttempt = await dispatch<any>(
       loginUser({ username: username.toLowerCase(), password }),
     );
-    if (logginAttempt.error) {
+
+    if (loginAttempt.error) {
       setPassword('');
     } else {
       navigate('/');

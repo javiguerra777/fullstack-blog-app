@@ -54,6 +54,24 @@ export const addNewPost = createAsyncThunk(
     return data;
   },
 );
+// adds post from the webcam to the database
+
+export const addWebCamImage = createAsyncThunk(
+  'post/addWebCamImage',
+  async (image: any) => {
+    const { data } = await axios.post(
+      `${urlBase}/image`,
+      image.post,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${image.userId}`,
+        },
+      },
+    );
+    return data;
+  },
+);
 
 // edit post in the database
 export const editPost = createAsyncThunk(
@@ -78,7 +96,7 @@ type PostState = {
   content: string;
   post: Record<string, unknown>;
   posts: [];
-  image: string;
+  image: any;
   loading: boolean;
   error: boolean;
 };
@@ -163,6 +181,20 @@ export const postSlice = createSlice({
       state.content = '';
     });
     builder.addCase(addNewPost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+    // addWebCamImage cases
+    builder.addCase(addWebCamImage.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(addWebCamImage.fulfilled, (state) => {
+      state.loading = false;
+      state.title = '';
+      state.content = '';
+    });
+    builder.addCase(addWebCamImage.rejected, (state) => {
       state.loading = false;
       state.error = true;
     });

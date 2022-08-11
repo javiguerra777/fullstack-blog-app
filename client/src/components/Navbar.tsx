@@ -4,6 +4,7 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { signOut } from '../store/UserSlice';
 import icon from '../img/telegram.png';
+import { RootState } from '../store';
 
 const StyledNavbar = styled.nav`
   width: 100%;
@@ -44,7 +45,7 @@ const StyledNavbar = styled.nav`
 function Navbar() {
   const dispatch = useDispatch();
   const { loggedIn } = useSelector(
-    (state: any) => state.user,
+    (state: RootState) => state.user,
     shallowEqual,
   );
   const buttonSignOut = () => {

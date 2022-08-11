@@ -9,10 +9,10 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   setCurrentContent,
   setCurrentTitle,
-  setCurrentImage,
+  addWebCamImage,
 } from '../store/PostSlice';
+import { RootState } from '../store';
 import { Category } from '../types/types';
-import { sendWebcamImage } from '../utils/api';
 
 const StyledNewPost = styled.section`
   height: 90vh;
@@ -73,15 +73,15 @@ function WebCamUpload() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { title, content, image } = useSelector(
-    (state: any) => state.post,
+    (state: RootState) => state.post,
     shallowEqual,
   );
-  const { categories } = useSelector((state: any) => state.category, shallowEqual);
+  const { categories } = useSelector((state: RootState) => state.category, shallowEqual);
   const {
     userId,
     username,
     image: profilepicture,
-  } = useSelector((state: any) => state.user, shallowEqual);
+  } = useSelector((state: RootState) => state.user, shallowEqual);
   const [category, setCategory] = useState<string>();
 
   useEffect(() => {
@@ -90,7 +90,7 @@ function WebCamUpload() {
     return () => {
       dispatch(setCurrentContent(''));
       dispatch(setCurrentTitle(''));
-      dispatch(setCurrentImage(''));
+      // dispatch(setCurrentImage(''));
     };
   }, [dispatch]);
 
@@ -99,7 +99,7 @@ function WebCamUpload() {
     setCategory(e.target.value);
   }
   function invalidateInputs() {
-    if (!title || !content) {
+    if (!title || !content || !image) {
       return true;
     }
     return false;
@@ -120,10 +120,11 @@ function WebCamUpload() {
         imageKey: uuidv4() + username + Date.now(),
       },
     };
-    await sendWebcamImage(uploadImage);
-    navigate('/');
+    const uploadPostAttempt = await dispatch<any>(addWebCamImage(uploadImage));
+    if (!uploadPostAttempt.error) {
+      navigate('/');
+    }
   }
-  // console.log('invalidate inputs function', invalidateInputs());
   return (
     <StyledNewPost>
       <p data-testid="image-post-description">Upload Image</p>
