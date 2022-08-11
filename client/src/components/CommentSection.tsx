@@ -8,24 +8,19 @@ type CommentProps = {
   comments: [];
 };
 
-// const randomNum = () => {
-//   const num = Math.floor(Math.random() * 2);
-// };
-
 const CommentSectionWrapper = styled.section`
-  height: 50vh;
-  width: 100vw;
-  max-height: auto;
+  height: 40vh;
+  width: 60%;
+  margin: auto;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 3em;
-  max-height: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 1px solid #000;
+  border-top: none;
   .comment {
-    margin-left: 1.5em;
-    border: 1px solid #000;
+    width: 60%;
   }
 `;
 function CommentSection({ comments }: CommentProps) {

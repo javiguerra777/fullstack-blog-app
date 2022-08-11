@@ -1,112 +1,140 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import logo from '../img/telegram.png';
 import convertUnixToDate, {
   limitCharacters,
 } from '../utils/functions';
 import { addLike, removeLike } from '../utils/api';
-import likeBtn from '../img/heart.png';
+import likeBtn from '../img/like.png';
 import colorLikeBtn from '../img/heartRed.png';
-import commentImg from '../img/comment.png';
+import commentImg from '../img/sms.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
+import defaultIcon from '../img/user.png';
 
 export const StyledPost = styled.section`
-  width: 95%;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #000;
-  background: #fff;
+  width: 65%;
+  height: 900px;
+  background: #444444;
   border-radius: 5px;
   position: relative;
   margin: 2rem 0;
-  & small {
-    position: absolute;
-    bottom: 0;
-    margin: 1rem auto;
+  & .wrapper {
+    padding: 5rem;
   }
-  .post-image {
+  & .user-info {
     position: absolute;
-    bottom: 70px;
+    top: 2vh;
     height: 50px;
-    width: 50px;
-  }
-  & a {
-    color: #000;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    margin: 1rem auto;
+    & small {
+      margin: 0 1rem;
+      font-size: 0.25rem;
+    }
+    & img {
+      height: 50px;
+      width: 50px;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+    & .username {
+      font-weight: 400;
+      font-size: 1.25rem;
     }
   }
-  & .username {
+  & .post-menu-btn {
     position: absolute;
-    top: 0;
-    left: 0;
-    margin: 1rem;
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #0f3d3e;
-    & small {
-      font-weight: 400;
+    top: 5vh;
+    right: 5vw;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  & .post-menu {
+    height: 150px;
+    width: 100px;
+    position: absolute;
+    top: 5vh;
+    right: 5vw;
+    border-radius: 5px;
+    background: #171717;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 0 0 2px 2px rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    & .close {
+      background: none;
+      border: none;
+      color: #da0037;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    & a {
+      color: #ededed;
+      text-decoration: none;
+      margin: 0.5rem;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
   & .title {
     position: absolute;
-    top: 10%;
-    text-align: center;
-    font-size: 1.85rem;
-  }
-  & .category {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 1rem;
-    font-size: 1.2rem;
-  }
-  & .content {
-    width: 90%;
-    line-height: 1.5rem;
-    font-weight: 500;
-    text-align: center;
-  }
-  & .edit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
+    top: 11vh;
+    margin: 0 auto;
+    font-size: 4.5rem;
+    font-weigth: 200;
+    text-decoration: none;
+    color: #ededed;
     &:hover {
       text-decoration: underline;
     }
   }
-  & .like-btn {
-    background: none;
-    border: none;
+  & .post-image {
+    height: 55%;
+    width: 75%;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    margin: 1rem;
-    cursor: pointer;
+    top: 25vh;
+    margin: auto;
   }
-  & .comments {
+  & .interactions {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    opacity: 75%;
-    cursor: pointer;
-    font-size: 20px;
-    margin: 1rem 4rem;
+    bottom: 13.5vh;
+    margin: auto;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    & img {
+      height: 30px;
+      width: 30px;
+      margin: -1rem 0.55rem;
+    }
   }
-  & img {
-    height: 20px;
-    width: 20px;
+  & .content {
+    position: absolute;
+    bottom: 7vh;
+    margin: auto;
+    width: 75%;
+    font-size: 1.2rem;
+    & a {
+      color: #ededed;
+    }
   }
 `;
 
@@ -132,7 +160,7 @@ function Post({
   likes,
 }: PostProps) {
   // max length for trimming content
-  const maxLength = 70;
+  const maxLength = 100;
   const dispatch = useDispatch();
   const currentUser = useSelector(
     (state: any) => state.user.username,
@@ -143,7 +171,10 @@ function Post({
     (state: any) => state.user,
     shallowEqual,
   );
-
+  console.log(
+    `this is the id: ${id}`,
+    `this is the userId: ${userId}`,
+  );
   const [isLiked, setIsLiked] = useState<boolean>(false);
   useEffect(() => {
     likes.forEach((like) => {
@@ -175,59 +206,112 @@ function Post({
     return 'un-liking comment';
   }
 
+  const randomNum = () => {
+    const num = Math.floor(Math.random() * 5 + 1);
+    return num;
+  };
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  function openPostMenu() {
+    // eslint-disable-next-line no-unused-expressions
+    !isOpen ? setIsOpen(true) : setIsOpen(false);
+    console.log(isOpen);
+  }
+
   return (
     <StyledPost>
-      <p className="username">@{username}</p>
-      <small className="timestamp">{convertUnixToDate(date)}</small>
-      <Link to={`/post/${id}`} className="title">
-        {title}
-      </Link>
-      <p className="content">
-        {limitCharacters(content, maxLength)}{' '}
-        {content.length >= maxLength && (
-          <Link to={`/post/${id}`}>...read more</Link>
-        )}
-      </p>
-      <p className="category">
-        Category:{' '}
-        {category === undefined ? (
-          <strong>miscellaneous</strong>
+      <div className="wrapper">
+        <div className="user-info">
+          <img
+            src={defaultIcon}
+            className="user-icon"
+            alt="default user icon"
+          />
+          <p className="username">@{username}</p>{' '}
+          <small>
+            <i className="fa-solid fa-circle" />
+          </small>
+          <p className="timestamp">{convertUnixToDate(date)}</p>{' '}
+          <small>
+            <i className="fa-solid fa-circle" />
+          </small>
+          <p className="read-length">{randomNum()} min read</p>
+        </div>
+        {isOpen ? (
+          <div className="post-menu">
+            <button
+              type="button"
+              className="close"
+              onClick={openPostMenu}
+            >
+              Close
+            </button>
+            <Link to="/">View Post</Link>
+            <Link to="/">Edit Post</Link>
+            <Link to="/">Delete Post</Link>
+          </div>
         ) : (
-          <strong>{category}</strong>
+          <div className="post-menu-btn" onClick={openPostMenu}>
+            <i className="fa-solid fa-ellipsis-vertical" />
+          </div>
         )}
-      </p>
-      {currentUser === username ? (
-        <Link to={`/editPost/${id}`} className="edit">
-          Edit post
+        <Link to={`/post/${id}`} className="title">
+          {title}
         </Link>
-      ) : (
-        <Link className="edit" to={`/post/${id}`}>
-          View Post
-        </Link>
-      )}
-      {image && <img className="post-image" src={image} alt="pic" />}
-      {isLiked ? (
-        <button
-          className="like-btn"
-          type="button"
-          onClick={() => handleLikes(id)}
-        >
-          <img src={colorLikeBtn} alt="heart" />
-        </button>
-      ) : (
-        <button
-          className="like-btn"
-          type="button"
-          onClick={() => handleLikes(id)}
-        >
-          <img src={likeBtn} alt="heart filled red" />
-        </button>
-      )}
-      <Link to={`/post/${id}`} className="comments">
-        <img src={commentImg} alt="text message bubble" />
-      </Link>
+        {image && (
+          <img className="post-image" src={image} alt="pic" />
+        )}
+        <div className="interactions">
+          <div>
+            {isLiked ? (
+              <button
+                className="like-btn"
+                type="button"
+                onClick={() => handleLikes(id)}
+              >
+                <img src={colorLikeBtn} alt="heart" />
+              </button>
+            ) : (
+              <button
+                className="like-btn"
+                type="button"
+                onClick={() => handleLikes(id)}
+              >
+                <img src={likeBtn} alt="heart filled red" />
+              </button>
+            )}
+            <Link to={`/post/${id}`} className="comments">
+              <img src={commentImg} alt="text message bubble" />
+            </Link>
+          </div>
+
+          <p className="category">
+            Category:{' '}
+            {category === undefined ? (
+              <strong>miscellaneous</strong>
+            ) : (
+              <strong>{category}</strong>
+            )}
+          </p>
+        </div>
+        <p className="content">
+          {limitCharacters(content, maxLength)}{' '}
+          {content.length >= maxLength && (
+            <Link to={`/post/${id}`}>...read more</Link>
+          )}
+        </p>
+      </div>
     </StyledPost>
   );
 }
 
 export default Post;
+
+// {currentUser === username ? (
+//   <Link to={`/editPost/${id}`} className="edit">
+//     Edit post
+//   </Link>
+// ) : (
+//   <Link className="edit" to={`/post/${id}`}>
+//     View Post
+//   </Link>
+// )}

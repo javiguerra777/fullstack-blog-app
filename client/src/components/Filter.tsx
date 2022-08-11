@@ -24,15 +24,16 @@ const StyledFilter = styled.section`
     font-size: 1.1rem;
     margin: 0.5rem;
     text-align: center;
+    border-radius: 5px;
   }
   & button {
     width: 250px;
     margin: 0.5rem;
     padding: 0.5rem;
     border-radius: 5px;
-    border: 1px solid #000;
-    background: #0f3d3e;
-    color: #e2dcc8;
+    border: none;
+    background: #da0037;
+    color: #ededed;
     font-size: 1.1rem;
     cursor: pointer;
   }

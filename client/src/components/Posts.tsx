@@ -7,7 +7,7 @@ import Post from './Post';
 // import { getComments } from '../store/CommentSlice';
 
 const PostsWrapper = styled.section`
-  width: 60%;
+  width: 100%;
   margin-left: 3vw;
   overflow-y: scroll;
   padding-bottom: 10vh;

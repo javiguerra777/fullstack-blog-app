@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { toggleDisplayCamera } from '../store/UserSlice';
 import { setCurrentImage } from '../store/PostSlice';
 
-const videoConstraints = {
-  width: 1280,
-  height: 600,
-  facingMode: 'user',
-};
+// const videoConstraints = {
+//   width: 1280,
+//   height: 600,
+//   facingMode: 'user',
+// };
 
 const CameraWrapper = styled.section`
   position: fixed;
@@ -33,14 +33,14 @@ function WebcamComponent() {
   }, [webcamRef, dispatch, navigate]);
   return (
     <CameraWrapper>
-      <Webcam
+      {/* <Webcam
         audio={false}
         height={720}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         width={1280}
         videoConstraints={videoConstraints}
-      />
+      /> */}
       <button type="button" onClick={capture}>
         Capture Photo
       </button>

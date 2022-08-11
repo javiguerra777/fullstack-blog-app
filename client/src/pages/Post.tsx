@@ -4,6 +4,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { io } from 'socket.io-client';
 import styled from 'styled-components';
 import PostDetails from '../components/PostDetails';
+// eslint-disable-next-line no-unused-vars
 import CommentSection from '../components/CommentSection';
 import { getPost } from '../store/PostSlice';
 import {
@@ -15,10 +16,9 @@ import LoadingSpinner from '../styles/LoadingSpinner';
 
 const PostWrapper = styled.section`
   width: 100vw;
-  height: 85vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
   .form-container {
     position: fixed;
     bottom: 0;
@@ -46,6 +46,7 @@ function Post() {
     (state: any) => state.post,
     shallowEqual,
   );
+  // eslint-disable-next-line no-unused-vars
   const { comment, comments } = useSelector(
     (state: any) => state.comment,
     shallowEqual,
