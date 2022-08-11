@@ -64,4 +64,6 @@ const addNewCategory = async (category: CategoryParams) => {
   return data;
 };
 
+export const getUsers = async () => axios.get(`${urlBase}users`);
+
 export default addNewCategory;
