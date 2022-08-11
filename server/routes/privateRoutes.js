@@ -54,6 +54,15 @@ router.post(
       // check for req.file to see if image exists
       console.log('body', req.body);
       console.log('file:', req.file);
+      if (
+        !req.body.username ||
+        !req.body.title ||
+        !req.body.date ||
+        !req.body.profilepicture
+      ) {
+        console.log('invalid request');
+        return res.status(400).json('send a valid request');
+      }
       if (typeof req.file === 'undefined') {
         const postData = new Post({
           username: req.body.username.toLowerCase(),
@@ -82,7 +91,7 @@ router.post(
         };
 
         // uploading the photo using s3 instance and saving the link in the database
-        s3.upload(params, (error, data) => {
+        s3.upload(params, async (error, data) => {
           if (error) {
             console.log(error);
             return res.status(400).json({ error });
@@ -97,7 +106,7 @@ router.post(
             date: req.body.date,
             profilepicture: req.body.profilepicture,
           });
-          const post = postData.save();
+          const post = await postData.save();
           console.log('New Post created in database');
           return res.status(200).json(post);
         });
@@ -106,6 +115,7 @@ router.post(
       console.log(err.message);
       res.status(400).json(err.message);
     }
+    return true;
   },
 );
 
@@ -221,6 +231,19 @@ router.delete('/categories/:id', checkAuth, async (req, res) => {
 // upload webcam image route
 router.post('/image', checkAuth, async (req, res) => {
   try {
+    if (
+      !req.body.username ||
+      !req.body.title ||
+      !req.body.date ||
+      !req.body.profilepicture
+    ) {
+      console.log('invalid request');
+      return res.status(400).json('send a valid request');
+    }
+    if (!req.body.image) {
+      console.log('invalid photo option');
+      return res.status(400).json('please upload valid image');
+    }
     // use Buffer to convert text to base64 to upload to AWS
     const buf = Buffer.from(
       req.body.image.replace(/^data:image\/\w+;base64,/, ''),
@@ -234,7 +257,7 @@ router.post('/image', checkAuth, async (req, res) => {
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg',
     };
-    s3.upload(params, (error, data) => {
+    s3.upload(params, async (error, data) => {
       if (error) {
         console.log(error);
         return res.status(400).json({ error });
@@ -249,7 +272,7 @@ router.post('/image', checkAuth, async (req, res) => {
         date: req.body.date,
         profilepicture: req.body.profilepicture,
       });
-      const post = postData.save();
+      const post = await postData.save();
       console.log('New Post created in database');
       return res.status(200).json(post);
     });

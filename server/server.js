@@ -95,6 +95,10 @@ io.on('connection', (socket) => {
       }
     } catch (err) {
       console.log(err.message);
+      socket.emit('not_found', {
+        error: err.message,
+        message: 'post has been deleted, comment will not be sent',
+      });
     }
   });
 
