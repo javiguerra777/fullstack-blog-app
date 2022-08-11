@@ -39,20 +39,17 @@ const socket = io('http://localhost:5500');
 function Post() {
   const { id } = useParams<string>();
   const dispatch = useDispatch();
-  const { username, image: profilepicture } = useSelector(
-    (state: any) => state.user,
-    shallowEqual,
-  );
+  const {
+    username,
+    image: profilepicture,
+    loading: commentLoading,
+  } = useSelector((state: any) => state.user, shallowEqual);
   const { post, loading } = useSelector(
     (state: any) => state.post,
     shallowEqual,
   );
   const { comment, comments } = useSelector(
     (state: any) => state.comment,
-    shallowEqual,
-  );
-  const commentLoading = useSelector(
-    (state: any) => state.comment.loading,
     shallowEqual,
   );
   const [message, setMessage] = useState('');
@@ -75,8 +72,16 @@ function Post() {
     });
     // clears the comment form on render of page
     dispatch(changeComment(''));
+    /* checks if the user closes the browser and
+     then disconnects them from the server and any rooms they are in */
+    const handleTabClose = () => {
+      // e.preventDefault();
+      socket.disconnect();
+    };
+    window.addEventListener('beforeunload', handleTabClose);
     // cleanup so that when the user leaves the page they leave the specific room on unmount
     return () => {
+      window.removeEventListener('beforeunload', handleTabClose);
       socket.emit('unsubscribe', id);
     };
   }, [id, username, dispatch]);

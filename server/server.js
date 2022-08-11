@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
         });
 
         const comments = await Comment.find({
-          postId: pUser.room,
+          postId: data.postId,
         });
         // console.log('Comments:', comments);
 
@@ -103,7 +103,14 @@ io.on('connection', (socket) => {
     // the user is deleted from the array of users
     socket.leave(room);
     const pUser = await userDisconnect(socket.id);
-    console.log('user disconnected from room', pUser);
+    console.log('user', pUser, `disconnected from room ${room}`);
+  });
+  // when the user disconnects from the server
+  socket.on('disconnect', async (room) => {
+    // the user is deleted from the array of users
+    socket.leave(room);
+    const pUser = await userDisconnect(socket.id);
+    console.log('user', pUser, `disconnected from the server`);
   });
 });
 
