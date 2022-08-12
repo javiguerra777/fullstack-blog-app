@@ -24,7 +24,8 @@ router.post('/signup', async (req, res) => {
           user = await data.save();
           console.log(user);
         } catch (err) {
-          console.log(err.message);
+          console.log('repeat user:', err.message);
+          throw Error(err.message);
         }
       });
     const encodedUser = jwt.sign(
