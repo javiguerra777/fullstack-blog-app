@@ -1,6 +1,7 @@
 const express = require('express');
 const checkAuth = require('../../middleware/middleware');
 const Post = require('../../schema/post');
+const Comment = require('../../schema/comment');
 
 const router = express.Router();
 
@@ -46,7 +47,7 @@ router.put('/likepost/:id', checkAuth, async (req, res) => {
     res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
-    res.status(400).json(err.message);
+    res.status(400).json({ error: err.message });
   }
 });
 // removes like from likes array in mongoDB

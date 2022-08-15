@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { signOut } from '../store/UserSlice';
 import { RootState } from '../store';
 import icon from '../img/plane.png';
-import defaultIcon from '../img/user.png';
 
 const StyledNavbar = styled.nav`
   width: 100%;
@@ -21,6 +20,11 @@ const StyledNavbar = styled.nav`
     border: none;
     cursor: pointer;
     color: white;
+  }
+  .signout {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #da0037;
   }
   a {
     font-size: 1.5rem;
@@ -51,7 +55,7 @@ const StyledNavbar = styled.nav`
 
 function Navbar() {
   const dispatch = useDispatch();
-  const { loggedIn, username } = useSelector(
+  const { loggedIn, username, image } = useSelector(
     (state: RootState) => state.user,
 
     shallowEqual,
@@ -71,7 +75,7 @@ function Navbar() {
       </div>
 
       <div>
-        {!loggedIn && (
+        {loggedIn && (
           <>
             <p>
               Welcome,
@@ -84,7 +88,7 @@ function Navbar() {
             </div>
             <NavLink to="/userInfo">
               <img
-                src={defaultIcon}
+                src={image}
                 className="userIcon"
                 alt="generic user icon"
                 onMouseEnter={() => setIsOpen(true)}
@@ -94,7 +98,11 @@ function Navbar() {
           </>
         )}
         {loggedIn ? (
-          <button type="button" onClick={buttonSignOut}>
+          <button
+            type="button"
+            className="signout"
+            onClick={buttonSignOut}
+          >
             Sign out
           </button>
         ) : (

@@ -8,13 +8,10 @@ type NotificationProps = {
 
 const NotificationWrapper = styled.section`
   background-color: lightgray;
-  position: fixed;
   width: 60vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  bottom: 5em;
-  left: 10em;
   padding: 0 1em 0 1em;
   border-radius: 1em;
 `;

@@ -33,22 +33,9 @@ function Posts() {
     (state: RootState) => state.post,
     shallowEqual,
   );
-  // const { comments } = useSelector(
-  //   (state: RootState) => state.comment,
-  //   shallowEqual,
-  // );
-  // console.log(comments);
-
-  // useEffect(() => {
-  //   posts.forEach((post: any) => {
-  //     // eslint-disable-next-line no-underscore-dangle
-  //     dispatch(getComments(post._id));
-  //   });
-  // }, [dispatch, posts]);
 
   // fixing bug with array sort method
   const postsForSort = [...posts];
-  console.log(postsForSort);
   return (
     <PostsWrapper>
       {postsForSort.length > 0

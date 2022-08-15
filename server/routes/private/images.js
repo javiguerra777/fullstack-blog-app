@@ -5,6 +5,7 @@ const { Buffer } = require('buffer/');
 const checkAuth = require('../../middleware/middleware');
 const User = require('../../schema/user');
 const Post = require('../../schema/post');
+const Comment = require('../../schema/comment');
 
 const router = express.Router();
 

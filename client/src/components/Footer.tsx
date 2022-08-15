@@ -17,11 +17,12 @@ const FooterWrapper = styled.footer`
   bottom: 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 98vw;
   height: 10vh;
-  background-color: white;
+  background: #171717;
+  color: #ededed;
   border-radius: 0.5em;
-  padding: 1em 0.5em 1em 0.5em;
+  padding: 1em 1vw 1em 1vw;
   header {
     display: flex;
     flex-direction: row;
@@ -48,6 +49,7 @@ const FooterWrapper = styled.footer`
       background: none;
       border: none;
       margin-right: 1em;
+      color: #da0037;
     }
   }
 `;

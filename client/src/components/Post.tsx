@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Notification from './Notification';
 import { RootState } from '../store';
 // import logo from '../img/telegram.png';
 import convertUnixToDate, {
@@ -15,6 +16,7 @@ import likeBtn from '../img/like.png';
 import colorLikeBtn from '../img/heartRed.png';
 import commentImg from '../img/sms.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
+import '../styles/notifications.css';
 
 export const StyledPost = styled.section`
   width: 65%;
@@ -98,7 +100,7 @@ export const StyledPost = styled.section`
     top: 11vh;
     margin: 0 auto;
     font-size: 4.5rem;
-    font-weigth: 200;
+    font-weight: 200;
     text-decoration: none;
     color: #ededed;
     &:hover {
@@ -182,6 +184,8 @@ function Post({
   //   `this is the userId: ${userId}`,
   // );
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  // message used for the notifications
+  const [message, setMessage] = useState('');
   // useEffect to determine if a post is liked by a user
   useEffect(() => {
     likes.forEach((like) => {
@@ -195,8 +199,6 @@ function Post({
       dispatch(toggleDisplayPrompt());
       return 'not logged In';
     }
-    // eslint-disable-next-line no-unused-expressions
-    isLiked ? setIsLiked(false) : setIsLiked(true);
     // params sent to the server to update the likes array
     const likeParams = {
       postId: thisPostId,
@@ -205,11 +207,29 @@ function Post({
     };
     // this allows the user to add a like to the likes array in the database
     if (!isLiked) {
-      await addLike(likeParams);
-      return 'sending like';
+      const likeRequest = await addLike(likeParams);
+      /*
+      if the post has been deleted we receive null data
+       and make sure user is unable to change isLiked State in component
+      */
+      if (likeRequest === null) {
+        setMessage('Unable to like the post, error occurred');
+        return 'Unable to like, error occurred';
+      }
+    } else {
+      // this allows a user to remove a like from the likes array in the database
+      const unlikeRequest = await removeLike(likeParams);
+      /*
+      if the post has been deleted we receive null data
+       and make sure user is unable to change isLiked State in component
+      */
+      if (unlikeRequest === null) {
+        setMessage('Unable to unlike the post, error occurred');
+        return 'Unable to unlike, error occurred';
+      }
     }
-    // this allows a user to remove a like from the likes array in the database
-    await removeLike(likeParams);
+    // eslint-disable-next-line no-unused-expressions
+    isLiked ? setIsLiked(false) : setIsLiked(true);
     return 'un-liking comment';
   }
 
@@ -223,7 +243,17 @@ function Post({
     !isOpen ? setIsOpen(true) : setIsOpen(false);
     console.log(isOpen);
   }
+  // function to clear any notifications
+  const clearMessage = () => {
+    setMessage('');
+  };
 
+  // clears message notification after a set time if user has not cleared it already
+  if (message) {
+    setTimeout(() => {
+      setMessage('');
+    }, 5000);
+  }
   return (
     <StyledPost>
       <div className="wrapper">
@@ -313,18 +343,16 @@ function Post({
           )}
         </p>
       </div>
+      {message && (
+        <div className="post-notification">
+          <Notification
+            message={message}
+            clearMessage={clearMessage}
+          />
+        </div>
+      )}
     </StyledPost>
   );
 }
 
 export default Post;
-
-// {currentUser === username ? (
-//   <Link to={`/editPost/${id}`} className="edit">
-//     Edit post
-//   </Link>
-// ) : (
-//   <Link className="edit" to={`/post/${id}`}>
-//     View Post
-//   </Link>
-// )}

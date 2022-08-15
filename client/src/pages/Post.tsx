@@ -15,6 +15,7 @@ import {
   changeComments,
 } from '../store/CommentSlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
+import '../styles/notifications.css';
 
 const PostWrapper = styled.section`
   width: 100vw;
@@ -53,6 +54,7 @@ function Post() {
     comments,
     loading: commentLoading,
   } = useSelector((state: RootState) => state.comment, shallowEqual);
+  // message used for the notifications
   const [message, setMessage] = useState('');
 
   // grab post by id from params
@@ -115,9 +117,16 @@ function Post() {
     dispatch(changeComment(''));
   };
 
+  // used to clear notification message
   const clearMessage = () => {
     setMessage('');
   };
+  // clears message notification after a set time if user has not cleared it already
+  if (message) {
+    setTimeout(() => {
+      setMessage('');
+    }, 5000);
+  }
   return (
     <PostWrapper className="webkit">
       {loading ? <LoadingSpinner /> : <PostDetails post={post} />}
@@ -145,7 +154,12 @@ function Post() {
         </section>
       )}
       {message && (
-        <Notification message={message} clearMessage={clearMessage} />
+        <div className="comment-notification">
+          <Notification
+            message={message}
+            clearMessage={clearMessage}
+          />
+        </div>
       )}
     </PostWrapper>
   );

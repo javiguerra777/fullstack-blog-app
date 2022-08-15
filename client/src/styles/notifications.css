@@ -1,0 +1,10 @@
+.comment-notification {
+  position: fixed;
+  bottom: 5em;
+  left: 10em;
+}
+.post-notification {
+  position: fixed;
+  bottom: 20em;
+  left: 10em;
+}
