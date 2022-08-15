@@ -175,6 +175,7 @@ function Post({
   //   `this is the userId: ${userId}`,
   // );
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  // useEffect to determine if a post is liked by a user
   useEffect(() => {
     likes.forEach((like) => {
       if (uniqueUserId === like) {

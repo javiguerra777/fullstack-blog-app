@@ -75,6 +75,7 @@ export const userSlice = createSlice({
       state.userId = '';
       state.username = '';
       state.image = '';
+      state.id = '';
     },
     toggleDisplayPrompt(state) {
       state.displayLogInPrompt = !state.displayLogInPrompt;

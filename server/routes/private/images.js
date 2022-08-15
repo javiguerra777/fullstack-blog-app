@@ -1,6 +1,6 @@
 const express = require('express');
 const AWS = require('aws-sdk');
-const multer = require('multer');
+const multer = require('multer'); // to help with partial forms and files
 const { Buffer } = require('buffer/');
 const checkAuth = require('../../middleware/middleware');
 const User = require('../../schema/user');
