@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
 // import { AppDispatch } from '../store';
+import { useNavigate, Link } from 'react-router-dom';
+// import { useForm } from 'react-hook-form';
 import { loginUser } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
@@ -25,6 +27,11 @@ export const StyledForm = styled.section`
     align-items: center;
     p {
       font-size: 2.5rem;
+      &.errorMessage {
+        font-size: 1.15rem;
+        margin: 0;
+        color: red;
+      }
     }
     & input {
       width: 100%;
@@ -34,6 +41,9 @@ export const StyledForm = styled.section`
       margin: 1rem;
       border-radius: 5px;
       border: 1px solid #000;
+      &.invalid {
+        border: 2px solid red;
+      }
     }
     button {
       width: 100%;
@@ -65,6 +75,9 @@ function Signin() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  // eslint-disable-next-line prettier/prettier
+  const [formValidation, setFormaValidation] = useState<boolean>(true);
+
   const submitLoginForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const loginAttempt = await dispatch<any>(
@@ -73,8 +86,10 @@ function Signin() {
 
     if (loginAttempt.error) {
       setPassword('');
+      setFormaValidation(false);
     } else {
       navigate('/');
+      setFormaValidation(true);
     }
   };
 
@@ -83,17 +98,25 @@ function Signin() {
       <p>Sign In</p>
       <i className="fa-solid fa-user-astronaut" />
       <form onSubmit={submitLoginForm}>
+        {!formValidation && (
+          <p className="errorMessage">
+            *username or password is invalid
+          </p>
+        )}
         <input
           type="text"
-          placeholder="username"
+          placeholder="@username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          className={!formValidation ? 'invalid' : ''}
         />
+
         <input
           type="password"
-          placeholder="password"
+          placeholder="********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={!formValidation ? 'invalid' : ''}
         />
         <button type="submit">Login</button>
       </form>

@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { signOut } from '../store/UserSlice';
-import icon from '../img/telegram.png';
 import { RootState } from '../store';
+import icon from '../img/plane.png';
+import defaultIcon from '../img/user.png';
 
 const StyledNavbar = styled.nav`
   width: 100%;
-  height: 10vh;
-  background: #e2dcc8;
-  color: #0f3d3e;
+  height: 8vh;
+  background: none;
+  color: #ededed;
   font-weight: 500;
   display: flex;
   justify-content: space-between;
@@ -19,12 +20,12 @@ const StyledNavbar = styled.nav`
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.5rem;
+    color: white;
   }
   a {
     font-size: 1.5rem;
     text-decoration: none;
-    color: #0f3d3e;
+    color: #da0037;
   }
   & div {
     display: flex;
@@ -32,7 +33,13 @@ const StyledNavbar = styled.nav`
     align-items: center;
     padding: 0 4rem;
     &.logo {
-      font-size: 1.5rem;
+      font-size: 3rem;
+      color: #da0037;
+      & img {
+        width: 45px;
+        height: 45px;
+        margin-top: 15px;
+      }
     }
   }
   & img {
@@ -44,13 +51,16 @@ const StyledNavbar = styled.nav`
 
 function Navbar() {
   const dispatch = useDispatch();
-  const { loggedIn } = useSelector(
+  const { loggedIn, username } = useSelector(
     (state: RootState) => state.user,
+
     shallowEqual,
   );
   const buttonSignOut = () => {
     dispatch(signOut());
   };
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  console.log(isOpen);
   return (
     <StyledNavbar>
       <div className="logo">
@@ -59,7 +69,30 @@ function Navbar() {
           <img src={icon} alt="logo of a paper airplane" />
         </NavLink>
       </div>
+
       <div>
+        {!loggedIn && (
+          <>
+            <p>
+              Welcome,
+              {username}
+            </p>
+            <div className="user-menu">
+              <button type="button">View Profile</button>
+              <button type="button">Edit Profile</button>
+              <button type="button">Close</button>
+            </div>
+            <NavLink to="/userInfo">
+              <img
+                src={defaultIcon}
+                className="userIcon"
+                alt="generic user icon"
+                onMouseEnter={() => setIsOpen(true)}
+                onMouseLeave={() => setIsOpen(false)}
+              />
+            </NavLink>
+          </>
+        )}
         {loggedIn ? (
           <button type="button" onClick={buttonSignOut}>
             Sign out

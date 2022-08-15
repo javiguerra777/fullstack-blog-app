@@ -19,9 +19,18 @@ type CommentType = {
 };
 
 const CommentSectionWrapper = styled.section`
-  max-height: auto;
+  height: 40vh;
+  width: 60%;
+  margin: auto;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 1px solid #000;
+  border-top: none;
   .comment {
-    margin-left: 1.5em;
+    width: 60%;
   }
 `;
 function CommentSection({ comments }: CommentProps) {

@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 import styled from 'styled-components';
 import { AppDispatch, RootState } from '../store';
 import PostDetails from '../components/PostDetails';
+// eslint-disable-next-line no-unused-vars
 import CommentSection from '../components/CommentSection';
 import Notification from '../components/Notification';
 import { getPost } from '../store/PostSlice';
@@ -17,10 +18,9 @@ import LoadingSpinner from '../styles/LoadingSpinner';
 
 const PostWrapper = styled.section`
   width: 100vw;
-  height: 85vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
   .form-container {
     position: fixed;
     bottom: 0;

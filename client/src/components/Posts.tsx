@@ -5,9 +5,10 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { RootState } from '../store';
 import Post from './Post';
+// import { getComments } from '../store/CommentSlice';
 
 const PostsWrapper = styled.section`
-  width: 60%;
+  width: 100%;
   margin-left: 3vw;
   overflow-y: scroll;
   padding-bottom: 10vh;
@@ -25,10 +26,24 @@ type PostsType = {
 };
 
 function Posts() {
+  // const dispatch = useDispatch();
   const { posts } = useSelector(
     (state: RootState) => state.post,
     shallowEqual,
   );
+  const { comments } = useSelector(
+    (state: any) => state.comment,
+    shallowEqual,
+  );
+  console.log(comments);
+
+  // useEffect(() => {
+  //   posts.forEach((post: any) => {
+  //     // eslint-disable-next-line no-underscore-dangle
+  //     dispatch(getComments(post._id));
+  //   });
+  // }, [dispatch, posts]);
+
   // fixing bug with array sort method
   const postsForSort = [...posts];
   return (
