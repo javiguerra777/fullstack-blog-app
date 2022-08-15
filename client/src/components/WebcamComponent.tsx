@@ -19,8 +19,21 @@ const CameraWrapper = styled.section`
   height: 100vh;
   width: 100vw;
   .camera-header {
-    width: 100vw;
     background: black;
+    height: 5vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .camera-footer {
+    background: black;
+    height: 5vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 `;
 function WebcamComponent() {
@@ -37,8 +50,16 @@ function WebcamComponent() {
   }, [webcamRef, dispatch, navigate]);
   return (
     <CameraWrapper>
-      <header className="camera-header">
-        <h1>hello world</h1>
+      <header className="camera-header d-flex">
+        <section className="exit-btn-container">
+          <button
+            type="button"
+            className="exit-btn"
+            onClick={() => dispatch(toggleDisplayCamera())}
+          >
+            x
+          </button>
+        </section>
       </header>
       {/* This is the webcam */}
       <Webcam
@@ -49,8 +70,12 @@ function WebcamComponent() {
         width={1280}
         videoConstraints={videoConstraints}
       />
-      <footer className="camera-footer">
-        <button type="button" onClick={capture}>
+      <footer className="camera-footer d-flex">
+        <button
+          type="button"
+          className="capture-btn"
+          onClick={capture}
+        >
           Capture Photo
         </button>
       </footer>
