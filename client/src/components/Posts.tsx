@@ -23,6 +23,8 @@ type PostsType = {
   _id: string;
   image?: string;
   likes?: [];
+  comments: [];
+  profilepicture: string;
 };
 
 function Posts() {
@@ -31,11 +33,11 @@ function Posts() {
     (state: RootState) => state.post,
     shallowEqual,
   );
-  const { comments } = useSelector(
-    (state: any) => state.comment,
-    shallowEqual,
-  );
-  console.log(comments);
+  // const { comments } = useSelector(
+  //   (state: RootState) => state.comment,
+  //   shallowEqual,
+  // );
+  // console.log(comments);
 
   // useEffect(() => {
   //   posts.forEach((post: any) => {
@@ -46,6 +48,7 @@ function Posts() {
 
   // fixing bug with array sort method
   const postsForSort = [...posts];
+  console.log(postsForSort);
   return (
     <PostsWrapper>
       {postsForSort.length > 0
@@ -63,6 +66,8 @@ function Posts() {
               date={post.date}
               image={post.image || ''}
               likes={post.likes || []}
+              comments={post.comments || []}
+              profilepicture={post.profilepicture}
             />
           ))}
     </PostsWrapper>

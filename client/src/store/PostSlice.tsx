@@ -54,11 +54,11 @@ export const addNewPost = createAsyncThunk(
     return data;
   },
 );
-// adds post from the webcam to the database
 
+// adds post from the webcam to the database
 export const addWebCamImage = createAsyncThunk(
   'post/addWebCamImage',
-  async (image: any) => {
+  async (image: Record<string, unknown>) => {
     const { data } = await axios.post(
       `${urlBase}/image`,
       image.post,
@@ -96,7 +96,7 @@ type PostState = {
   content: string;
   post: Record<string, unknown>;
   posts: [];
-  image: any;
+  image: string;
   loading: boolean;
   error: boolean;
 };

@@ -8,19 +8,6 @@ type CategoryParams = {
   date: number;
 };
 
-// type ImageParams = {
-//   userId: string;
-//   post: {
-//     username: string;
-//     title: string;
-//     body: string;
-//     date: number;
-//     profilepicture: string;
-//     category: string;
-//     imageKey: string;
-//   };
-// };
-
 type LikesParams = {
   postId: string;
   userId: string;

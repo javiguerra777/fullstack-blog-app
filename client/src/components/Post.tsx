@@ -15,7 +15,6 @@ import likeBtn from '../img/like.png';
 import colorLikeBtn from '../img/heartRed.png';
 import commentImg from '../img/sms.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
-import defaultIcon from '../img/user.png';
 
 export const StyledPost = styled.section`
   width: 65%;
@@ -24,6 +23,10 @@ export const StyledPost = styled.section`
   border-radius: 5px;
   position: relative;
   margin: 2rem 0;
+  .comments {
+    text-decoration: none;
+    color: white;
+  }
   & .wrapper {
     padding: 5rem;
   }
@@ -149,6 +152,8 @@ type PostProps = {
   date: number;
   image: string;
   likes: [];
+  comments: [];
+  profilepicture: string;
 };
 
 function Post({
@@ -160,6 +165,8 @@ function Post({
   date,
   image,
   likes,
+  comments,
+  profilepicture,
 }: PostProps) {
   // max length for trimming content
   const maxLength = 100;
@@ -222,7 +229,7 @@ function Post({
       <div className="wrapper">
         <div className="user-info">
           <img
-            src={defaultIcon}
+            src={profilepicture}
             className="user-icon"
             alt="default user icon"
           />
@@ -286,6 +293,7 @@ function Post({
             )}
             <Link to={`/post/${id}`} className="comments">
               <img src={commentImg} alt="text message bubble" />
+              {comments.length > 0 ? comments.length : ''}
             </Link>
           </div>
 
