@@ -29,6 +29,9 @@ export const StyledPost = styled.section`
     text-decoration: none;
     color: white;
   }
+  .like-btn {
+    color: white;
+  }
   & .wrapper {
     padding: 5rem;
   }
@@ -153,7 +156,7 @@ type PostProps = {
   category: string;
   date: number;
   image: string;
-  likes: [];
+  likes: string[];
   comments: [];
   profilepicture: string;
 };
@@ -175,7 +178,7 @@ function Post({
   const dispatch = useDispatch();
   const {
     loggedIn,
-    userId, // users jwt
+    userId, // users jwt that is used for authentication purposes in app
     id: uniqueUserId, // users id from the database
     username: currentUser,
   } = useSelector((state: RootState) => state.user, shallowEqual);
@@ -184,6 +187,7 @@ function Post({
   //   `this is the userId: ${userId}`,
   // );
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likesArray, setLikesArray] = useState(likes);
   // message used for the notifications
   const [message, setMessage] = useState('');
   // useEffect to determine if a post is liked by a user
@@ -216,6 +220,11 @@ function Post({
         setMessage('Unable to like the post, error occurred');
         return 'Unable to like, error occurred';
       }
+      /*
+      if the post exists, then username is then
+      added to current likes array to update current count on the UI
+      */
+      setLikesArray((prevArray) => [...prevArray, uniqueUserId]);
     } else {
       // this allows a user to remove a like from the likes array in the database
       const unlikeRequest = await removeLike(likeParams);
@@ -227,6 +236,14 @@ function Post({
         setMessage('Unable to unlike the post, error occurred');
         return 'Unable to unlike, error occurred';
       }
+      /*
+      If the post exists, then the array
+      is updated to remove the current users id from the array
+      this updates the likes array on the UI
+       */
+      // eslint-disable-next-line prettier/prettier
+      const updatedArray = likesArray.filter((like) => like !== uniqueUserId);
+      setLikesArray(updatedArray);
     }
     // eslint-disable-next-line no-unused-expressions
     isLiked ? setIsLiked(false) : setIsLiked(true);
@@ -311,6 +328,7 @@ function Post({
                 onClick={() => handleLikes(id)}
               >
                 <img src={colorLikeBtn} alt="heart" />
+                {likesArray.length > 0 ? likesArray.length : ''}
               </button>
             ) : (
               <button
@@ -319,6 +337,7 @@ function Post({
                 onClick={() => handleLikes(id)}
               >
                 <img src={likeBtn} alt="heart filled red" />
+                {likesArray.length > 0 ? likesArray.length : ''}
               </button>
             )}
             <Link to={`/post/${id}`} className="comments">

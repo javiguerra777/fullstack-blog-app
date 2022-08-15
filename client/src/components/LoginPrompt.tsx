@@ -20,28 +20,36 @@ const LoginPromptWrapper = styled.main`
     flex-direction: column;
     position: relative;
     top: 10vh;
-    background-color: white;
+    background: #171717;
+    color: #ededed;
     width: 75vw;
     align-self: center;
-    padding-bottom: 3vh;
-    header {
+    padding: 0em 1em 1.5em 1em;
+    .main-header {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
       width: 100%;
-      button {
-        background: none;
-        border: none;
-        height: auto;
+      .btn-container {
+        .btn-exit {
+          background: #171717;
+          color: #ededed;
+          border: none;
+        }
       }
     }
-    section {
+    .section-container {
       align-items: center;
       display: flex;
       flex-direction: column;
-      button {
+      .btn-link {
+        color: #ededed;
         background: none;
         border: none;
+      }
+      .btn-link:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -60,23 +68,40 @@ function LoginPrompt() {
   return (
     <LoginPromptWrapper>
       <section className="main-content">
-        <header>
-          <h1>You must be logged in to like posts</h1>
-          <button type="button" onClick={hidePrompt}>
-            x
-          </button>
+        <header className="main-header">
+          <p />
+          <section className="h1-container">
+            <h1>You must be logged in to like posts</h1>
+          </section>
+          <section className="btn-container">
+            <button
+              className="btn-exit"
+              type="button"
+              onClick={hidePrompt}
+            >
+              x
+            </button>
+          </section>
         </header>
-        <section>
+        <section className="section-container">
           <p>Click here to log in to your account</p>
-          <button type="button" onClick={() => changePage('signin')}>
+          <button
+            type="button"
+            className="btn-link"
+            onClick={() => changePage('signin')}
+          >
             Click here to sign in
           </button>
         </section>
-        <section>
+        <section className="section-container">
           <p>
             If you do not have an account you can sign up for one here
           </p>
-          <button type="button" onClick={() => changePage('signup')}>
+          <button
+            className="btn-link"
+            type="button"
+            onClick={() => changePage('signup')}
+          >
             Click here to sign up for account
           </button>
         </section>

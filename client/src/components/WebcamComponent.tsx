@@ -18,6 +18,10 @@ const CameraWrapper = styled.section`
   background: white;
   height: 100vh;
   width: 100vw;
+  .camera-header {
+    width: 100vw;
+    background: black;
+  }
 `;
 function WebcamComponent() {
   const dispatch = useDispatch();
@@ -33,18 +37,23 @@ function WebcamComponent() {
   }, [webcamRef, dispatch, navigate]);
   return (
     <CameraWrapper>
+      <header className="camera-header">
+        <h1>hello world</h1>
+      </header>
       {/* This is the webcam */}
       <Webcam
         audio={false}
-        height={720}
+        height={600}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         width={1280}
         videoConstraints={videoConstraints}
       />
-      <button type="button" onClick={capture}>
-        Capture Photo
-      </button>
+      <footer className="camera-footer">
+        <button type="button" onClick={capture}>
+          Capture Photo
+        </button>
+      </footer>
     </CameraWrapper>
   );
 }
