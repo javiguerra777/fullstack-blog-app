@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {
   AiOutlineCamera,
-  AiOutlineVideoCamera,
-  AiOutlineGif,
+  // AiOutlineVideoCamera,
+  // AiOutlineGif,
 } from 'react-icons/ai';
 import { BsFileEarmarkPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
@@ -85,9 +85,9 @@ function Footer() {
         >
           <AiOutlineCamera />
         </button>
-        <button type="button" aria-label="Videos">
+        {/* <button type="button" aria-label="Videos">
           <AiOutlineVideoCamera />
-        </button>
+        </button> */}
         <button
           type="button"
           aria-label="Add New Post"
@@ -95,9 +95,9 @@ function Footer() {
         >
           <BsFileEarmarkPlus />
         </button>
-        <button type="button" aria-label="Add Gif">
+        {/* <button type="button" aria-label="Add Gif">
           <AiOutlineGif />
-        </button>
+        </button> */}
       </main>
     </FooterWrapper>
   );

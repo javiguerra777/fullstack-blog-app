@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { RootState } from '../store';
 
 const UserInfoWrapper = styled.main`
-  heigh: 92vh;
+  height: 92vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -16,6 +16,13 @@ const UserInfoWrapper = styled.main`
     width: 50%;
     height: 50vh;
   }
+  .update-form {
+    display: flex;
+    flex-direction: column;
+    button {
+      margin-left: 2em;
+      width: 15em;
+    }
   .update-info {
     display: flex;
     flex-direction: column;
@@ -57,7 +64,7 @@ function UserInfo() {
   return (
     <UserInfoWrapper>
       {/* Update username form */}
-      <form onSubmit={changeUsername}>
+      <form onSubmit={changeUsername} className="update-form">
         <label htmlFor="username" className="update-info">
           <p>
             Current Username:
@@ -68,17 +75,16 @@ function UserInfo() {
         </label>
         <button type="submit" disabled={newUserName === ''}>Change Username</button>
       </form>
-      <form onSubmit={changePassword}>
+      <form onSubmit={changePassword} className="update-form">
         {/* Update password form */}
         <label htmlFor="password" className="update-info">
           <p>Enter New Password</p>
-          <input type="password" placeholder="change password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+          <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
         </label>
         <button type="submit" disabled={newPassword === ''}>Change Password</button>
       </form>
       {/* Update profile picture form */}
-      <form onSubmit={changeProfilePicture}>
-
+      <form onSubmit={changeProfilePicture} className="update-form">
         <label htmlFor="profilePicture" className="update-info">
           <p>Current Profile Picture</p>
           <img className="profile-img" src={image} alt="user profile pic" />

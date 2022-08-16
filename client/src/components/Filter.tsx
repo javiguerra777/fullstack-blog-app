@@ -8,7 +8,7 @@ import { RootState, AppDispatch } from '../store';
 
 const StyledFilter = styled.section`
   height: 150px;
-  width: 25%;
+  width: 25vw;
   margin: 2rem;
   border-radius: 5px;
   display: flex;
@@ -37,6 +37,18 @@ const StyledFilter = styled.section`
     color: #ededed;
     font-size: 1.1rem;
     cursor: pointer;
+  }
+  @media (max-width: 800px) {
+    width: 15vw;
+    font-size: 1rem;
+    select {
+      width: 180px;
+      margin-left: 2em;
+    }
+    button {
+      width: 180px;
+      margin-left: 2em;
+    }
   }
 `;
 

@@ -13,6 +13,7 @@ const StyledNavbar = styled.nav`
   color: #ededed;
   font-weight: 500;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   button {
@@ -50,6 +51,14 @@ const StyledNavbar = styled.nav`
     width: 25px;
     height: 25px;
     margin: 0 1rem;
+  }
+  @media (max-width: 800px) {
+    height: 8vh;
+    max-height: 8vh;
+    font-weight: 400;
+    div {
+      padding: 0;
+    }
   }
 `;
 

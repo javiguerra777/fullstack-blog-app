@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { RootState } from '../store';
 import Post from './Post';
-// import { getComments } from '../store/CommentSlice';
 
 const PostsWrapper = styled.section`
   width: 100%;
@@ -28,7 +27,6 @@ type PostsType = {
 };
 
 function Posts() {
-  // const dispatch = useDispatch();
   const { posts } = useSelector(
     (state: RootState) => state.post,
     shallowEqual,
