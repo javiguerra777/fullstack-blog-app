@@ -9,6 +9,7 @@ import Signin from './pages/Signin';
 import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
+import UserInfo from './components/UserInfo';
 import NotFound from './pages/NotFound';
 import { RootState } from './store';
 
@@ -66,6 +67,14 @@ function App() {
           element={
             <ProtectedRoute loggedin={loggedIn}>
               <WebCamUpload />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="userInfo"
+          element={
+            <ProtectedRoute loggedin={loggedIn}>
+              <UserInfo />
             </ProtectedRoute>
           }
         />
