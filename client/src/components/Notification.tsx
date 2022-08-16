@@ -8,20 +8,33 @@ type NotificationProps = {
 
 const NotificationWrapper = styled.section`
   background-color: lightgray;
+  color: black;
   width: 60vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 0 1em 0 1em;
   border-radius: 1em;
+  .clear-notification {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 `;
 function Notification({ message, clearMessage }: NotificationProps) {
   return (
     <NotificationWrapper>
       <p>{message}</p>
-      <button type="button" onClick={clearMessage}>
-        X
-      </button>
+      <section className="clear-notification-btn">
+        <button
+          type="button"
+          className="clear-notification"
+          onClick={clearMessage}
+        >
+          x
+        </button>
+      </section>
     </NotificationWrapper>
   );
 }
