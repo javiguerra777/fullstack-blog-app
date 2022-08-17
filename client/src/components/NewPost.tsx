@@ -21,6 +21,10 @@ const StyledNewPost = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .preview-img {
+    width: 50px;
+    height: 50px;
+  }
   & p {
     font-size: 2.75rem;
   }
@@ -90,6 +94,7 @@ function NewPost() {
 
   // states used in component
   const [image, setImage] = useState({});
+  const [previewImage, setPreviewImage] = useState('');
   const [category, setCategory] = useState<string>();
 
   // useEffect to clear Title and Content on render of the page and on unmount of page
@@ -105,8 +110,13 @@ function NewPost() {
   }, [dispatch]);
   // function to handle image change
   const changeImage = (e: ChangeEvent<HTMLInputElement>) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setImage(e.target!.files![0]);
+    if (!e.target.files || e.target.files.length === 0) {
+      console.error('Select a file');
+      setPreviewImage('');
+      return;
+    }
+    setImage(e.target.files[0]);
+    setPreviewImage(URL.createObjectURL(e.target.files[0]));
   };
   // handle category change
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
@@ -178,6 +188,7 @@ function NewPost() {
             data-testid="file-input"
           />
         </div>
+        {previewImage && <img className="preview-img" src={previewImage} alt="file-img" />}
         <button type="submit" disabled={invalidateInputs()}>Post</button>
       </form>
     </StyledNewPost>

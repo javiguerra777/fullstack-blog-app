@@ -11,6 +11,10 @@ const UserInfoWrapper = styled.main`
   width: 100vw;
   display: flex;
   flex-direction: column;
+  .prev-img {
+    height: 50px;
+    width: 50px;
+  }
   .profile-img {
     align-self: center;
     width: 50%;
@@ -40,11 +44,17 @@ function UserInfo() {
   const [newUserName, setNewUserName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newProfilePicture, setNewProfilePicture] = useState({});
+  const [previewPicture, setPreviewPicture] = useState('');
   const [disabled, setDisabled] = useState(true);
   // allows user to change files which updates profile picture state
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setNewProfilePicture(e.target!.files![0]);
+    if (!e.target.files || e.target.files.length === 0) {
+      setPreviewPicture('');
+      setDisabled(true);
+      return;
+    }
+    setNewProfilePicture(e.target.files[0]);
+    setPreviewPicture(URL.createObjectURL(e.target.files[0]));
     setDisabled(false);
   };
   const changeUsername = (e: FormEvent<HTMLFormElement>) => {
@@ -59,6 +69,7 @@ function UserInfo() {
     e.preventDefault();
     console.log(newProfilePicture);
     setNewProfilePicture({});
+    setPreviewPicture('');
     setDisabled(true);
   };
   return (
@@ -91,6 +102,7 @@ function UserInfo() {
           <p>Upload New Profile Picture</p>
           <input type="file" onChange={handleImageChange} />
         </label>
+        {previewPicture && <img className="prev-img" src={previewPicture} alt="prev-img" />}
         <button type="submit" disabled={disabled}> Change Profile Picture</button>
       </form>
     </UserInfoWrapper>
