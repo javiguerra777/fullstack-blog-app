@@ -91,6 +91,22 @@ export const editPost = createAsyncThunk(
   },
 );
 
+// delete post in the database
+export const deletePost = createAsyncThunk(
+  'post/deletePost',
+  async ({ id, userId }: DeletePostParams) => {
+    const { data } = await axios.delete(`${urlBase}posts/${id}`, {
+      headers: { Authorization: `Bearer ${userId}` },
+    });
+    return data;
+  },
+);
+
+type DeletePostParams = {
+  id: string;
+  userId: string;
+};
+
 type PostState = {
   title: string;
   content: string;
@@ -123,6 +139,9 @@ export const postSlice = createSlice({
     setCurrentImage(state, { payload }) {
       state.image = payload;
     },
+    updateFilteredPosts(state, { payload }) {
+      state.posts = payload;
+    },
   },
   // extra reducers
   extraReducers: (builder) => {
@@ -146,6 +165,7 @@ export const postSlice = createSlice({
     });
     builder.addCase(getPost.fulfilled, (state, { payload }) => {
       state.loading = false;
+      state.error = false;
       state.post = payload;
       state.title = payload.title;
       state.content = payload.body;
@@ -163,6 +183,7 @@ export const postSlice = createSlice({
       getPostByCategory.fulfilled,
       (state, { payload }) => {
         state.loading = false;
+        state.error = false;
         state.posts = payload;
       },
     );
@@ -177,6 +198,7 @@ export const postSlice = createSlice({
     });
     builder.addCase(addNewPost.fulfilled, (state) => {
       state.loading = false;
+      state.error = false;
       state.title = '';
       state.content = '';
     });
@@ -191,6 +213,7 @@ export const postSlice = createSlice({
     });
     builder.addCase(addWebCamImage.fulfilled, (state) => {
       state.loading = false;
+      state.error = false;
       state.title = '';
       state.content = '';
     });
@@ -205,6 +228,7 @@ export const postSlice = createSlice({
     });
     builder.addCase(editPost.fulfilled, (state) => {
       state.loading = false;
+      state.error = false;
       state.title = '';
       state.content = '';
     });
@@ -212,11 +236,29 @@ export const postSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
+    // deletePost cases
+    builder.addCase(deletePost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(deletePost.fulfilled, (state) => {
+      state.loading = false;
+      state.title = '';
+      state.content = '';
+    });
+    builder.addCase(deletePost.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
   },
 });
 
 // eslint-disable-next-line operator-linebreak
-export const { setCurrentTitle, setCurrentContent, setCurrentImage } =
-  postSlice.actions;
+export const {
+  setCurrentTitle,
+  setCurrentContent,
+  setCurrentImage,
+  updateFilteredPosts,
+} = postSlice.actions;
 
 export default postSlice.reducer;

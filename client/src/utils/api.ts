@@ -47,7 +47,7 @@ export const removeLike = async (unlike: LikesParams) => {
 };
 
 const addNewCategory = async (category: CategoryParams) => {
-  const data = axios.post(`${urlBase}categories`, category);
+  const { data } = await axios.post(`${urlBase}categories`, category);
   return data;
 };
 

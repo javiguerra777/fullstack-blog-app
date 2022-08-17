@@ -36,6 +36,7 @@ export const categorySlice = createSlice({
       getAllCategories.fulfilled,
       (state, { payload }) => {
         state.loading = false;
+        state.error = false;
         state.categories = payload;
       },
     );
@@ -45,12 +46,5 @@ export const categorySlice = createSlice({
     });
   },
 });
-
-// export const {
-//   setCurrentId,
-//   setCurrentUsername,
-//   setCurrentTitle,
-//   setCurrentContent,
-// } = categorySlice.actions;
 
 export default categorySlice.reducer;
