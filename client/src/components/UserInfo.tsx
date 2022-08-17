@@ -2,8 +2,9 @@
 import React, {
   useState, ChangeEvent, FormEvent,
 } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { updateUsername, updatePassword, updateProfilePicture } from '../store/UserSlice';
 import { RootState } from '../store';
 
 const UserInfoWrapper = styled.main`
@@ -40,7 +41,10 @@ const UserInfoWrapper = styled.main`
   }
 `;
 function UserInfo() {
-  const { username, image } = useSelector((state: RootState) => state.user, shallowEqual);
+  const dispatch = useDispatch();
+  const {
+    username, image, userId, id,
+  } = useSelector((state: RootState) => state.user, shallowEqual);
   const [newUserName, setNewUserName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newProfilePicture, setNewProfilePicture] = useState({});
@@ -57,17 +61,51 @@ function UserInfo() {
     setPreviewPicture(URL.createObjectURL(e.target.files[0]));
     setDisabled(false);
   };
-  const changeUsername = (e: FormEvent<HTMLFormElement>) => {
+  const changeUsername = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const userNameRequest = {
+      userId,
+      body: {
+        id,
+        username,
+        newusername: newUserName.toLowerCase(),
+      },
+    };
+    const response = await dispatch<any>(updateUsername(userNameRequest));
+    if (response.error) {
+      return;
+    }
     setNewUserName('');
   };
-  const changePassword = (e: FormEvent<HTMLFormElement>) => {
+  const changePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const passwordRequest = {
+      userId,
+      body: {
+        id,
+        password: newPassword,
+      },
+    };
+    const request = await dispatch<any>(updatePassword(passwordRequest));
+    if (request.error) {
+      return;
+    }
     setNewPassword('');
   };
-  const changeProfilePicture = (e:FormEvent<HTMLFormElement>) => {
+  const changeProfilePicture = async (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(newProfilePicture);
+    const pictureRequest = {
+      userId,
+      body: {
+        image: newProfilePicture,
+        id,
+        username,
+      },
+    };
+    const response = await dispatch<any>(updateProfilePicture(pictureRequest));
+    if (response.error) {
+      return;
+    }
     setNewProfilePicture({});
     setPreviewPicture('');
     setDisabled(true);

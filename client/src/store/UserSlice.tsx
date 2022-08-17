@@ -28,6 +28,74 @@ export const signUpUser = createAsyncThunk(
     return data;
   },
 );
+export const updateUsername = createAsyncThunk(
+  'user/updateUserName',
+  async (request: UpdateUserParams) => {
+    const { data } = await axios.put(
+      `${urlBase}updateusername`,
+      request.body,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${request.userId}`,
+        },
+      },
+    );
+    return data;
+  },
+);
+
+export const updatePassword = createAsyncThunk(
+  'user/updatePassword',
+  async (request: UpdatePasswordParams) => {
+    const { data } = await axios.put(
+      `${urlBase}updatepassword`,
+      request.body,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${request.userId}`,
+        },
+      },
+    );
+    return data;
+  },
+);
+
+export const updateProfilePicture = createAsyncThunk(
+  'user/updateProfilePicture',
+  async (request: Record<string, unknown>) => {
+    const { data } = await axios.put(
+      `${urlBase}updateprofilepicture`,
+      request.body,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${request.userId}`,
+        },
+      },
+    );
+    return data;
+  },
+);
+
+type UpdateUserParams = {
+  userId: string;
+  body: {
+    id: string;
+    username: string;
+    newusername: string;
+  };
+};
+
+type UpdatePasswordParams = {
+  userId: string;
+  body: {
+    id: string;
+    password: string;
+  };
+};
+
 type RequestParams = {
   username: string;
   password: string;
@@ -121,6 +189,58 @@ export const userSlice = createSlice({
     builder.addCase(signUpUser.rejected, (state) => {
       state.loading = false;
       state.error = true;
+    });
+    // updating username
+    builder.addCase(updateUsername.pending, (state) => {
+      state.error = false;
+      state.loading = true;
+    });
+    builder.addCase(
+      updateUsername.fulfilled,
+      (state, { payload: { token, username } }) => {
+        state.userId = token;
+        state.username = username;
+        state.error = false;
+        state.loading = false;
+      },
+    );
+    builder.addCase(updateUsername.rejected, (state) => {
+      state.error = true;
+      state.loading = false;
+    });
+    // update password
+    builder.addCase(updatePassword.pending, (state) => {
+      state.error = false;
+      state.loading = true;
+    });
+    builder.addCase(
+      updatePassword.fulfilled,
+      (state, { payload: { token } }) => {
+        state.userId = token;
+        state.error = false;
+        state.loading = false;
+      },
+    );
+    builder.addCase(updatePassword.rejected, (state) => {
+      state.error = true;
+      state.loading = false;
+    });
+    // update profile picture
+    builder.addCase(updateProfilePicture.pending, (state) => {
+      state.error = false;
+      state.loading = true;
+    });
+    builder.addCase(
+      updateProfilePicture.fulfilled,
+      (state, { payload: { profilepicture } }) => {
+        state.image = profilepicture;
+        state.error = false;
+        state.loading = false;
+      },
+    );
+    builder.addCase(updateProfilePicture.rejected, (state) => {
+      state.error = true;
+      state.loading = false;
     });
   },
 });
