@@ -53,4 +53,9 @@ const addNewCategory = async (category: CategoryParams) => {
 
 export const getUsers = async () => axios.get(`${urlBase}users`);
 
+export const validateEmailOnServer = async (
+  request: Record<string, unknown>,
+) => {
+  await axios.post(`${urlBase}user`, request);
+};
 export default addNewCategory;
