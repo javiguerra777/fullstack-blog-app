@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
+  const navigate = useNavigate();
   const [pwdForm, setPwdForm] = useState(false);
   const confirmId = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -8,6 +10,7 @@ function ResetPassword() {
   };
   const submitNewPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    navigate('/signin');
   };
   return (
     <div>
