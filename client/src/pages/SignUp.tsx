@@ -10,6 +10,7 @@ function SignUp() {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState('');
   const [users, setUsers] = useState([]);
   let disabled = false;
   let repeatUser = false;
@@ -21,6 +22,7 @@ function SignUp() {
     const signUpInfo = {
       username,
       password,
+      email,
       date: Date.now(),
     };
     const results = await dispatch<any>(signUpUser(signUpInfo));
@@ -45,6 +47,12 @@ function SignUp() {
       <h1>Sign Up</h1>
       <i className="fa-solid fa-user-plus" />
       <form onSubmit={signup}>
+        <input
+          type="email"
+          placeholder="example@gmail.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <input
           type="text"
           placeholder="@username"
