@@ -104,6 +104,7 @@ type RequestParams = {
 type SignUpParams = {
   username: string;
   password: string;
+  email: string;
   date: number;
 };
 
@@ -117,6 +118,7 @@ type UserState = {
   displayLogInPrompt: boolean;
   displayCamera: boolean;
   id: string;
+  email: string;
 };
 
 const initialState = {
@@ -129,6 +131,7 @@ const initialState = {
   displayLogInPrompt: false,
   displayCamera: false,
   id: '',
+  email: '',
 } as UserState;
 
 export const userSlice = createSlice({
@@ -162,7 +165,7 @@ export const userSlice = createSlice({
       loginUser.fulfilled,
       (
         state,
-        { payload: { token, username, profileImage, userid } },
+        { payload: { token, username, profileImage, userId, email } },
       ) => {
         state.userId = token;
         state.username = username;
@@ -170,7 +173,8 @@ export const userSlice = createSlice({
         state.loggedIn = true;
         state.error = false;
         state.loading = false;
-        state.id = userid;
+        state.id = userId;
+        state.email = email;
       },
     );
     builder.addCase(loginUser.rejected, (state) => {
