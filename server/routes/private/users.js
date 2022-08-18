@@ -43,7 +43,13 @@ router.put('/updateusername', checkAuth, async (req, res) => {
       username: user.username,
     };
     // send a new JWT to the user if the user is able to successfully change their username
-    const updatedEncodedUser = jwt.sign(payload, process.env.JWT_KEY);
+    const updatedEncodedUser = jwt.sign(
+      payload,
+      process.env.JWT_KEY,
+      {
+        expiresIn: '24h', // 24 hours
+      },
+    );
     return res.status(200).json({
       token: updatedEncodedUser,
       username: user.username,
@@ -78,6 +84,9 @@ router.put('/updatepassword', checkAuth, async (req, res) => {
         username: user.username,
       },
       process.env.JWT_KEY,
+      {
+        expiresIn: '24h', // 24 hours
+      },
     );
     res.status(200).json({ token: updatedEncodedUser });
   } catch (err) {
@@ -103,13 +112,54 @@ router.put('/updateEmail', checkAuth, async (req, res) => {
       username: user.username,
     };
     // send a new JWT to the user if the user is able to successfully change their email
-    const updatedEncodedUser = jwt.sign(payload, process.env.JWT_KEY);
+    const updatedEncodedUser = jwt.sign(
+      payload,
+      process.env.JWT_KEY,
+      {
+        expiresIn: '24h', // 24 hours
+      },
+    );
     res.status(200).json({
       token: updatedEncodedUser,
       email: user.email,
     });
   } catch (err) {
     console.log(err);
+    res.status(400).json(err.message);
+  }
+});
+
+router.get('/validateUser', checkAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      throw Error('Invalid Authorization');
+    }
+    console.log('Users credentials are valid');
+    res.status(200).json('Valid user');
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
+router.put('/resetPassword', checkAuth, async (req, res) => {
+  try {
+    await bcrypt
+      .hash(req.body.password, saltRounds)
+      .then(async (hash) => {
+        try {
+          await User.findByIdAndUpdate(req.user.userId, {
+            password: hash,
+          });
+        } catch (err) {
+          console.log(err.message);
+        }
+      });
+    console.log('User was able to successfully reset their password');
+    res.status(200).json('Password updated successfully');
+  } catch (err) {
+    console.log(err.message);
     res.status(400).json(err.message);
   }
 });
