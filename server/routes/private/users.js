@@ -20,7 +20,7 @@ router.put('/updateusername', checkAuth, async (req, res) => {
       username: req.body.newusername.toLowerCase(),
     });
     // find updated user based off id
-    const [user] = await User.findById(req.body.id);
+    const user = await User.findById(req.body.id);
     if (!user) {
       console.log('user does not exist');
       return res.status(404).json({ error: 'user not found' });
@@ -67,7 +67,7 @@ router.put('/updatepassword', checkAuth, async (req, res) => {
           console.log(err.message);
         }
       });
-    const [user] = await User.findById(req.body.id);
+    const user = await User.findById(req.body.id);
     if (!user) {
       throw Error('User does not exist');
     }
