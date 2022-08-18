@@ -9,7 +9,7 @@ import { BsFileEarmarkPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { toggleDisplayCamera } from '../store/UserSlice';
-import defaultImage from '../img/default_user_image.png';
+import defaultImage from '../img/user.png';
 import { RootState } from '../store';
 
 const FooterWrapper = styled.footer`
@@ -32,7 +32,7 @@ const FooterWrapper = styled.footer`
       width: 3em;
       cursor: pointer;
       border-radius: 10em;
-      margin-right: 0.5em;
+      margin: 0.5rem;
     }
     textarea {
       resize: none;
@@ -40,6 +40,8 @@ const FooterWrapper = styled.footer`
       cursor: pointer;
       border: none;
       background: none;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
     }
   }
   main {

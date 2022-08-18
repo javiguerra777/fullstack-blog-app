@@ -319,9 +319,11 @@ function Post({
           <img
             src={profilepicture}
             className="user-icon"
-            alt="default user icon"
+            alt="user icon"
           />
-          <p className="username">@{username}</p>{' '}
+          <p className="username" id="username">
+            @{username}
+          </p>{' '}
           <small>
             <i className="fa-solid fa-circle" />
           </small>
@@ -354,7 +356,7 @@ function Post({
             <i className="fa-solid fa-ellipsis-vertical" />
           </div>
         )}
-        <Link to={`/post/${id}`} className="title">
+        <Link to={`/post/${id}`} className="title" id="title">
           {title}
         </Link>
         {image && (

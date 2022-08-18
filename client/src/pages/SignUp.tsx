@@ -42,7 +42,7 @@ function SignUp() {
   return (
     <StyledForm>
       {repeatUser && <h1>Username exists already</h1>}
-      <h1>Sign Up</h1>
+      <p>Sign Up</p>
       <i className="fa-solid fa-user-plus" />
       <form onSubmit={signup}>
         <input

@@ -3,27 +3,32 @@ import styled from 'styled-components';
 import '../index.css';
 
 const PostDetailsWrapper = styled.section`
-  height: 60vh;
-  width: 60%;
-  border: 1px solid #000;
+  height: 70vh;
+  width: 50%;
   border-top: none;
+  background: #444444;
   overflow-y: scroll;
-  margin: auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  & username {
+  border-radius: 5px 5px 0 0;
+  & p {
+    width: 85%;
+    font-size: 1.1rem;
+  }
+  & .username {
     position: absolute;
     top: 0;
     left: 0;
     font-weight: 400;
-    margin: 2rem;
+    margin: 1rem;
   }
   & .post-image {
-    height: 55%;
-    width: 30%;
+    height: 65%;
+    width: 85%;
   }
 `;
 function PostDetails({ post }: any) {

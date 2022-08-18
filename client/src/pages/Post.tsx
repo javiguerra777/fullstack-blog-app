@@ -23,11 +23,11 @@ const PostWrapper = styled.section`
   display: flex;
   flex-direction: column;
   .form-container {
-    position: fixed;
-    bottom: 0;
-    height: 5vh;
-    width: 100%;
-    background-color: black;
+    height: 10vh;
+    width: 50%;
+    background: #444444;
+    display: flex;
+    justify-content: center;
   }
   img {
     height: 50px;
