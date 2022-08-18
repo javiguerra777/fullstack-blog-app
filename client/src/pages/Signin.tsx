@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-// import { AppDispatch } from '../store';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
+import { RootState } from '../store';
 // import { useForm } from 'react-hook-form';
-import { loginUser } from '../store/UserSlice';
+import { loginUser, clearError } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
   height: 90vh;
@@ -73,10 +72,19 @@ export const StyledForm = styled.section`
 function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { error } = useSelector(
+    (state: RootState) => state.user,
+    shallowEqual,
+  );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   // eslint-disable-next-line prettier/prettier
   const [formValidation, setFormaValidation] = useState<boolean>(true);
+
+  // to clear error message if user returns to sign in page later in app
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   const submitLoginForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,6 +110,12 @@ function Signin() {
           <p className="errorMessage">
             *username or password is invalid
           </p>
+        )}
+        {error && (
+          <Link to="/validateEmail">
+            If you forgot your password you can reset it using this
+            link
+          </Link>
         )}
         <input
           type="text"

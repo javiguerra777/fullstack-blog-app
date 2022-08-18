@@ -4,7 +4,9 @@ import React, {
 } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { updateUsername, updatePassword, updateProfilePicture } from '../store/UserSlice';
+import {
+  updateUsername, updatePassword, updateProfilePicture, updateEmail,
+} from '../store/UserSlice';
 import { RootState } from '../store';
 
 const UserInfoWrapper = styled.main`
@@ -43,11 +45,12 @@ const UserInfoWrapper = styled.main`
 function UserInfo() {
   const dispatch = useDispatch();
   const {
-    username, image, userId, id,
+    username, image, userId, id, email,
   } = useSelector((state: RootState) => state.user, shallowEqual);
   const [newUserName, setNewUserName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newProfilePicture, setNewProfilePicture] = useState({});
+  const [newEmail, setNewEmail] = useState('');
   const [previewPicture, setPreviewPicture] = useState('');
   const [disabled, setDisabled] = useState(true);
   // allows user to change files which updates profile picture state
@@ -110,8 +113,36 @@ function UserInfo() {
     setPreviewPicture('');
     setDisabled(true);
   };
+  const changeEmail = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const emailRequest = {
+      userId,
+      body: {
+        email: newEmail,
+        id,
+      },
+    };
+    const response = await dispatch<any>(updateEmail(emailRequest));
+    if (response.error) {
+      return;
+    }
+    setNewEmail('');
+  };
+
   return (
     <UserInfoWrapper>
+      {/* Update email form */}
+      <form onSubmit={changeEmail} className="update-form">
+        <label htmlFor="email" className="update-info">
+          <p>
+            Current Email:
+            {' '}
+            {email}
+          </p>
+          <input type="email" placeholder="example@gmail.com" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+          <button type="submit" disabled={newEmail === ''}> Change Email</button>
+        </label>
+      </form>
       {/* Update username form */}
       <form onSubmit={changeUsername} className="update-form">
         <label htmlFor="username" className="update-info">

@@ -88,10 +88,13 @@ router.put('/updatepassword', checkAuth, async (req, res) => {
 
 router.put('/updateEmail', checkAuth, async (req, res) => {
   try {
+    console.log(req.body.id);
     await User.findByIdAndUpdate(req.body.id, {
       email: req.body.email.toLowerCase(),
     });
-    const [user] = await User.findById(req.body.id);
+    const user = await User.findById(req.body.id);
+    console.log(user);
+    console.log('passed error');
     if (!user) {
       throw Error('User not found');
     }

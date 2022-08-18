@@ -79,6 +79,23 @@ export const updateProfilePicture = createAsyncThunk(
   },
 );
 
+export const updateEmail = createAsyncThunk(
+  'user/updateEmail',
+  async (request: Record<string, unknown>) => {
+    const { data } = await axios.put(
+      `${urlBase}updateEmail`,
+      request.body,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${request.userId}`,
+        },
+      },
+    );
+    return data;
+  },
+);
+
 type UpdateUserParams = {
   userId: string;
   body: {
@@ -147,12 +164,16 @@ export const userSlice = createSlice({
       state.username = '';
       state.image = '';
       state.id = '';
+      state.email = '';
     },
     toggleDisplayPrompt(state) {
       state.displayLogInPrompt = !state.displayLogInPrompt;
     },
     toggleDisplayCamera(state) {
       state.displayCamera = !state.displayCamera;
+    },
+    clearError(state) {
+      state.error = false;
     },
   },
   extraReducers: (builder) => {
@@ -246,6 +267,24 @@ export const userSlice = createSlice({
       state.error = true;
       state.loading = false;
     });
+    // update email
+    builder.addCase(updateEmail.pending, (state) => {
+      state.error = false;
+      state.loading = true;
+    });
+    builder.addCase(
+      updateEmail.fulfilled,
+      (state, { payload: { token, email } }) => {
+        state.userId = token;
+        state.email = email;
+        state.error = false;
+        state.loading = false;
+      },
+    );
+    builder.addCase(updateEmail.rejected, (state) => {
+      state.error = true;
+      state.loading = false;
+    });
   },
 });
 
@@ -255,6 +294,7 @@ export const {
   changeUsername,
   toggleDisplayPrompt,
   toggleDisplayCamera,
+  clearError,
 } = userSlice.actions;
 
 export default userSlice.reducer;
