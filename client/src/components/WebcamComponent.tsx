@@ -20,6 +20,9 @@ const CameraWrapper = styled.section`
   background: #171717;
   height: 100vh;
   width: 100vw;
+  button {
+    cursor: pointer;
+  }
   .camera-header {
     height: 5%;
     width: 100vw;
@@ -45,7 +48,18 @@ const CameraWrapper = styled.section`
       border: solid 0.2rem #da0037;
       position: absolute;
       bottom: 4rem;
-      cursor: pointer;
+    }
+  }
+  .preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .preview-snapshot {
+      width: 85%;
+      height: 20rem;
+    }
+    .preview-footer {
+      margin-top: 1rem;
     }
   }
 `;
@@ -82,16 +96,22 @@ function WebcamComponent() {
   return (
     <CameraWrapper>
       {previewImage ? (
-        <div>
+        <section className="preview">
           <h1>Would you like to retake this photo?</h1>
-          <img src={image} alt="img camera" />
-          <button type="button" onClick={retakePhoto}>
-            Yes
-          </button>
-          <button type="button" onClick={continueToUpload}>
-            No
-          </button>
-        </div>
+          <img
+            className="preview-snapshot"
+            src={image}
+            alt="img camera"
+          />
+          <footer className="preview-footer">
+            <button type="button" onClick={retakePhoto}>
+              Yes
+            </button>
+            <button type="button" onClick={continueToUpload}>
+              No
+            </button>
+          </footer>
+        </section>
       ) : (
         <>
           <header className="camera-header d-flex">

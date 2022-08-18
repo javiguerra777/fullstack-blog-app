@@ -44,6 +44,7 @@ export const commentSlice = createSlice({
     });
     builder.addCase(getComments.fulfilled, (state, { payload }) => {
       state.loading = false;
+      state.error = false;
       state.comments = payload;
     });
     builder.addCase(getComments.rejected, (state) => {

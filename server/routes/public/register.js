@@ -18,6 +18,7 @@ router.post('/signup', async (req, res) => {
         try {
           const data = new User({
             username: req.body.username.toLowerCase(),
+            email: req.body.email.toLowerCase(),
             password: hash,
             date: req.body.date,
           });
@@ -56,7 +57,7 @@ router.post('/login', async (req, res) => {
     const compare = await bcrypt.compare(bodyPassword, user.password);
     if (compare) {
       const payload = {
-        userId: user.id,
+        userId: user._id,
         username: user.username,
       };
       const encodedUser = jwt.sign(payload, process.env.JWT_KEY);
@@ -65,7 +66,8 @@ router.post('/login', async (req, res) => {
         token: encodedUser,
         username: user.username,
         profileImage: user.image,
-        userid: user._id,
+        userId: user._id,
+        email: user.email,
       };
       return res.status(200).json(userInfo);
     }

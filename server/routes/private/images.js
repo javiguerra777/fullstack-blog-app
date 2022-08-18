@@ -169,36 +169,57 @@ router.post('/image', checkAuth, async (req, res) => {
   return true;
 });
 
-router.put('/updateprofilepicture', checkAuth, async (req, res) => {
-  try {
-    // updating the profile picture
-    await User.findByIdAndUpdate(req.body.id, {
-      image: req.body.profilepicture,
-    });
-    // update all the posts by this user to update their profile picture within the post
-    await Post.updateMany(
-      { username: req.body.username },
-      { profilepicture: req.body.profilepicture },
-    );
-    console.log(
-      'Posts by this user have had their profile pictures updated',
-    );
-    // update all the comments by this user to update their profile picture within the comment
-    await Comment.updateMany(
-      { username: req.body.username },
-      { profilepicture: req.body.profilepicture },
-    );
-    console.log(
-      'Comments by this user have had their profile pictures updated',
-    );
-    // finding newest user image information in database
-    const { image } = await User.findById(req.body.id);
-    console.log('Profile picture has been updated');
-    res.status(200).json({ profilepicture: image });
-  } catch (err) {
-    console.log(err.message);
-    res.status(400).json(err.message);
-  }
-});
+router.put(
+  '/updateprofilepicture',
+  checkAuth,
+  upload.single('image'),
+  async (req, res) => {
+    try {
+      console.log('file', req.file);
+      const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: req.file.originalname,
+        Body: req.file.buffer,
+        ACL: 'public-read-write',
+        ContentType: 'image/jpeg',
+      };
+      s3.upload(params, async (error, data) => {
+        if (error) {
+          console.log(error.message);
+          return res.status(400).json({ error: error.message });
+        }
+        console.log(data);
+        // updating the profile picture
+        await User.findByIdAndUpdate(req.body.id, {
+          image: data.Location,
+        });
+        // update all the posts by this user to update their profile picture within the post
+        await Post.updateMany(
+          { username: req.body.username },
+          { profilepicture: data.Location },
+        );
+        console.log(
+          'Posts by this user have had their profile pictures updated',
+        );
+        // update all the comments by this user to update their profile picture within the comment
+        await Comment.updateMany(
+          { username: req.body.username },
+          { profilepicture: data.Location },
+        );
+        console.log(
+          'Comments by this user have had their profile pictures updated',
+        );
+        // finding newest user image information in database
+        const { image } = await User.findById(req.body.id);
+        console.log('Profile picture has been updated');
+        return res.status(200).json({ profilepicture: image });
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(400).json(err.message);
+    }
+    return true;
+  },
+);
 
 module.exports = router;

@@ -14,4 +14,20 @@ router.get('/users', async (req, res) => {
   }
 });
 
+router.post('/user', async (req, res) => {
+  try {
+    const [user] = await User.find({
+      email: req.body.email.toLowerCase(),
+    });
+    if (!user) {
+      throw Error('User not found, email does not exist');
+    }
+    console.log('Sending email to reset password...');
+    res.status(200).json('Check your email to reset password');
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json(err.message);
+  }
+});
+
 module.exports = router;

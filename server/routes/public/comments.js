@@ -10,10 +10,6 @@ router.get('/comments/:id', async (req, res) => {
     const comments = await Comment.find({
       postId: id,
     });
-    // console.log(
-    //   `Comments from post that has post id ${id}`,
-    //   comments,
-    // );
     res.status(200).json(comments);
   } catch (err) {
     console.log(err.message);

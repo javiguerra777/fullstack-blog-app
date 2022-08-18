@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -16,7 +17,38 @@ import likeBtn from '../img/like.png';
 import colorLikeBtn from '../img/heartRed.png';
 import commentImg from '../img/sms.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
+import { deletePost, updateFilteredPosts } from '../store/PostSlice';
 import '../styles/notifications.css';
+
+const DeleteWrapper = styled.section`
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  .delete-prompt {
+    position: absolute;
+    top: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #171717;
+    height: auto;
+    width: auto;
+    padding: 0 1.5em 1em 1.5em;
+    h1 {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
+`;
 
 export const StyledPost = styled.section`
   width: 65%;
@@ -217,20 +249,29 @@ function Post({
   // max length for trimming content
   const maxLength = 100;
   const dispatch = useDispatch();
+
+  // redux states
   const {
     loggedIn,
     userId, // users jwt that is used for authentication purposes in app
     id: uniqueUserId, // users id from the database
     username: currentUser,
   } = useSelector((state: RootState) => state.user, shallowEqual);
+  const { posts } = useSelector(
+    (state: RootState) => state.post,
+    shallowEqual,
+  );
   // console.log(
   //   `this is the id: ${id}`,
   //   `this is the userId: ${userId}`,
   // );
+
+  // states used in component
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [deleteMsg, setDeleteMsg] = useState(false);
   const [likesArray, setLikesArray] = useState(likes);
-  // message used for the notifications
   const [message, setMessage] = useState('');
+
   // useEffect to determine if a post is liked by a user
   useEffect(() => {
     likes.forEach((like) => {
@@ -239,6 +280,22 @@ function Post({
       }
     });
   }, [currentUser, likes, uniqueUserId]);
+
+  // removes post from database
+  const removePost = async (postId: string) => {
+    const deleteParams = {
+      userId,
+      id: postId,
+    };
+    await dispatch<any>(deletePost(deleteParams));
+    const filteredPosts: any[] = [...posts];
+    const newPosts = filteredPosts.filter(
+      (post) => post._id !== postId,
+    );
+    dispatch(updateFilteredPosts(newPosts));
+    setDeleteMsg(false);
+  };
+
   async function handleLikes(thisPostId: string) {
     if (!loggedIn) {
       dispatch(toggleDisplayPrompt());
@@ -301,6 +358,11 @@ function Post({
     !isOpen ? setIsOpen(true) : setIsOpen(false);
     console.log(isOpen);
   }
+  // opens delete message prompt and closes the post menu
+  const displayDeleteMessage = () => {
+    setDeleteMsg(true);
+    openPostMenu();
+  };
   // function to clear any notifications
   const clearMessage = () => {
     setMessage('');
@@ -344,11 +406,13 @@ function Post({
             </button>
             {currentUser === username ? (
               <div>
-                <Link to="/">Edit Post</Link>
-                <Link to="/">Delete Post</Link>
+                <Link to={`editPost/${id}`}>Edit Post</Link>
+                <button type="button" onClick={displayDeleteMessage}>
+                  Delete Post
+                </button>
               </div>
             ) : (
-              <Link to="/">View Post</Link>
+              <Link to={`post/${id}`}>View Post</Link>
             )}
           </div>
         ) : (
@@ -412,6 +476,28 @@ function Post({
             clearMessage={clearMessage}
           />
         </div>
+      )}
+      {deleteMsg && (
+        <DeleteWrapper>
+          <section className="delete-prompt">
+            <h1>Are you sure you want to delete this post?</h1>
+            <p>
+              If you delete this post, the data cannot be retrieved in
+              the future.
+            </p>
+            <footer>
+              <button type="button" onClick={() => removePost(id)}>
+                Yes
+              </button>
+              <button
+                type="button"
+                onClick={() => setDeleteMsg(false)}
+              >
+                No
+              </button>
+            </footer>
+          </section>
+        </DeleteWrapper>
       )}
     </StyledPost>
   );

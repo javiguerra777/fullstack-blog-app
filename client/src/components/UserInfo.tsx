@@ -2,8 +2,11 @@
 import React, {
   useState, ChangeEvent, FormEvent,
 } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import {
+  updateUsername, updatePassword, updateProfilePicture, updateEmail,
+} from '../store/UserSlice';
 import { RootState } from '../store';
 
 const UserInfoWrapper = styled.main`
@@ -11,6 +14,10 @@ const UserInfoWrapper = styled.main`
   width: 100vw;
   display: flex;
   flex-direction: column;
+  .prev-img {
+    height: 50px;
+    width: 50px;
+  }
   .profile-img {
     align-self: center;
     width: 50%;
@@ -36,33 +43,106 @@ const UserInfoWrapper = styled.main`
   }
 `;
 function UserInfo() {
-  const { username, image } = useSelector((state: RootState) => state.user, shallowEqual);
+  const dispatch = useDispatch();
+  const {
+    username, image, userId, id, email,
+  } = useSelector((state: RootState) => state.user, shallowEqual);
   const [newUserName, setNewUserName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newProfilePicture, setNewProfilePicture] = useState({});
+  const [newEmail, setNewEmail] = useState('');
+  const [previewPicture, setPreviewPicture] = useState('');
   const [disabled, setDisabled] = useState(true);
   // allows user to change files which updates profile picture state
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setNewProfilePicture(e.target!.files![0]);
+    if (!e.target.files || e.target.files.length === 0) {
+      setPreviewPicture('');
+      setDisabled(true);
+      return;
+    }
+    setNewProfilePicture(e.target.files[0]);
+    setPreviewPicture(URL.createObjectURL(e.target.files[0]));
     setDisabled(false);
   };
-  const changeUsername = (e: FormEvent<HTMLFormElement>) => {
+  const changeUsername = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const userNameRequest = {
+      userId,
+      body: {
+        id,
+        username,
+        newusername: newUserName.toLowerCase(),
+      },
+    };
+    const response = await dispatch<any>(updateUsername(userNameRequest));
+    if (response.error) {
+      return;
+    }
     setNewUserName('');
   };
-  const changePassword = (e: FormEvent<HTMLFormElement>) => {
+  const changePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const passwordRequest = {
+      userId,
+      body: {
+        id,
+        password: newPassword,
+      },
+    };
+    const request = await dispatch<any>(updatePassword(passwordRequest));
+    if (request.error) {
+      return;
+    }
     setNewPassword('');
   };
-  const changeProfilePicture = (e:FormEvent<HTMLFormElement>) => {
+  const changeProfilePicture = async (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(newProfilePicture);
+    const pictureRequest = {
+      userId,
+      body: {
+        image: newProfilePicture,
+        id,
+        username,
+      },
+    };
+    const response = await dispatch<any>(updateProfilePicture(pictureRequest));
+    if (response.error) {
+      return;
+    }
     setNewProfilePicture({});
+    setPreviewPicture('');
     setDisabled(true);
   };
+  const changeEmail = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const emailRequest = {
+      userId,
+      body: {
+        email: newEmail,
+        id,
+      },
+    };
+    const response = await dispatch<any>(updateEmail(emailRequest));
+    if (response.error) {
+      return;
+    }
+    setNewEmail('');
+  };
+
   return (
     <UserInfoWrapper>
+      {/* Update email form */}
+      <form onSubmit={changeEmail} className="update-form">
+        <label htmlFor="email" className="update-info">
+          <p>
+            Current Email:
+            {' '}
+            {email}
+          </p>
+          <input type="email" placeholder="example@gmail.com" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+          <button type="submit" disabled={newEmail === ''}> Change Email</button>
+        </label>
+      </form>
       {/* Update username form */}
       <form onSubmit={changeUsername} className="update-form">
         <label htmlFor="username" className="update-info">
@@ -91,6 +171,7 @@ function UserInfo() {
           <p>Upload New Profile Picture</p>
           <input type="file" onChange={handleImageChange} />
         </label>
+        {previewPicture && <img className="prev-img" src={previewPicture} alt="prev-img" />}
         <button type="submit" disabled={disabled}> Change Profile Picture</button>
       </form>
     </UserInfoWrapper>

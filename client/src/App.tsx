@@ -10,8 +10,10 @@ import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
 import UserInfo from './components/UserInfo';
+import EmailPassword from './pages/EmailPassword';
 import NotFound from './pages/NotFound';
 import { RootState } from './store';
+import ResetPassword from './pages/ResetPassword';
 
 type RoutesType = {
   loggedin: boolean;
@@ -78,6 +80,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/validateEmail" element={<EmailPassword />} />
+        <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<NotFound />} />
