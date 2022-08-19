@@ -14,10 +14,11 @@ function SignUp() {
   const [users, setUsers] = useState([]);
   let disabled = false;
   let repeatUser = false;
+  let repeatEmail = false;
   useEffect(() => {
     getUsers().then(({ data }) => setUsers(data));
   }, []);
-  async function signup(e: FormEvent<HTMLFormElement>) {
+  async function signUp(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const signUpInfo = {
       username,
@@ -34,19 +35,31 @@ function SignUp() {
   if (!username || !password) {
     disabled = true;
   }
-  // if username is equal to an existing username in the database the button is also disabled
-  users.forEach((user: any) => {
-    if (username.toLowerCase() === user.username.toLowerCase()) {
-      disabled = true;
-      repeatUser = true;
-    }
-  });
+  type ExisingUser = {
+    username: string;
+    email: string;
+  };
+  /* if username or email is equal to an existing username
+    or email in the database the button is disabled */
+  users.forEach(
+    ({ username: prevUsername, email: prevEmail }: ExisingUser) => {
+      if (username.toLowerCase() === prevUsername.toLowerCase()) {
+        disabled = true;
+        repeatUser = true;
+      }
+      if (email.toLowerCase() === prevEmail.toLowerCase()) {
+        disabled = true;
+        repeatEmail = true;
+      }
+    },
+  );
   return (
     <StyledForm>
       {repeatUser && <h1>Username exists already</h1>}
+      {repeatEmail && <h1>Email exists already</h1>}
       <h1>Sign Up</h1>
       <i className="fa-solid fa-user-plus" />
-      <form onSubmit={signup}>
+      <form onSubmit={signUp}>
         <input
           type="email"
           placeholder="example@gmail.com"

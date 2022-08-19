@@ -80,9 +80,9 @@ function Filter() {
             onChange={handleChange}
           >
             <option value="">none</option>
-            {categories.map((categ: Category) => (
-              <option key={uuidv4()} value={categ.category}>
-                {categ.category}
+            {categories.map(({ category: theCategory }: Category) => (
+              <option key={uuidv4()} value={theCategory}>
+                {theCategory}
               </option>
             ))}
           </select>

@@ -35,7 +35,9 @@ function ResetPassword() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit">Submit New Password</button>
+            <button type="submit" disabled={password === ''}>
+              Submit New Password
+            </button>
           </form>
         </div>
       ) : (
@@ -50,7 +52,9 @@ function ResetPassword() {
               value={token}
               onChange={(e) => setToken(e.target.value)}
             />
-            <button type="submit">Submit Token</button>
+            <button type="submit" disabled={token === ''}>
+              Submit Token
+            </button>
           </form>
         </div>
       )}

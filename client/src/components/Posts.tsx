@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { RootState } from '../store';
 import Post from './Post';
+import { Date, PostType } from '../types/types';
 
 const PostsWrapper = styled.section`
   width: 100%;
@@ -12,19 +13,6 @@ const PostsWrapper = styled.section`
   overflow-y: scroll;
   padding-bottom: 10vh;
 `;
-type PostsType = {
-  body: string;
-  category: string;
-  date: number;
-  title: string;
-  username: string;
-  __v: number;
-  _id: string;
-  image?: string;
-  likes?: [];
-  comments: [];
-  profilepicture: string;
-};
 
 function Posts() {
   const { posts } = useSelector(
@@ -38,8 +26,8 @@ function Posts() {
     <PostsWrapper>
       {postsForSort.length > 0
         && postsForSort
-          .sort((a: PostsType, b: PostsType) => (b.date - a.date))
-          .map((post: PostsType) => (
+          .sort((a: Date, b: Date) => (b.date - a.date))
+          .map((post: PostType) => (
             <Post
               key={uuidv4()}
               // eslint-disable-next-line no-underscore-dangle

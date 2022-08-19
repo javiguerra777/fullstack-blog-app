@@ -35,7 +35,7 @@ router.post('/signup', async (req, res) => {
       },
       process.env.JWT_KEY,
       {
-        expiresIn: '5m', // 5 minutes
+        expiresIn: '1h', // 1 hour
       },
     );
     console.log('New User created in database');

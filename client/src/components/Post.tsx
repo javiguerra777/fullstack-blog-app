@@ -19,6 +19,7 @@ import commentImg from '../img/sms.png';
 import { toggleDisplayPrompt } from '../store/UserSlice';
 import { deletePost, updateFilteredPosts } from '../store/PostSlice';
 import '../styles/notifications.css';
+import { PostProps } from '../types/types';
 
 const DeleteWrapper = styled.section`
   height: 100vh;
@@ -220,19 +221,6 @@ export const StyledPost = styled.section`
     }
   }
 `;
-
-type PostProps = {
-  id: string;
-  username: string;
-  title: string;
-  content: string;
-  category: string;
-  date: number;
-  image: string;
-  likes: string[];
-  comments: [];
-  profilepicture: string;
-};
 
 function Post({
   id,

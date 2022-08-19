@@ -3,19 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import '../index.css';
 import convertUnixToDate from '../utils/functions';
-import { CommentsArray } from '../types/types';
+import { CommentsArray, Date } from '../types/types';
 
 type CommentProps = {
   comments: [];
-};
-type CommentType = {
-  comment: string;
-  date: number;
-  postId: string;
-  profilepicture: string;
-  username: string;
-  __v: number;
-  _id: string;
 };
 
 const CommentSectionWrapper = styled.section`
@@ -41,7 +32,7 @@ function CommentSection({ comments }: CommentProps) {
       {/* eslint-disable-next-line operator-linebreak */}
       {commentsToSort.length > 0 &&
         commentsToSort
-          .sort((a: CommentType, b: CommentType) => a.date - b.date)
+          .sort((a: Date, b: Date) => a.date - b.date)
           .map(({ username, comment, date }: CommentsArray) => (
             <div key={uuidv4()} className="comment">
               <h1>{username}</h1>

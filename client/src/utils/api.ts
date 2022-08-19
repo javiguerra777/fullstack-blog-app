@@ -23,30 +23,38 @@ type ResetPasswordParams = {
   };
 };
 
-export const addLike = async (like: LikesParams) => {
+export const addLike = async ({
+  postId,
+  userId,
+  body,
+}: LikesParams) => {
   const { data } = await axios.put(
-    `${urlBase}/likepost/${like.postId}`,
+    `${urlBase}/likepost/${postId}`,
 
-    like.body,
+    body,
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${like.userId}`,
+        Authorization: `Bearer ${userId}`,
       },
     },
   );
   return data;
 };
 
-export const removeLike = async (unlike: LikesParams) => {
+export const removeLike = async ({
+  postId,
+  userId,
+  body,
+}: LikesParams) => {
   const { data } = await axios.put(
-    `${urlBase}/unlikepost/${unlike.postId}`,
+    `${urlBase}/unlikepost/${postId}`,
 
-    unlike.body,
+    body,
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${unlike.userId}`,
+        Authorization: `Bearer ${userId}`,
       },
     },
   );

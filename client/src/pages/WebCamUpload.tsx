@@ -90,7 +90,6 @@ function WebCamUpload() {
     return () => {
       dispatch(setCurrentContent(''));
       dispatch(setCurrentTitle(''));
-      // dispatch(setCurrentImage(''));
     };
   }, [dispatch]);
 
@@ -136,7 +135,7 @@ function WebCamUpload() {
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
-        {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+        {categories.map(({ category: theCategory } : Category) => <option key={uuidv4()} value={theCategory}>{theCategory}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="image-form">
         <div>
