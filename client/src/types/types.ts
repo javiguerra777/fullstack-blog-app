@@ -38,3 +38,8 @@ export interface PostProps {
   comments: [];
   profilepicture: string;
 }
+
+export interface ExistingUser {
+  username: string;
+  email: string;
+}

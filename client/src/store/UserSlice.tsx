@@ -175,6 +175,9 @@ export const userSlice = createSlice({
     clearError(state) {
       state.error = false;
     },
+    setLoggedInTrue(state) {
+      state.loggedIn = true;
+    },
   },
   extraReducers: (builder) => {
     // for logging in user
@@ -202,15 +205,22 @@ export const userSlice = createSlice({
       state.error = true;
       state.loading = false;
     });
-    // for user signup route
+    // for user sign up route
     builder.addCase(signUpUser.pending, (state) => {
       state.loading = true;
       state.error = false;
     });
-    builder.addCase(signUpUser.fulfilled, (state) => {
-      state.loading = false;
-      state.error = false;
-    });
+    builder.addCase(
+      signUpUser.fulfilled,
+      (state, { payload: { token, userName, email, id } }) => {
+        state.loading = false;
+        state.error = false;
+        state.userId = token;
+        state.id = id;
+        state.email = email;
+        state.username = userName;
+      },
+    );
     builder.addCase(signUpUser.rejected, (state) => {
       state.loading = false;
       state.error = true;
@@ -295,6 +305,7 @@ export const {
   toggleDisplayPrompt,
   toggleDisplayCamera,
   clearError,
+  setLoggedInTrue,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -35,11 +35,16 @@ router.post('/signup', async (req, res) => {
       },
       process.env.JWT_KEY,
       {
-        expiresIn: '1h', // 1 hour
+        expiresIn: '24h', // 24 hours
       },
     );
     console.log('New User created in database');
-    return res.status(200).json(encodedUser);
+    return res.status(200).json({
+      token: encodedUser,
+      userName: user.username,
+      email: user.email,
+      id: user._id,
+    });
   } catch (err) {
     console.log(err.message);
     return res.status(400).json(err.message);
