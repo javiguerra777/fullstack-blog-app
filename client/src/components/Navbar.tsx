@@ -111,10 +111,7 @@ function Navbar() {
               onMouseLeave={() => setIsOpen(false)}
             >
               <NavLink to="/userInfo" className="user-profile">
-                View Profile
-              </NavLink>
-              <NavLink to="/userInfo" className="user-profile">
-                Edit Profile
+                View/Edit Profile
               </NavLink>
             </div>
             <img

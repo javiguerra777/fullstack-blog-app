@@ -20,7 +20,7 @@ type CommentType = {
 };
 
 const CommentSectionWrapper = styled.section`
-  height: 20vh;
+  height: 22vh;
   width: 50%;
   background: #444444;
   margin: 0 auto;
@@ -29,9 +29,9 @@ const CommentSectionWrapper = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  border-radius: 0 0 5px 5px;
   .comment {
     width: 60%;
+    height: 25px;
     display: flex;
     align-items: center;
     margin-left: 1rem;
@@ -41,6 +41,10 @@ const CommentSectionWrapper = styled.section`
     & p {
       margin: 0.5rem;
       font-weight: 300;
+    }
+    & small {
+      font-size: 0.75rem;
+      opacity: 70%;
     }
   }
 `;
@@ -56,7 +60,7 @@ function CommentSection({ comments }: CommentProps) {
           .map(({ username, comment, date }: CommentsArray) => (
             <div key={uuidv4()} className="comment">
               <h1> {username}:</h1>
-              <p>{comment}</p>
+              <p>{comment} - </p>
               <small>{convertUnixToDate(date)}</small>
             </div>
           ))}
