@@ -78,6 +78,43 @@ const StyledNavbar = styled.nav`
     transform: translateY(-100px);
     transition: transform 0.35s ease;
   }
+
+  @media (max-width: 576px) {
+    height: 6vh;
+    a {
+      font-size: 1rem;
+    }
+    & div {
+      &.logo {
+        font-size: 1rem;
+        margin-left: 0.25rem;
+        & img {
+          height: 20px;
+          width: 20px;
+          margin: 0.25rem;
+        }
+      }
+      & .userIcon {
+        margin: 0;
+      }
+    }
+    & .profile-info {
+      & p {
+        font-size: 0.75rem;
+      }
+      & img {
+        margin-right: 0.75rem;
+      }
+      & div {
+        & a {
+          font-size: 0.75rem;
+        }
+      }
+    }
+    & .signout {
+      font-size: 0.75rem;
+    }
+  }
 `;
 
 function Navbar() {
@@ -102,7 +139,7 @@ function Navbar() {
 
       <div>
         {loggedIn && (
-          <>
+          <div className="profile-info">
             <p>
               Welcome, <span> </span> {username}
             </p>
@@ -120,7 +157,7 @@ function Navbar() {
               alt="generic user icon"
               onMouseEnter={() => setIsOpen(true)}
             />
-          </>
+          </div>
         )}
         {loggedIn ? (
           <button

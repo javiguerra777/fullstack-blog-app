@@ -30,6 +30,10 @@ const PostDetailsWrapper = styled.section`
     height: 65%;
     width: 85%;
   }
+
+  @media (max-width: 576px) {
+    width: 95%;
+  }
 `;
 function PostDetails({ post }: any) {
   // eslint-disable-next-line object-curly-newline

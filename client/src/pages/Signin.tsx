@@ -37,7 +37,7 @@ export const StyledForm = styled.section`
       height: 35px;
       text-align: center;
       font-size: 1.2rem;
-      margin: 1rem;
+      margin: 0.5rem;
       border-radius: 5px;
       border: 1px solid #000;
       &.invalid {
@@ -69,6 +69,21 @@ export const StyledForm = styled.section`
     font-size: 1.25rem;
     & a {
       color: #ededed;
+    }
+  }
+
+  @media (max-width: 576px) {
+    & form {
+      & input {
+        width: 300px;
+        height: 30px;
+      }
+      & button {
+        width: 300px;
+      }
+    }
+    & small {
+      font-size: 1rem;
     }
   }
 `;

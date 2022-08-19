@@ -19,6 +19,11 @@ const HomeWrapper = styled.main`
   width: 100vw;
   display: flex;
   flex-direction: row;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    jusitfy-content: center;
+    align-items: center;
+  }
 `;
 
 function Home() {

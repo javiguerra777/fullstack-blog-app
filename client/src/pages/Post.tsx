@@ -53,6 +53,15 @@ const PostWrapper = styled.section`
     font-size: 1.25rem;
     transform: translateX(-50px);
   }
+  @media (max-width: 576px) {
+    & .form-container {
+      height: 7vh;
+      width: 95%;
+      & input {
+        width: 300px;
+      }
+    }
+  }
 `;
 
 // create connection with socket.io server

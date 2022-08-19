@@ -219,6 +219,34 @@ export const StyledPost = styled.section`
       }
     }
   }
+  @media (max-width: 576px) {
+    margin: 1rem 0.25rem;
+    & .wrapper {
+      padding: 0;
+    }
+    & .user-info {
+      width: 90%;
+      & img {
+        margin: 0 1rem;
+      }
+    }
+    & .title {
+      margin: 0 1rem;
+    }
+    & .post-image {
+      width: 100%;
+    }
+    & .interactions {
+      width: 95%;
+    }
+    & .content {
+      width: 100%;
+      bottom: 5vh;
+      padding: 0 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  }
 `;
 
 type PostProps = {
