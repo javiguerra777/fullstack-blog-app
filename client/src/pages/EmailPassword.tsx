@@ -1,10 +1,12 @@
 import React, { useState, FormEvent } from 'react';
+import { validateEmailOnServer } from '../utils/api';
 
 function EmailPassword() {
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
-  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    await validateEmailOnServer({ email });
     setEmail('');
     setEmailSent(true);
   };
@@ -12,10 +14,7 @@ function EmailPassword() {
     <div>
       {emailSent ? (
         <div>
-          <h1>
-            If your email is valid, you will receive an email to reset
-            your password. Check your email.
-          </h1>
+          <h1>Check your Email on instructions to reset password</h1>
         </div>
       ) : (
         <div>

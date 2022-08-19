@@ -34,6 +34,9 @@ router.post('/signup', async (req, res) => {
         ...req.body,
       },
       process.env.JWT_KEY,
+      {
+        expiresIn: '5m', // 5 minutes
+      },
     );
     console.log('New User created in database');
     return res.status(200).json(encodedUser);
@@ -60,7 +63,9 @@ router.post('/login', async (req, res) => {
         userId: user._id,
         username: user.username,
       };
-      const encodedUser = jwt.sign(payload, process.env.JWT_KEY);
+      const encodedUser = jwt.sign(payload, process.env.JWT_KEY, {
+        expiresIn: '24h', // 24 hours
+      });
       console.log('user successfully logged in...');
       const userInfo = {
         token: encodedUser,

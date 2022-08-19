@@ -16,6 +16,13 @@ type LikesParams = {
   };
 };
 
+type ResetPasswordParams = {
+  token: string;
+  body: {
+    password: string;
+  };
+};
+
 export const addLike = async (like: LikesParams) => {
   const { data } = await axios.put(
     `${urlBase}/likepost/${like.postId}`,
@@ -52,5 +59,31 @@ const addNewCategory = async (category: CategoryParams) => {
 };
 
 export const getUsers = async () => axios.get(`${urlBase}users`);
+
+export const validateEmailOnServer = async (
+  request: Record<string, unknown>,
+) => {
+  await axios.post(`${urlBase}user`, request);
+};
+export const validateUserOnServer = async (token: string) => {
+  const { data } = await axios.get(`${urlBase}validateUser`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
+export const resetPassword = async ({
+  body,
+  token,
+}: ResetPasswordParams) => {
+  const { data } = await axios.put(`${urlBase}resetPassword`, body, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
 
 export default addNewCategory;
