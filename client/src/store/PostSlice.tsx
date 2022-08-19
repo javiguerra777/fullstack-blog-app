@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { DeletePostParams, PostState } from '../types/reduxTypes';
+
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
 // api calls using async thunk
@@ -102,20 +104,6 @@ export const deletePost = createAsyncThunk(
   },
 );
 
-type DeletePostParams = {
-  id: string;
-  userId: string;
-};
-
-type PostState = {
-  title: string;
-  content: string;
-  post: Record<string, unknown>;
-  posts: [];
-  image: string;
-  loading: boolean;
-  error: boolean;
-};
 const initialState = {
   title: '',
   content: '',

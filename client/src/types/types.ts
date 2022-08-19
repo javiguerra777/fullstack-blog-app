@@ -43,3 +43,28 @@ export interface ExistingUser {
   username: string;
   email: string;
 }
+
+export interface CategoryParams {
+  category: string;
+  username: string;
+  date: number;
+}
+
+export interface LikesParams {
+  postId: string;
+  userId: string;
+  body: {
+    uniqueUserId: string;
+  };
+}
+
+export interface ResetPasswordParams {
+  token: string;
+  body: {
+    password: string;
+  };
+}
+
+export interface ValidateEmail {
+  email: string;
+}

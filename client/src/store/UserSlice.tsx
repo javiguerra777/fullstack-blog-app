@@ -2,6 +2,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import {
+  RequestParams,
+  SignUpParams,
+  UpdateUserParams,
+  UpdatePasswordParams,
+  UserState,
+} from '../types/reduxTypes';
 
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
@@ -95,48 +102,6 @@ export const updateEmail = createAsyncThunk(
     return data;
   },
 );
-
-type UpdateUserParams = {
-  userId: string;
-  body: {
-    id: string;
-    username: string;
-    newusername: string;
-  };
-};
-
-type UpdatePasswordParams = {
-  userId: string;
-  body: {
-    id: string;
-    password: string;
-  };
-};
-
-type RequestParams = {
-  username: string;
-  password: string;
-};
-
-type SignUpParams = {
-  username: string;
-  password: string;
-  email: string;
-  date: number;
-};
-
-type UserState = {
-  userId: string;
-  username: string;
-  image: string;
-  loading: boolean;
-  error: boolean;
-  loggedIn: boolean;
-  displayLogInPrompt: boolean;
-  displayCamera: boolean;
-  id: string;
-  email: string;
-};
 
 const initialState = {
   userId: '',

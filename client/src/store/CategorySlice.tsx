@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { CategoryState } from '../types/reduxTypes';
 
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
@@ -12,11 +13,7 @@ export const getAllCategories = createAsyncThunk(
     return data;
   },
 );
-type CategoryState = {
-  categories: [];
-  error: boolean;
-  loading: boolean;
-};
+
 const initialState = {
   categories: [],
   loading: true,

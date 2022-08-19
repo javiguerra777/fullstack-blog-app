@@ -1,27 +1,12 @@
 import axios from 'axios';
+import {
+  LikesParams,
+  CategoryParams,
+  ResetPasswordParams,
+  ValidateEmail,
+} from '../types/types';
 
 const urlBase = 'http://localhost:5000/api/';
-
-type CategoryParams = {
-  category: string;
-  username: string;
-  date: number;
-};
-
-type LikesParams = {
-  postId: string;
-  userId: string;
-  body: {
-    uniqueUserId: string;
-  };
-};
-
-type ResetPasswordParams = {
-  token: string;
-  body: {
-    password: string;
-  };
-};
 
 export const addLike = async ({
   postId,
@@ -69,7 +54,7 @@ const addNewCategory = async (category: CategoryParams) => {
 export const getUsers = async () => axios.get(`${urlBase}users`);
 
 export const validateEmailOnServer = async (
-  request: Record<string, unknown>,
+  request: ValidateEmail,
 ) => {
   await axios.post(`${urlBase}user`, request);
 };

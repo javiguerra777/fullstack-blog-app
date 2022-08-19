@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { CommentState } from '../types/reduxTypes';
 
 // the url for the backend server
 const urlBase = 'http://localhost:5000/api/';
@@ -12,12 +13,7 @@ export const getComments = createAsyncThunk(
     return data;
   },
 );
-type CommentState = {
-  comments: [];
-  loading: boolean;
-  error: boolean;
-  comment: string;
-};
+
 const initialState = {
   comments: [],
   loading: true,
