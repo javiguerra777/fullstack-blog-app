@@ -22,16 +22,45 @@ const PostWrapper = styled.section`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  .form-container {
-    position: fixed;
-    bottom: 0;
-    height: 5vh;
+  & .add-comment {
     width: 100%;
-    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-container {
+    height: 6vh;
+    width: 50%;
+    background: #444444;
+    display: flex;
+    align-items: center;
+    border-radius: 0 0 5px 5px;
+    & input {
+      width: 500px;
+      height: 30px;
+      margin-left: 1rem;
+      border-radius: 15px;
+      border: none;
+    }
   }
   img {
     height: 50px;
     width: 50px;
+  }
+  & button {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    transform: translateX(-50px);
+  }
+  @media (max-width: 576px) {
+    & .form-container {
+      height: 7vh;
+      width: 95%;
+      & input {
+        width: 300px;
+      }
+    }
   }
 `;
 
@@ -135,22 +164,25 @@ function Post() {
       ) : (
         <section>
           <CommentSection comments={comments} />
-          <section className="form-container">
-            <form onSubmit={sendComment}>
-              <input
-                type="text"
-                name="comment"
-                id="comment"
-                value={comment}
-                onChange={(e) =>
-                  // eslint-disable-next-line implicit-arrow-linebreak, prettier/prettier
-                  dispatch(changeComment(e.target.value))}
-              />
-              <button type="submit" disabled={comment === ''}>
-                Comment
-              </button>
-            </form>
-          </section>
+          <div className="add-comment">
+            <section className="form-container">
+              <form onSubmit={sendComment}>
+                <input
+                  type="text"
+                  name="comment"
+                  id="comment"
+                  placeholder="Share your thoughts..."
+                  value={comment}
+                  onChange={(e) =>
+                    // eslint-disable-next-line implicit-arrow-linebreak, prettier/prettier
+                    dispatch(changeComment(e.target.value))}
+                />
+                <button type="submit" disabled={comment === ''}>
+                  <i className="fa-solid fa-paper-plane" />
+                </button>
+              </form>
+            </section>
+          </div>
         </section>
       )}
       {message && (

@@ -37,7 +37,7 @@ export const StyledForm = styled.section`
       height: 35px;
       text-align: center;
       font-size: 1.2rem;
-      margin: 1rem;
+      margin: 0.5rem;
       border-radius: 5px;
       border: 1px solid #000;
       &.invalid {
@@ -48,13 +48,14 @@ export const StyledForm = styled.section`
       width: 100%;
       height: 35px;
       font-size: 1.2rem;
-      background: #e2dcc8;
-      border: 1px solid #000;
+      background: #444444;
+      color: #ededed;
+      border: none;
+      border-radius: 5px;
       transition: all 0.35s ease;
       cursor: pointer;
       &:hover {
-        background: #0f3d3e;
-        color: #e2dcc8;
+        background: #da0037;
         transition: all 0.35s ease;
       }
     }
@@ -66,6 +67,24 @@ export const StyledForm = styled.section`
   }
   & small {
     font-size: 1.25rem;
+    & a {
+      color: #ededed;
+    }
+  }
+
+  @media (max-width: 576px) {
+    & form {
+      & input {
+        width: 300px;
+        height: 30px;
+      }
+      & button {
+        width: 300px;
+      }
+    }
+    & small {
+      font-size: 1rem;
+    }
   }
   .small {
     margin-top: 1em;

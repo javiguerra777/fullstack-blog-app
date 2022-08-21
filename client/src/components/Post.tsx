@@ -220,6 +220,34 @@ export const StyledPost = styled.section`
       }
     }
   }
+  @media (max-width: 576px) {
+    margin: 1rem 0.25rem;
+    & .wrapper {
+      padding: 0;
+    }
+    & .user-info {
+      width: 90%;
+      & img {
+        margin: 0 1rem;
+      }
+    }
+    & .title {
+      margin: 0 1rem;
+    }
+    & .post-image {
+      width: 100%;
+    }
+    & .interactions {
+      width: 95%;
+    }
+    & .content {
+      width: 100%;
+      bottom: 5vh;
+      padding: 0 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  }
 `;
 
 function Post({
@@ -369,9 +397,11 @@ function Post({
           <img
             src={profilepicture}
             className="user-icon"
-            alt="default user icon"
+            alt="user icon"
           />
-          <p className="username">@{username}</p>{' '}
+          <p className="username" id="username">
+            @{username}
+          </p>{' '}
           <small>
             <i className="fa-solid fa-circle" />
           </small>
@@ -406,7 +436,7 @@ function Post({
             <i className="fa-solid fa-ellipsis-vertical" />
           </div>
         )}
-        <Link to={`/post/${id}`} className="title">
+        <Link to={`/post/${id}`} className="title" id="title">
           {title}
         </Link>
         {image && (

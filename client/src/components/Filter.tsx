@@ -50,6 +50,20 @@ const StyledFilter = styled.section`
       margin-left: 2em;
     }
   }
+  @media (max-width: 576px) {
+    height: 100px;
+    & button {
+      width: 350px;
+      font-size: 0.75rem;
+      margin 0;
+    }
+    & select {
+      width: 350px;
+      height: 30px;
+      font-size: 0.75rem;
+      margin: 10px 0;
+    }
+  }
 `;
 
 function Filter() {

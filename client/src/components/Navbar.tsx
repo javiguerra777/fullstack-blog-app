@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -5,6 +6,7 @@ import styled from 'styled-components';
 import { signOut } from '../store/UserSlice';
 import { RootState } from '../store';
 import icon from '../img/plane.png';
+import defautUserIcon from '../img/user.png';
 
 const StyledNavbar = styled.nav`
   width: 100%;
@@ -36,7 +38,15 @@ const StyledNavbar = styled.nav`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 4rem;
+    padding: 0 3rem;
+    & .user-profile {
+      color: #ededed;
+      font-size: 1.1rem;
+      padding: 0 5px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
     &.logo {
       font-size: 3rem;
       color: #da0037;
@@ -60,6 +70,51 @@ const StyledNavbar = styled.nav`
       padding: 0;
     }
   }
+  & .open {
+    transform: translateY(0);
+    transition: transform 0.35s ease;
+  }
+  & .closed {
+    transform: translateY(-100px);
+    transition: transform 0.35s ease;
+  }
+
+  @media (max-width: 576px) {
+    height: 6vh;
+    a {
+      font-size: 1rem;
+    }
+    & div {
+      &.logo {
+        font-size: 1rem;
+        margin-left: 0.25rem;
+        & img {
+          height: 20px;
+          width: 20px;
+          margin: 0.25rem;
+        }
+      }
+      & .userIcon {
+        margin: 0;
+      }
+    }
+    & .profile-info {
+      & p {
+        font-size: 0.75rem;
+      }
+      & img {
+        margin-right: 0.75rem;
+      }
+      & div {
+        & a {
+          font-size: 0.75rem;
+        }
+      }
+    }
+    & .signout {
+      font-size: 0.75rem;
+    }
+  }
 `;
 
 function Navbar() {
@@ -73,7 +128,6 @@ function Navbar() {
     dispatch(signOut());
   };
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log(isOpen);
   return (
     <StyledNavbar>
       <div className="logo">
@@ -85,26 +139,25 @@ function Navbar() {
 
       <div>
         {loggedIn && (
-          <>
+          <div className="profile-info">
             <p>
-              Welcome,
-              {username}
+              Welcome, <span> </span> {username}
             </p>
-            <div className="user-menu">
-              <button type="button">View Profile</button>
-              <button type="button">Edit Profile</button>
-              <button type="button">Close</button>
+            <div
+              className={isOpen ? 'open' : 'closed'}
+              onMouseLeave={() => setIsOpen(false)}
+            >
+              <NavLink to="/userInfo" className="user-profile">
+                View/Edit Profile
+              </NavLink>
             </div>
-            <NavLink to="/userInfo">
-              <img
-                src={image}
-                className="userIcon"
-                alt="generic user icon"
-                onMouseEnter={() => setIsOpen(true)}
-                onMouseLeave={() => setIsOpen(false)}
-              />
-            </NavLink>
-          </>
+            <img
+              src={image || defautUserIcon}
+              className="userIcon"
+              alt="generic user icon"
+              onMouseEnter={() => setIsOpen(true)}
+            />
+          </div>
         )}
         {loggedIn ? (
           <button

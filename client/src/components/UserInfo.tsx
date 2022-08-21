@@ -8,37 +8,51 @@ import {
   updateUsername, updatePassword, updateProfilePicture, updateEmail,
 } from '../store/UserSlice';
 import { RootState } from '../store';
+import defaultUserIcon from '../img/user.png';
 
 const UserInfoWrapper = styled.main`
   height: 92vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .prev-img {
     height: 50px;
     width: 50px;
   }
   .profile-img {
     align-self: center;
-    width: 50%;
-    height: 50vh;
+    width: 200px;
+    height: 200px;
   }
   .update-form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: .5rem;
     button {
-      margin-left: 2em;
       width: 15em;
+      cursor: pointer
     }
   .update-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     p {
       margin-left: 1em;
     }
     input {
-    width: 30em;
-    margin-left: 2em;
+    width: 400px;
+    height: 25px;
+    margin: 0.5rem;
+    text-align: center;
+    border: none;
+    &.image-input {
+      margin-left: 200px;
+    }
     }
   }
 `;
@@ -131,6 +145,17 @@ function UserInfo() {
 
   return (
     <UserInfoWrapper>
+      {/* Update profile picture form */}
+      <form onSubmit={changeProfilePicture} className="update-form">
+        <label htmlFor="profilePicture" className="update-info">
+          <p>Current Profile Picture</p>
+          <img className="profile-img" src={image || defaultUserIcon} alt="user profile pic" />
+          <p>Upload New Profile Picture</p>
+          <input type="file" className="image-input" onChange={handleImageChange} />
+        </label>
+        {previewPicture && <img className="prev-img" src={previewPicture} alt="prev-img" />}
+        <button type="submit" disabled={disabled}> Change Profile Picture</button>
+      </form>
       {/* Update email form */}
       <form onSubmit={changeEmail} className="update-form">
         <label htmlFor="email" className="update-info">
@@ -162,17 +187,6 @@ function UserInfo() {
           <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
         </label>
         <button type="submit" disabled={newPassword === ''}>Change Password</button>
-      </form>
-      {/* Update profile picture form */}
-      <form onSubmit={changeProfilePicture} className="update-form">
-        <label htmlFor="profilePicture" className="update-info">
-          <p>Current Profile Picture</p>
-          <img className="profile-img" src={image} alt="user profile pic" />
-          <p>Upload New Profile Picture</p>
-          <input type="file" onChange={handleImageChange} />
-        </label>
-        {previewPicture && <img className="prev-img" src={previewPicture} alt="prev-img" />}
-        <button type="submit" disabled={disabled}> Change Profile Picture</button>
       </form>
     </UserInfoWrapper>
   );
