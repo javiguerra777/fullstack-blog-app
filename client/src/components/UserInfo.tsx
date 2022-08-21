@@ -11,7 +11,6 @@ import { RootState } from '../store';
 import defaultUserIcon from '../img/user.png';
 
 const UserInfoWrapper = styled.main`
-  height: 92vh;
   width: 100vw;
   display: flex;
   flex-direction: column;

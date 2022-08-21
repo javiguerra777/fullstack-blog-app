@@ -24,15 +24,24 @@ const ProfilePictureWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   .image-form {
-    margin: 0 auto;
-    padding: 0 auto;
+    margin-bottom: 1em;
+    height: auto;
   }
   .nav-to-home {
     margin-right: 10%;
+    height: 2rem;
     align-self: flex-end;
+    background: #444444;
+    color: #ededed;
+    border: none;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    &:hover {
+      background: #da0037;
+      transition: all 0.35s ease;
+    }
   }
   .prev-prof-img {
-    background: white;
     height: 40vh;
     width: 50vw;
     margin: 0 auto;

@@ -14,7 +14,7 @@ import {
 } from '../store/PostSlice';
 import { Category } from '../types/types';
 
-const StyledNewPost = styled.section`
+export const StyledNewPost = styled.section`
   height: 90vh;
   width: 100%;
   display: flex;
@@ -75,6 +75,13 @@ const StyledNewPost = styled.section`
       cursor: default;
     }
   }
+  .category-label {
+    margin-bottom: 5px;
+  }
+  select {
+    width: 20rem;
+    cursor: pointer;
+  }
 `;
 
 function NewPost() {
@@ -111,7 +118,6 @@ function NewPost() {
   // function to handle image change
   const changeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
-      console.error('Select a file');
       setPreviewImage('');
       return;
     }
@@ -151,7 +157,11 @@ function NewPost() {
   }
   return (
     <StyledNewPost>
-      <p data-testid="new-post">New Post</p>
+      <h1 data-testid="new-post">New Post</h1>
+      <label className="category-label" htmlFor="category">
+        {' '}
+        Select Category
+      </label>
       <select
         value={category}
         id="category"

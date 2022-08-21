@@ -220,6 +220,15 @@ export const StyledPost = styled.section`
       }
     }
   }
+  .delete-post {
+    background: none;
+    border: none;
+    color: #ededed;
+    cursor: pointer;
+  }
+  .delete-post: hover {
+    text-decoration: underline;
+  }
   @media (max-width: 576px) {
     margin: 1rem 0.25rem;
     & .wrapper {
@@ -372,7 +381,6 @@ function Post({
   function openPostMenu() {
     // eslint-disable-next-line no-unused-expressions
     !isOpen ? setIsOpen(true) : setIsOpen(false);
-    console.log(isOpen);
   }
   // opens delete message prompt and closes the post menu
   const displayDeleteMessage = () => {
@@ -423,7 +431,11 @@ function Post({
             {currentUser === username ? (
               <div>
                 <Link to={`editPost/${id}`}>Edit Post</Link>
-                <button type="button" onClick={displayDeleteMessage}>
+                <button
+                  type="button"
+                  className="delete-post"
+                  onClick={displayDeleteMessage}
+                >
                   Delete Post
                 </button>
               </div>

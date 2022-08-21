@@ -56,7 +56,8 @@ export const getUsers = async () => axios.get(`${urlBase}users`);
 export const validateEmailOnServer = async (
   request: ValidateEmail,
 ) => {
-  await axios.post(`${urlBase}user`, request);
+  const { data } = await axios.post(`${urlBase}user`, request);
+  return data;
 };
 export const validateUserOnServer = async (token: string) => {
   const { data } = await axios.get(`${urlBase}validateUser`, {

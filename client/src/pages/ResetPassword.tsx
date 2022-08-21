@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { validateUserOnServer, resetPassword } from '../utils/api';
+import { ResetPasswordWrapper } from './EmailPassword';
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -24,9 +25,9 @@ function ResetPassword() {
     navigate('/signin');
   };
   return (
-    <div>
+    <ResetPasswordWrapper>
       {pwdForm ? (
-        <div>
+        <section>
           <h1>Reset Password</h1>
           <form onSubmit={submitNewPassword}>
             <input
@@ -39,9 +40,9 @@ function ResetPassword() {
               Submit New Password
             </button>
           </form>
-        </div>
+        </section>
       ) : (
-        <div>
+        <section>
           <h1>Enter your token to reset your password</h1>
           <form onSubmit={confirmId}>
             <input
@@ -56,9 +57,9 @@ function ResetPassword() {
               Submit Token
             </button>
           </form>
-        </div>
+        </section>
       )}
-    </div>
+    </ResetPasswordWrapper>
   );
 }
 

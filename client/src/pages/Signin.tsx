@@ -91,6 +91,11 @@ export const StyledForm = styled.section`
     font-size: 1rem;
     align-self: flex-end;
   }
+  .forgot-pwd {
+    a {
+      color: white;
+    }
+  }
   label {
     align-self: flex-start;
   }
@@ -149,15 +154,14 @@ function Signin() {
           </p>
         )}
         {error && (
-          <div>
+          <section className="forgot-pwd">
             If you forgot your password you can reset it using this
-            link
-            <Link to="/validateEmail">Click Here</Link>
-          </div>
+            link <Link to="/validateEmail">Click Here</Link>
+          </section>
         )}
         <small className="small">
-          Forgot your password?
-          <Link to="/validateEmail"> Click Here</Link>
+          Forgot your password?{' '}
+          <Link to="/validateEmail">Click Here</Link>
         </small>
         <label htmlFor="username" id="username">
           {' '}

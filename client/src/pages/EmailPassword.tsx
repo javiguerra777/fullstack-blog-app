@@ -1,5 +1,24 @@
 import React, { useState, FormEvent } from 'react';
+import styled from 'styled-components';
 import { validateEmailOnServer } from '../utils/api';
+
+export const ResetPasswordWrapper = styled.main`
+  height: 92vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    label {
+      margin-bottom: 5px;
+    }
+    input {
+      margin-bottom: 5px;
+    }
+  }
+`;
 
 function EmailPassword() {
   const [email, setEmail] = useState('');
@@ -11,18 +30,21 @@ function EmailPassword() {
     setEmailSent(true);
   };
   return (
-    <div>
+    <ResetPasswordWrapper>
       {emailSent ? (
-        <div>
-          <h1>Check your Email on instructions to reset password</h1>
-        </div>
+        <section className="email-sent">
+          <h1>Check your Email for instructions to reset password</h1>
+        </section>
       ) : (
-        <div>
+        <section className="validate-email">
           <h1>
-            Enter your email and a link will be sent to reset your
-            password
+            A link to reset your password will be sent to your email
           </h1>
           <form onSubmit={sendEmail}>
+            <label htmlFor="email" id="email">
+              {' '}
+              Email:
+            </label>
             <input
               type="email"
               placeholder="example@gmail.com"
@@ -33,9 +55,9 @@ function EmailPassword() {
               Send Password Link
             </button>
           </form>
-        </div>
+        </section>
       )}
-    </div>
+    </ResetPasswordWrapper>
   );
 }
 

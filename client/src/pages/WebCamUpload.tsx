@@ -2,7 +2,6 @@
 import React, {
   FormEvent, useEffect, useState, ChangeEvent,
 } from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,61 +12,7 @@ import {
 } from '../store/PostSlice';
 import { RootState } from '../store';
 import { Category } from '../types/types';
-
-const StyledNewPost = styled.section`
-  height: 90vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & p {
-    font-size: 2.75rem;
-  }
-  & form {
-    height: 70vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    & div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      & input {
-        width: 30em;
-        height: 30px;
-        margin: 1rem;
-        border-radius: 5px;
-        border: 1px solid #000;
-        text-align: center;
-        font-size: 1.3rem;
-      }
-      & textarea {
-        height: 10em;
-        width: 30em;
-        border: 1px solid #000;
-        border-radius: 5px;
-        font-family: 'Quicksand', sans-serif;
-        font-size: 1.25rem;
-        resize: none;
-      }
-    }
-    & button {
-      width: 900px;
-      height: 45px;
-      margin: 1rem;
-      font-size: 1.25rem;
-      background: #0f3d3e;
-      color: #e2dcc8;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-    }
-  }
-`;
+import { StyledNewPost } from '../components/NewPost';
 
 function WebCamUpload() {
   const dispatch = useDispatch();
@@ -126,7 +71,11 @@ function WebCamUpload() {
   }
   return (
     <StyledNewPost>
-      <p data-testid="image-post-description">Upload Image</p>
+      <h1 data-testid="image-post-description">Upload Image</h1>
+      <label className="category-label" htmlFor="category">
+        {' '}
+        Select Category
+      </label>
       <select
         value={category}
         id="category"
