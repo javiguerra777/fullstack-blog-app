@@ -67,6 +67,14 @@ export const StyledForm = styled.section`
   & small {
     font-size: 1.25rem;
   }
+  .small {
+    margin-top: 1em;
+    font-size: 1rem;
+    align-self: flex-end;
+  }
+  label {
+    align-self: flex-start;
+  }
 `;
 
 function Signin() {
@@ -84,6 +92,9 @@ function Signin() {
   // to clear error message if user returns to sign in page later in app
   useEffect(() => {
     dispatch(clearError());
+    return () => {
+      dispatch(clearError());
+    };
   }, [dispatch]);
 
   const submitLoginForm = async (e: FormEvent<HTMLFormElement>) => {
@@ -101,6 +112,13 @@ function Signin() {
     }
   };
 
+  const invalidLoginInfo = () => {
+    if (!username || !password) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <StyledForm>
       <p>Sign In</p>
@@ -112,11 +130,20 @@ function Signin() {
           </p>
         )}
         {error && (
-          <Link to="/validateEmail">
+          <div>
             If you forgot your password you can reset it using this
             link
-          </Link>
+            <Link to="/validateEmail">Click Here</Link>
+          </div>
         )}
+        <small className="small">
+          Forgot your password?
+          <Link to="/validateEmail"> Click Here</Link>
+        </small>
+        <label htmlFor="username" id="username">
+          {' '}
+          Enter Username:
+        </label>
         <input
           type="text"
           placeholder="@username"
@@ -124,7 +151,10 @@ function Signin() {
           onChange={(e) => setUsername(e.target.value)}
           className={!formValidation ? 'invalid' : ''}
         />
-
+        <label htmlFor="password" id="password">
+          {' '}
+          Enter password:
+        </label>
         <input
           type="password"
           placeholder="********"
@@ -132,7 +162,9 @@ function Signin() {
           onChange={(e) => setPassword(e.target.value)}
           className={!formValidation ? 'invalid' : ''}
         />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={invalidLoginInfo()}>
+          Login
+        </button>
       </form>
       <small>
         If you do not have an account, sign up{' '}

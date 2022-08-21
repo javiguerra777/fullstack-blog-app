@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -73,8 +72,10 @@ test('check that button is not disabled on render', async () => {
     name: /post/i,
   });
   const title = await screen.getByTestId('edit-title');
+  const textarea = await screen.getByTestId('edit-content');
 
   expect(title).toEqual(expect.not.stringMatching(''));
+  expect(textarea).toEqual(expect.not.stringMatching(''));
 
   // form and button should be in document
   expect(form).toBeInTheDocument();

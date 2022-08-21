@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { RootState } from '../store';
 import { StyledForm } from './Signin';
 import {
@@ -16,6 +17,28 @@ import {
 import { getUsers } from '../utils/api';
 import { ExistingUser } from '../types/types';
 
+const ProfilePictureWrapper = styled.section`
+  height: 92vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .image-form {
+    margin: 0 auto;
+    padding: 0 auto;
+  }
+  .nav-to-home {
+    margin-right: 10%;
+    align-self: flex-end;
+  }
+  .prev-prof-img {
+    background: white;
+    height: 40vh;
+    width: 50vw;
+    margin: 0 auto;
+  }
+`;
+
 function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +46,7 @@ function SignUp() {
     userId,
     id,
     username: reduxName,
+    error,
   } = useSelector((state: RootState) => state.user, shallowEqual);
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -109,11 +133,21 @@ function SignUp() {
   return (
     <StyledForm>
       {signedUp ? (
-        <div>
+        <ProfilePictureWrapper>
           <h1>Add a profile picture to your account</h1>
-          <form onSubmit={addProfilePicture}>
-            {previewPic && <img src={previewPic} alt="preview-pic" />}
-            <input type="file" onChange={handleImageChange} />
+          {previewPic && (
+            <img
+              className="prev-prof-img"
+              src={previewPic}
+              alt="preview-pic"
+            />
+          )}
+          <form className="image-form" onSubmit={addProfilePicture}>
+            <input
+              type="file"
+              id="file"
+              onChange={handleImageChange}
+            />
             <button
               className="add-pic"
               type="submit"
@@ -129,26 +163,44 @@ function SignUp() {
           >
             Later
           </button>
-        </div>
+        </ProfilePictureWrapper>
       ) : (
-        <div>
+        <section>
+          {error && <h1>error</h1>}
           {repeatUser && <h1>Username exists already</h1>}
           {repeatEmail && <h1>Email exists already</h1>}
-          <h1>Sign Up</h1>
+          <p>Sign Up</p>
           <i className="fa-solid fa-user-plus" />
           <form onSubmit={signUp}>
+            <label
+              htmlFor="email"
+              id="email"
+              style={{ marginTop: '1em' }}
+            >
+              {' '}
+              Enter Email:
+            </label>
             <input
               type="email"
               placeholder="example@gmail.com"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <label htmlFor="username" id="username">
+              {' '}
+              Enter Username:
+            </label>
             <input
               type="text"
               placeholder="@username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
+            <label htmlFor="password" id="password">
+              {' '}
+              Enter Password:
+            </label>
             <input
               type="password"
               placeholder="********"
@@ -159,7 +211,7 @@ function SignUp() {
               Sign Up
             </button>
           </form>
-        </div>
+        </section>
       )}
     </StyledForm>
   );

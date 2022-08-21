@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
-// import Post from '../components/Post';
 import GlobalStyles from '../styles/GlobalStyles';
 import Footer from '../components/Footer';
 import Filter from '../components/Filter';
