@@ -28,7 +28,7 @@ function ResetPassword() {
     <ResetPasswordWrapper>
       {pwdForm ? (
         <section>
-          <h1>Reset Password</h1>
+          <h1>Enter New Password to Reset Password</h1>
           <form onSubmit={submitNewPassword}>
             <input
               type="text"

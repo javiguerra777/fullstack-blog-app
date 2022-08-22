@@ -71,7 +71,9 @@ export const StyledForm = styled.section`
       color: #ededed;
     }
   }
-
+  label {
+    align-self: flex-start;
+  }
   @media (max-width: 576px) {
     & form {
       & input {
@@ -95,9 +97,6 @@ export const StyledForm = styled.section`
     a {
       color: white;
     }
-  }
-  label {
-    align-self: flex-start;
   }
 `;
 

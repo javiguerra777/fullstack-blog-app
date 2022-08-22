@@ -8,14 +8,47 @@ export const ResetPasswordWrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+  button {
+    width: 55%;
+    height: 35px;
+    font-size: 1.2rem;
+    background: #444444;
+    color: #ededed;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    &:hover {
+      background: #da0037;
+      transition: all 0.35s ease;
+    }
+  }
+  h1 {
+    text-align: center;
+  }
   form {
+    width: 100vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
     label {
+      align-self: flex-start;
       margin-bottom: 5px;
     }
     input {
+      width: 60%;
+      height: 35px;
+      text-align: center;
+      font-size: 1.2rem;
+      margin: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #000;
       margin-bottom: 5px;
+    }
+  }
+  @media (max-width: 700px) {
+    h1 {
+      font-size: 1rem;
     }
   }
 `;
@@ -41,10 +74,6 @@ function EmailPassword() {
             A link to reset your password will be sent to your email
           </h1>
           <form onSubmit={sendEmail}>
-            <label htmlFor="email" id="email">
-              {' '}
-              Email:
-            </label>
             <input
               type="email"
               placeholder="example@gmail.com"

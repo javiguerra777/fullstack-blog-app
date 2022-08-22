@@ -9,8 +9,8 @@ import { toggleDisplayCamera } from '../store/UserSlice';
 import { setCurrentImage } from '../store/PostSlice';
 
 const videoConstraints = {
-  width: 1280,
-  height: 600,
+  width: 1200,
+  height: 1600,
   facingMode: 'user',
 };
 
@@ -23,31 +23,49 @@ const CameraWrapper = styled.section`
   button {
     cursor: pointer;
   }
+  .option-btn {
+    font-size: 1.2rem;
+    background: #444444;
+    color: #ededed;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    &:hover {
+      background: #da0037;
+      transition: all 0.35s ease;
+    }
+  }
   .camera-header {
     height: 5%;
+    position: fixed;
     width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+    z-index: 10;
     .exit-btn {
       background: none;
       border: none;
       color: white;
+      position: relative;
+      right: 1em;
+      z-index: 10;
     }
   }
   .camera-footer {
-    height: 10%;
+    position: fixed;
     width: 100vw;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    bottom: 1em;
+    z-index: 10;
     .capture-btn {
       background: white;
       border-radius: 3em;
       border: solid 0.2rem #da0037;
-      position: absolute;
-      bottom: 4rem;
     }
   }
   .preview {
@@ -55,8 +73,8 @@ const CameraWrapper = styled.section`
     flex-direction: column;
     align-items: center;
     .preview-snapshot {
-      width: 85%;
-      height: 20rem;
+      width: 100%;
+      height: 37em;
     }
     .preview-footer {
       margin-top: 1rem;
@@ -104,10 +122,18 @@ function WebcamComponent() {
             alt="img camera"
           />
           <footer className="preview-footer">
-            <button type="button" onClick={retakePhoto}>
+            <button
+              className="option-btn"
+              type="button"
+              onClick={retakePhoto}
+            >
               Yes
             </button>
-            <button type="button" onClick={continueToUpload}>
+            <button
+              className="option-btn"
+              type="button"
+              onClick={continueToUpload}
+            >
               No
             </button>
           </footer>
@@ -125,17 +151,16 @@ function WebcamComponent() {
               </button>
             </section>
           </header>
-
-          <section className="webcam-container">
-            <Webcam
-              audio={false}
-              height="85%"
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              width="100%"
-              videoConstraints={videoConstraints}
-            />
-          </section>
+          <Webcam
+            audio={false}
+            height="100%"
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            screenshotQuality={1}
+            width="100%"
+            videoConstraints={videoConstraints}
+            imageSmoothing
+          />
           <footer className="camera-footer d-flex">
             <button
               type="button"

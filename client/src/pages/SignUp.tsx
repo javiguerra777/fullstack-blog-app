@@ -43,8 +43,26 @@ const ProfilePictureWrapper = styled.section`
   }
   .prev-prof-img {
     height: 40vh;
-    width: 50vw;
+    width: 30vw;
     margin: 0 auto;
+  }
+  @media (max-width: 1000px) {
+    .prev-prof-img {
+      width: 40vw;
+    }
+  }
+  @media (max-width: 800px) {
+    .add-pic {
+      width: 75vw;
+    }
+    .prev-prof-img {
+      width: 50vw;
+    }
+  }
+  @media (max-width: 600px) {
+    .prev-prof-img {
+      width: 60vw;
+    }
   }
 `;
 
