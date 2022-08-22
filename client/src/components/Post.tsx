@@ -52,7 +52,6 @@ const DeleteWrapper = styled.section`
 `;
 
 export const StyledPost = styled.section`
-  width: 65%;
   height: 900px;
   background: #444444;
   border-radius: 5px;
@@ -179,47 +178,6 @@ export const StyledPost = styled.section`
       color: #ededed;
     }
   }
-  @media (max-width: 800px) {
-    word-wrap: break-word;
-    overflow-x: hidden;
-    width: auto;
-    font-size: 0.7rem;
-    margin-left: 2em;
-    .category {
-      position: absolute;
-      bottom: 2em;
-      right: 0;
-    }
-    .comments {
-      position: absolute;
-      bottom: 3.5em;
-      left: 6em;
-    }
-    .like-btn {
-      position: absolute;
-      bottom: 3em;
-    }
-    .title {
-      font-size: 3em;
-    }
-    .user-info {
-      margin: 1rem auto;
-      & small {
-        margin: 0 1rem;
-        font-size: 0.25rem;
-      }
-      & img {
-        height: 50px;
-        width: 50px;
-        margin-right: 20px;
-        border-radius: 50%;
-      }
-      & .username {
-        font-weight: 400;
-        font-size: 1rem;
-      }
-    }
-  }
   .delete-post {
     background: none;
     border: none;
@@ -255,6 +213,48 @@ export const StyledPost = styled.section`
       padding: 0 0.75rem;
       font-size: 1rem;
       line-height: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    word-wrap: break-word;
+    overflow-x: hidden;
+    width: 95%;
+    font-size: 0.7rem;
+    margin: 1rem auto;
+    .category {
+      position: absolute;
+      bottom: 2em;
+      right: 0;
+    }
+    .comments {
+      position: absolute;
+      bottom: 3.5em;
+      left: 6em;
+    }
+    .like-btn {
+      position: absolute;
+      bottom: 3em;
+    }
+    .title {
+      font-size: 3em;
+    }
+    .user-info {
+      margin: 1rem auto;
+      & small {
+        margin: 0 1rem;
+        font-size: 0.25rem;
+      }
+      & img {
+        height: 50px;
+        width: 50px;
+        margin-right: 20px;
+        border-radius: 50%;
+      }
+      & .username {
+        font-weight: 400;
+        font-size: 1rem;
+      }
     }
   }
 `;

@@ -23,6 +23,11 @@ const HomeWrapper = styled.main`
     jusitfy-content: center;
     align-items: center;
   }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    jusitfy-content: center;
+    align-items: center;
+  }
 `;
 
 function Home() {

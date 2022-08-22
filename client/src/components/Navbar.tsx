@@ -86,8 +86,10 @@ const StyledNavbar = styled.nav`
     }
     & div {
       &.logo {
-        font-size: 1rem;
-        margin-left: 0.25rem;
+        & p {
+          font-size: 1.25rem;
+          margin-left: 0.25rem;
+        }
         & img {
           height: 20px;
           width: 20px;
@@ -113,6 +115,26 @@ const StyledNavbar = styled.nav`
     }
     & .signout {
       font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .logo {
+      & p {
+        font-size: 2rem;
+        margin-left: 1rem;
+      }
+    }
+    & div {
+      & .user-profile {
+        font-size: 1rem;
+        margin: 0 2rem;
+      }
+    }
+    }
+    & a {
+      font-size: 1rem;
+      margin-right: 1rem;
     }
   }
 `;
