@@ -62,6 +62,11 @@ const PostWrapper = styled.section`
       }
     }
   }
+  @media (max-width: 768px) {
+    & .form-container {
+      width: 90%;
+    }
+  }
 `;
 
 // create connection with socket.io server

@@ -53,6 +53,7 @@ const DeleteWrapper = styled.section`
 
 export const StyledPost = styled.section`
   height: 900px;
+  width: 75%;
   background: #444444;
   border-radius: 5px;
   position: relative;
@@ -65,19 +66,22 @@ export const StyledPost = styled.section`
     color: white;
   }
   & .wrapper {
-    padding: 5rem;
+    padding: 2rem;
   }
   & .user-info {
     position: absolute;
     top: 2vh;
     height: 50px;
-    width: 450px;
+    width: 100%;
     display: flex;
     align-items: center;
     margin: 1rem auto;
+    & p {
+      font-size: 1rem;
+    }
     & small {
       margin: 0 1rem;
-      font-size: 0.25rem;
+      font-size: 0.15rem;
     }
     & img {
       height: 50px;
@@ -170,7 +174,7 @@ export const StyledPost = styled.section`
   }
   & .content {
     position: absolute;
-    bottom: 7vh;
+    bottom: 2.5vh;
     margin: auto;
     width: 75%;
     font-size: 1.2rem;
@@ -222,6 +226,9 @@ export const StyledPost = styled.section`
     width: 95%;
     font-size: 0.7rem;
     margin: 1rem auto;
+    & .post-image {
+      top: 17vh;
+    }
     .category {
       position: absolute;
       bottom: 2em;
@@ -254,6 +261,14 @@ export const StyledPost = styled.section`
       & .username {
         font-weight: 400;
         font-size: 1rem;
+      }
+    }
+  }
+  @media (max-width: 1025px) {
+    width: 90%;
+    .user-info {
+      & p {
+        font-size: 0.75rem;
       }
     }
   }

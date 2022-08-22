@@ -86,7 +86,7 @@ export const StyledForm = styled.section`
   .small {
     margin-top: 1em;
     font-size: 1rem;
-    align-self: flex-end;
+    align-self: center;
   }
   .forgot-pwd {
     a {
@@ -105,6 +105,9 @@ export const StyledForm = styled.section`
       }
       & button {
         width: 300px;
+      }
+      & label {
+        align-self: center;
       }
     }
     & small {

@@ -34,6 +34,9 @@ const PostDetailsWrapper = styled.section`
   @media (max-width: 576px) {
     width: 95%;
   }
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 function PostDetails({ post }: any) {
   // eslint-disable-next-line object-curly-newline

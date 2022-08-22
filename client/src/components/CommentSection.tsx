@@ -45,6 +45,13 @@ const CommentSectionWrapper = styled.section`
       width: 95%;
     }
   }
+  @media (max-width: 768px) {
+    width: 90%;
+    font-size: 0.85rem;
+    & .comment {
+      width: 95%;
+    }
+  }
 `;
 function CommentSection({ comments }: CommentProps) {
   // to fix issue with sorting comments array
