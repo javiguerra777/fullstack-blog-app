@@ -53,7 +53,7 @@ const DeleteWrapper = styled.section`
 
 export const StyledPost = styled.section`
   height: 900px;
-  width: 90%;
+  width: 65%;
   background: #444444;
   border-radius: 5px;
   position: relative;
