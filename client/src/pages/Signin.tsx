@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { RootState } from '../store';
-// import { useForm } from 'react-hook-form';
 import { loginUser, clearError } from '../store/UserSlice';
 
 export const StyledForm = styled.section`
@@ -74,6 +73,17 @@ export const StyledForm = styled.section`
   label {
     align-self: flex-start;
   }
+  .small {
+    margin-top: 1em;
+    font-size: 1rem;
+    align-self: flex-end;
+  }
+  .forgot-pwd {
+    a {
+      color: white;
+    }
+  }
+
   @media (max-width: 576px) {
     & form {
       & input {
@@ -86,16 +96,6 @@ export const StyledForm = styled.section`
     }
     & small {
       font-size: 1rem;
-    }
-  }
-  .small {
-    margin-top: 1em;
-    font-size: 1rem;
-    align-self: flex-end;
-  }
-  .forgot-pwd {
-    a {
-      color: white;
     }
   }
 `;
@@ -115,6 +115,7 @@ function Signin() {
   // to clear error message if user returns to sign in page later in app
   useEffect(() => {
     dispatch(clearError());
+    // to clear error message if user leaves the page and error is still true
     return () => {
       dispatch(clearError());
     };
