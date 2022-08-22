@@ -23,6 +23,9 @@ const ProfilePictureWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .add-pic {
+    width: 70vw;
+  }
   .image-form {
     margin-bottom: 1em;
     height: auto;
@@ -50,6 +53,9 @@ const ProfilePictureWrapper = styled.section`
     border: none;
   }
   @media (max-width: 1000px) {
+    .add-pic {
+      width: 65vw;
+    }
     .prev-prof-img {
       width: 40vw;
     }
@@ -60,6 +66,9 @@ const ProfilePictureWrapper = styled.section`
     }
     .prev-prof-img {
       width: 50vw;
+    }
+    .input-img {
+      width: 75vw;
     }
   }
   @media (max-width: 600px) {
