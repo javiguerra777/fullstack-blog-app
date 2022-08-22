@@ -41,6 +41,12 @@ const StyledNavbar = styled.nav`
     align-items: center;
     padding: 0 3rem;
     width: 45%;
+    & a {
+      font-size: 1.3rem;
+      &:nth-child(1) {
+        alight-items: flex-end;
+      }
+    }
     & .user-profile {
       color: #ededed;
       font-size: 0.95rem;
