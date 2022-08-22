@@ -25,12 +25,13 @@ const StyledNavbar = styled.nav`
     color: white;
   }
   .signout {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     text-decoration: none;
     color: #da0037;
+    margin-left: 1rem;
   }
   a {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-decoration: none;
     color: #da0037;
   }
@@ -39,9 +40,10 @@ const StyledNavbar = styled.nav`
     justify-content: center;
     align-items: center;
     padding: 0 3rem;
+    width: 45%;
     & .user-profile {
       color: #ededed;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       padding: 0 5px;
       &:hover {
         text-decoration: underline;
@@ -136,6 +138,14 @@ const StyledNavbar = styled.nav`
       font-size: 1rem;
       margin-right: 1rem;
     }
+  }
+  @media (max-size: 920px) {
+    & div {
+      & button {
+        font-size: 0.75rem;
+      }
+    }
+    
   }
 `;
 
