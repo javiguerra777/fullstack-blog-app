@@ -13,6 +13,12 @@ export const StyledForm = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  & section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   & i {
     font-size: 5rem;
   }
@@ -56,6 +62,10 @@ export const StyledForm = styled.section`
       &:hover {
         background: #da0037;
         transition: all 0.35s ease;
+      }
+      &:disabled {
+        background: gray;
+        cursor: default;
       }
     }
   }
@@ -159,10 +169,6 @@ function Signin() {
             link <Link to="/validateEmail">Click Here</Link>
           </section>
         )}
-        <small className="small">
-          Forgot your password?{' '}
-          <Link to="/validateEmail">Click Here</Link>
-        </small>
         <label htmlFor="username" id="username">
           {' '}
           Enter Username:
@@ -192,6 +198,10 @@ function Signin() {
       <small>
         If you do not have an account, sign up{' '}
         <Link to="/signup">here</Link>
+      </small>
+      <small className="small">
+        Forgot your password?{' '}
+        <Link to="/validateEmail">Click Here</Link>
       </small>
     </StyledForm>
   );

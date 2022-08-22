@@ -16,6 +16,7 @@ import {
 } from '../store/UserSlice';
 import { getUsers } from '../utils/api';
 import { ExistingUser } from '../types/types';
+import { validateEmail } from '../utils/functions';
 
 const ProfilePictureWrapper = styled.section`
   height: 92vh;
@@ -151,8 +152,15 @@ function SignUp() {
     dispatch(setLoggedInTrue());
     navigate('/');
   };
+  // checks for invalid email format
+  const invalidEmailFormat = () => {
+    if (repeatEmail || error || !validateEmail(email)) {
+      return true;
+    }
+    return false;
+  };
   // checks if username or password is empty and disables button
-  if (!username || !password) {
+  if (!username || !password || !validateEmail(email)) {
     disabled = true;
   }
   /* if username or email is equal to an existing username
@@ -206,9 +214,12 @@ function SignUp() {
         </ProfilePictureWrapper>
       ) : (
         <section>
-          {error && <h1>error</h1>}
-          {repeatUser && <h1>Username exists already</h1>}
-          {repeatEmail && <h1>Email exists already</h1>}
+          {error && (
+            <h1>
+              Error occurred during registration, possible repeat
+              username or email
+            </h1>
+          )}
           <p>Sign Up</p>
           <i className="fa-solid fa-user-plus" />
           <form onSubmit={signUp}>
@@ -220,9 +231,16 @@ function SignUp() {
               {' '}
               Enter Email:
             </label>
+            {repeatEmail && (
+              <p className="errorMessage">*Email is already taken</p>
+            )}
+            {!validateEmail(email) && email && (
+              <p className="errorMessage">Invalid Email</p>
+            )}
             <input
               type="email"
               placeholder="example@gmail.com"
+              className={invalidEmailFormat() ? 'invalid' : ''}
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -231,9 +249,15 @@ function SignUp() {
               {' '}
               Enter Username:
             </label>
+            {repeatUser && (
+              <p className="errorMessage">
+                *Username is already taken
+              </p>
+            )}
             <input
               type="text"
               placeholder="@username"
+              className={repeatUser || error ? 'invalid' : ''}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
