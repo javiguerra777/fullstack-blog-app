@@ -87,9 +87,10 @@ function EditPost() {
         {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="edit-form">
-        <div>
+        <section className="post-content">
           <label htmlFor="title">
             <input
+              className="title"
               id="title"
               type="text"
               placeholder="Title of post"
@@ -101,13 +102,14 @@ function EditPost() {
 
           <textarea
             placeholder="Content...."
+            className="content"
             id="content"
             value={content}
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
             data-testid="edit-content"
           />
-        </div>
-        <button type="submit" disabled={invalidateInputs()}>Post</button>
+        </section>
+        <button type="submit" className="submit-form" disabled={invalidateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );

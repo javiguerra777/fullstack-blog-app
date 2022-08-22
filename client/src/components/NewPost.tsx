@@ -15,7 +15,7 @@ import {
 import { Category } from '../types/types';
 
 export const StyledNewPost = styled.section`
-  height: 90vh;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -30,16 +30,19 @@ export const StyledNewPost = styled.section`
   }
   & form {
     height: 70vh;
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    & div {
+    & .post-content {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      & .prof-img-file {
+        border: none;
+      }
       & input {
         width: 30em;
         height: 2em;
@@ -81,6 +84,26 @@ export const StyledNewPost = styled.section`
   select {
     width: 20rem;
     cursor: pointer;
+  }
+
+  @media (max-width: 700px) {
+    select{
+      width: 30vw;
+    } 
+    & form {
+      & #title {
+        width: 75vw;
+      }
+      & #content {
+        width: 70vw;
+      }
+      & #file {
+        width: 75vw;
+      }
+      & .submit-form {
+        width: 70vw;
+      }
+    }
   }
 `;
 
@@ -173,10 +196,11 @@ function NewPost() {
         {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="form">
-        <div>
+        <section className="post-content">
           <label htmlFor="title">
             <input
               id="title"
+              className="title"
               type="text"
               placeholder="Title of post"
               value={title}
@@ -187,6 +211,7 @@ function NewPost() {
 
           <textarea
             placeholder="Content...."
+            className="content"
             id="content"
             value={content}
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
@@ -194,12 +219,14 @@ function NewPost() {
           />
           <input
             type="file"
+            id="file"
             onChange={changeImage}
             data-testid="file-input"
+            className="prof-img-file"
           />
-        </div>
+        </section>
         {previewImage && <img className="preview-img" src={previewImage} alt="file-img" />}
-        <button type="submit" disabled={invalidateInputs()}>Post</button>
+        <button className="submit-form" type="submit" disabled={invalidateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );

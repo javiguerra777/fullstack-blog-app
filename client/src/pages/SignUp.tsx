@@ -46,6 +46,9 @@ const ProfilePictureWrapper = styled.section`
     width: 30vw;
     margin: 0 auto;
   }
+  .input-img {
+    border: none;
+  }
   @media (max-width: 1000px) {
     .prev-prof-img {
       width: 40vw;
@@ -172,6 +175,7 @@ function SignUp() {
           <form className="image-form" onSubmit={addProfilePicture}>
             <input
               type="file"
+              className="input-img"
               id="file"
               onChange={handleImageChange}
             />
