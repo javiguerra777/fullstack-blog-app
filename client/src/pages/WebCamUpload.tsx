@@ -87,7 +87,7 @@ function WebCamUpload() {
         {categories.map(({ category: theCategory } : Category) => <option key={uuidv4()} value={theCategory}>{theCategory}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="image-form">
-        <div>
+        <section className="post-content">
           <label htmlFor="title">
             <input
               id="title"
@@ -106,8 +106,8 @@ function WebCamUpload() {
             onChange={(e) => dispatch(setCurrentContent(e.target.value))}
             data-testid="image-content"
           />
-        </div>
-        <button type="submit" disabled={invalidateInputs()}>Post</button>
+        </section>
+        <button type="submit" className="submit-form" disabled={invalidateInputs()}>Post</button>
       </form>
     </StyledNewPost>
   );

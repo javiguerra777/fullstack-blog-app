@@ -289,10 +289,6 @@ function Post({
     (state: RootState) => state.post,
     shallowEqual,
   );
-  // console.log(
-  //   `this is the id: ${id}`,
-  //   `this is the userId: ${userId}`,
-  // );
 
   // states used in component
   const [isLiked, setIsLiked] = useState<boolean>(false);

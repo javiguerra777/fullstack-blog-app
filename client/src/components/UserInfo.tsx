@@ -54,6 +54,9 @@ const UserInfoWrapper = styled.main`
     }
     }
   }
+  .image-input {
+    border: none;
+  }
 `;
 function UserInfo() {
   const dispatch = useDispatch();
