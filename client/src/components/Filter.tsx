@@ -38,30 +38,23 @@ const StyledFilter = styled.section`
     font-size: 1.1rem;
     cursor: pointer;
   }
-  @media (max-width: 800px) {
-    width: 15vw;
-    font-size: 1rem;
-    select {
-      width: 180px;
-      margin-left: 2em;
-    }
-    button {
-      width: 180px;
-      margin-left: 2em;
-    }
-  }
   @media (max-width: 576px) {
     height: 100px;
     & button {
-      width: 350px;
+      width: 250px;
       font-size: 0.75rem;
       margin 0;
     }
     & select {
-      width: 350px;
+      width: 250px;
       height: 30px;
       font-size: 0.75rem;
       margin: 10px 0;
+    }
+  }
+  @media (max-width: 768px) {
+    & select, button {
+      width: 300px;
     }
   }
 `;

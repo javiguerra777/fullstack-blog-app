@@ -222,6 +222,9 @@ export const StyledPost = styled.section`
     width: 95%;
     font-size: 0.7rem;
     margin: 1rem auto;
+    & .post-image {
+      top: 17vh;
+    }
     .category {
       position: absolute;
       bottom: 2em;
