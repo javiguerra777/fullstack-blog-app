@@ -152,9 +152,12 @@ function SignUp() {
     dispatch(setLoggedInTrue());
     navigate('/');
   };
-  // checks for invalid email format
+  // checks for invalid email format for styling
   const invalidEmailFormat = () => {
-    if (repeatEmail || error || !validateEmail(email)) {
+    if (repeatEmail || error) {
+      return true;
+    }
+    if (email && !validateEmail(email)) {
       return true;
     }
     return false;
