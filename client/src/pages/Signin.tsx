@@ -103,6 +103,9 @@ export const StyledForm = styled.section`
       & button {
         width: 300px;
       }
+      & label {
+        align-self: center;
+      }
     }
     & small {
       font-size: 1rem;
