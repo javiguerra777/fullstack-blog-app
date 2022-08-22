@@ -6,7 +6,7 @@ const publicRoutes = require('./routes/publicRoutes');
 const privateRoutes = require('./routes/privateRoutes');
 
 const app = express();
-const port = 5000 || process.env.EXPRESS_PORT;
+const port = 5000 || process.env.PORT;
 
 // connection with mongoDB cloud
 mongoose.connect(process.env.MONGOKEY, {
