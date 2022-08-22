@@ -22,8 +22,8 @@ export const StyledNewPost = styled.section`
   justify-content: center;
   align-items: center;
   .preview-img {
-    width: 50px;
-    height: 50px;
+    width: 200px;
+    height: 100px;
   }
   & p {
     font-size: 2.75rem;

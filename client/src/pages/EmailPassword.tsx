@@ -22,6 +22,10 @@ export const ResetPasswordWrapper = styled.main`
       background: #da0037;
       transition: all 0.35s ease;
     }
+    &:disabled {
+      background: gray;
+      cursor: default;
+    }
   }
   h1 {
     text-align: center;
@@ -46,6 +50,9 @@ export const ResetPasswordWrapper = styled.main`
       margin-bottom: 5px;
     }
   }
+  a {
+    color: white;
+  }
   @media (max-width: 700px) {
     h1 {
       font-size: 1rem;
@@ -54,13 +61,18 @@ export const ResetPasswordWrapper = styled.main`
 `;
 
 function EmailPassword() {
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await validateEmailOnServer({ email });
-    setEmail('');
-    setEmailSent(true);
+    try {
+      await validateEmailOnServer({ email });
+      setEmail('');
+      setEmailSent(true);
+    } catch (err) {
+      setError(true);
+    }
   };
   return (
     <ResetPasswordWrapper>
@@ -73,6 +85,7 @@ function EmailPassword() {
           <h1>
             A link to reset your password will be sent to your email
           </h1>
+          {error && <h1>Email not in database</h1>}
           <form onSubmit={sendEmail}>
             <input
               type="email"

@@ -218,10 +218,7 @@ function SignUp() {
       ) : (
         <section>
           {error && (
-            <h1>
-              Error occurred during registration, possible repeat
-              username or email
-            </h1>
+            <h1>Error occurred possible repeat username or email</h1>
           )}
           <p>Sign Up</p>
           <i className="fa-solid fa-user-plus" />

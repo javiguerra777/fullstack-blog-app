@@ -151,6 +151,7 @@ function WebcamComponent() {
               </button>
             </section>
           </header>
+          {/* it is a video html tag */}
           <Webcam
             audio={false}
             height="100%"

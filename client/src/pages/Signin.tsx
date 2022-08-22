@@ -93,6 +93,9 @@ export const StyledForm = styled.section`
       color: white;
     }
   }
+  h1 {
+    word-wrap: break-word;
+  }
 
   @media (max-width: 576px) {
     & form {
@@ -105,6 +108,11 @@ export const StyledForm = styled.section`
       }
     }
     & small {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 500px) {
+    h1 {
       font-size: 1rem;
     }
   }
