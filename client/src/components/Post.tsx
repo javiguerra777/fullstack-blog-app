@@ -20,6 +20,7 @@ import { toggleDisplayPrompt } from '../store/UserSlice';
 import { deletePost, updateFilteredPosts } from '../store/PostSlice';
 import '../styles/notifications.css';
 import { PostProps } from '../types/types';
+import defaultIcon from '../img/default_user_image.png';
 
 const DeleteWrapper = styled.section`
   height: 100vh;
@@ -414,7 +415,7 @@ function Post({
       <div className="wrapper">
         <div className="user-info">
           <img
-            src={profilepicture}
+            src={profilepicture || defaultIcon}
             className="user-icon"
             alt="user icon"
           />
