@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 
 const server = http.createServer(app);
-const port = 5500 || process.env.SOCKET_PORT;
+const port = 5500 || process.env.PORT;
 
 // connection with mongoDB cloud
 mongoose.connect(process.env.MONGOKEY, {

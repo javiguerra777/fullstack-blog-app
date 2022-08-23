@@ -16,9 +16,23 @@ const UserInfoWrapper = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  button {
+     margin: 1rem;
+      font-size: 1.25rem;
+      background: #0f3d3e;
+      color: #e2dcc8;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    & button:disabled {
+      background: black;
+      cursor: default;
+    }
+  }
   .prev-img {
-    height: 50px;
-    width: 50px;
+    height: 200px;
+    width: 200px;
   }
   .profile-img {
     align-self: center;

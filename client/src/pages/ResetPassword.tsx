@@ -1,17 +1,23 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { validateUserOnServer, resetPassword } from '../utils/api';
 import { ResetPasswordWrapper } from './EmailPassword';
 
 function ResetPassword() {
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
   const [token, setToken] = useState('');
   const [pwdForm, setPwdForm] = useState(false);
   const [password, setPassword] = useState('');
   const confirmId = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await validateUserOnServer(token);
-    setPwdForm(true);
+    try {
+      await validateUserOnServer(token);
+      setPwdForm(true);
+    } catch (err) {
+      setError(true);
+    }
   };
   const submitNewPassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,6 +50,16 @@ function ResetPassword() {
       ) : (
         <section>
           <h1>Enter your token to reset your password</h1>
+          {error && (
+            <section>
+              <h1>
+                Invalid Token or Token expired, please submit email
+                again
+                {' '}
+                <Link to="validateEmail">Click Here</Link>
+              </h1>
+            </section>
+          )}
           <form onSubmit={confirmId}>
             <input
               type="text"

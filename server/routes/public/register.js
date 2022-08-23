@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
           user = await data.save();
           console.log(user);
         } catch (err) {
-          console.log('repeat user:', err.message);
+          console.log('error in registration:', err.message);
           throw Error(err.message);
         }
       });
