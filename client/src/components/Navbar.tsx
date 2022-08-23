@@ -43,9 +43,6 @@ const StyledNavbar = styled.nav`
     width: 45%;
     & a {
       font-size: 1.3rem;
-      &:nth-child(1) {
-        alight-items: flex-end;
-      }
     }
     & .user-profile {
       color: #ededed;
