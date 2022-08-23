@@ -72,6 +72,12 @@ const PostWrapper = styled.section`
 // create connection with socket.io server
 const socket = io(
   'https://socket-server-backend-blog.herokuapp.com/',
+  {
+    withCredentials: true,
+    extraHeaders: {
+      'my-custom-header': 'abcd',
+    },
+  },
 );
 
 function Post() {
