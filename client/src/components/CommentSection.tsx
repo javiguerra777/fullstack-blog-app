@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import '../index.css';
 import convertUnixToDate from '../utils/functions';
 import { CommentsArray, Date } from '../types/types';
+import defaultIcon from '../img/user.png';
 
 type CommentProps = {
   comments: [];
@@ -25,13 +26,21 @@ const CommentSectionWrapper = styled.section`
     height: 25px;
     display: flex;
     align-items: center;
-    margin-left: 1rem;
+    margin: 1rem;
+    & .user-icon {
+      height: 35px;
+      width: 35px;
+      border-radius: 50%;
+      margin: 1rem;
+    }
     & h1 {
       font-weight: 500;
+      font-size: 0.85rem;
     }
     & p {
       margin: 0.5rem;
       font-weight: 300;
+      font-size: 0.85rem;
     }
     & small {
       font-size: 0.75rem;
@@ -62,13 +71,25 @@ function CommentSection({ comments }: CommentProps) {
       {commentsToSort.length > 0 &&
         commentsToSort
           .sort((a: Date, b: Date) => a.date - b.date)
-          .map(({ username, comment, date }: CommentsArray) => (
-            <div key={uuidv4()} className="comment">
-              <h1> {username}:</h1>
-              <p>{comment} - </p>
-              <small>{convertUnixToDate(date)}</small>
-            </div>
-          ))}
+          .map(
+            ({
+              username,
+              comment,
+              date,
+              profilepicture,
+            }: CommentsArray) => (
+              <div key={uuidv4()} className="comment">
+                <img
+                  src={profilepicture || defaultIcon}
+                  alt="user profile icon"
+                  className="user-icon"
+                />
+                <h1> {username}:</h1>
+                <p>{comment} - </p>
+                <small>{convertUnixToDate(date)}</small>
+              </div>
+            ),
+          )}
     </CommentSectionWrapper>
   );
 }
