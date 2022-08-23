@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../index.css';
+import defaultIcon from '../img/user.png';
 
 const PostDetailsWrapper = styled.section`
   height: 70vh;
@@ -19,10 +20,19 @@ const PostDetailsWrapper = styled.section`
     width: 85%;
     font-size: 1.1rem;
   }
-  & .username {
+  & .user-info {
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    margin: 0.85rem;
+    & img {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+    }
+  }
+  & .username {
     font-weight: 400;
     margin: 1rem;
   }
@@ -40,12 +50,15 @@ const PostDetailsWrapper = styled.section`
 `;
 function PostDetails({ post }: any) {
   // eslint-disable-next-line object-curly-newline
-  const { username, body, image } = post;
+  const { username, body, image, profilepicture } = post;
   return (
     <PostDetailsWrapper className="webkit">
+      <div className="user-info">
+        <img src={profilepicture || defaultIcon} alt="user icon" />
+        {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+        <h1 className="username">@{username}</h1>
+      </div>
       {image && <img src={image} className="post-image" alt="img" />}
-      {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-      <h1 className="username">@{username}</h1>
       <p>{body}</p>
     </PostDetailsWrapper>
   );

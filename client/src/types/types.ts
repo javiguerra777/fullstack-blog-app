@@ -10,6 +10,7 @@ export interface CommentsArray {
   username: string;
   comment: string;
   date: number;
+  profilepicture: string;
 }
 
 export interface PostType {
