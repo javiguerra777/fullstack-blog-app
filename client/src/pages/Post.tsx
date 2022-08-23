@@ -70,7 +70,9 @@ const PostWrapper = styled.section`
 `;
 
 // create connection with socket.io server
-const socket = io('http://localhost:5500');
+const socket = io(
+  'https://socket-server-backend-blog.herokuapp.com/',
+);
 
 function Post() {
   const { id } = useParams<string>();

@@ -11,7 +11,7 @@ import {
 } from '../types/reduxTypes';
 
 // the url for the backend server
-const urlBase = 'http://localhost:5000/api/';
+const urlBase = 'https://rest-api-blog-backend.herokuapp.com/api/';
 // api calls using async thunk
 export const loginUser = createAsyncThunk(
   'user/loginUser',

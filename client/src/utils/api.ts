@@ -6,7 +6,7 @@ import {
   ValidateEmail,
 } from '../types/types';
 
-const urlBase = 'http://localhost:5000/api/';
+const urlBase = 'https://rest-api-blog-backend.herokuapp.com/api/';
 
 export const addLike = async ({
   postId,
