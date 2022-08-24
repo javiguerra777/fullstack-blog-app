@@ -342,7 +342,7 @@ function Post({
     const likeParams = {
       postId: thisPostId,
       userId,
-      body: { uniqueUserId },
+      body: { userId: uniqueUserId, username: currentUser },
     };
     // this allows the user to add a like to the likes array in the database
     if (!isLiked) {

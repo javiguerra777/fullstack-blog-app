@@ -55,7 +55,8 @@ export interface LikesParams {
   postId: string;
   userId: string;
   body: {
-    uniqueUserId: string;
+    userId: string;
+    username: string;
   };
 }
 
