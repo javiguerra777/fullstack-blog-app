@@ -22,7 +22,7 @@ export interface PostType {
   __v: number;
   _id: string;
   image?: string;
-  likes?: [];
+  likes?: any[];
   comments: [];
   profilepicture: string;
 }
@@ -35,7 +35,7 @@ export interface PostProps {
   category: string;
   date: number;
   image: string;
-  likes: string[];
+  likes: any[];
   comments: [];
   profilepicture: string;
 }
@@ -55,7 +55,7 @@ export interface LikesParams {
   postId: string;
   userId: string;
   body: {
-    userId: string;
+    uniqueUserId: string;
     username: string;
   };
 }

@@ -312,7 +312,7 @@ function Post({
   // useEffect to determine if a post is liked by a user
   useEffect(() => {
     likes.forEach((like) => {
-      if (uniqueUserId === like) {
+      if (uniqueUserId === like.userId) {
         setIsLiked(true);
       }
     });
@@ -342,7 +342,7 @@ function Post({
     const likeParams = {
       postId: thisPostId,
       userId,
-      body: { userId: uniqueUserId, username: currentUser },
+      body: { uniqueUserId, username: currentUser },
     };
     // this allows the user to add a like to the likes array in the database
     if (!isLiked) {
@@ -377,7 +377,7 @@ function Post({
       this updates the likes array on the UI
        */
       // eslint-disable-next-line prettier/prettier
-      const updatedArray = likesArray.filter((like) => like !== uniqueUserId);
+      const updatedArray = likesArray.filter((like) => like.userId !== uniqueUserId);
       setLikesArray(updatedArray);
     }
     // eslint-disable-next-line no-unused-expressions
