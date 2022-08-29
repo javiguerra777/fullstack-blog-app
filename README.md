@@ -13,13 +13,6 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-        <li><a href="#wireframe">Wireframe</a></li>
-      </ul>
-    </li>
-    <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
@@ -53,9 +46,7 @@ A few of the frameworks/libraries that were used to build the project are:
 * EsLint and AirBnb
 * socket.io
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-### wireframe
-  ### Getting Started The App build out with simple wireframes using Figma.
-<img width="328" alt="wirefram-backend-blog-app" src="https://user-images.githubusercontent.com/82465149/180460410-39180527-3b74-4d7e-b22f-9551114f2e25.png">
+
 <!-- GETTING STARTED -->
 ## Getting Started
 This is an example of how you may give instructions on setting up your project locally.
@@ -70,7 +61,7 @@ _Below is an example of how you can instruct your audience on installing and set
 1. Get a free account at for MongoDB to create your own collection and add it to your .env file to connect your API to your DB
 2. Clone the repo
    ```sh
-   git clone https://github.com/sisay2405/fullstack-react-blog-app
+   git clone https://github.com/javiguerra777/fullstack-blog-app
    ```
 3. Install NPM packages
    ```sh
