@@ -182,19 +182,35 @@ function WebcamComponent() {
             </section>
           </header>
           {/* it is a video html tag */}
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            screenshotQuality={1}
-            mirrored
-            videoConstraints={
-              externalCam
-                ? alternateVideoConstraints
-                : videoConstraints
-            }
-            imageSmoothing
-          />
+          {externalCam ? (
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              screenshotQuality={1}
+              videoConstraints={
+                externalCam
+                  ? alternateVideoConstraints
+                  : videoConstraints
+              }
+              imageSmoothing
+            />
+          ) : (
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              screenshotQuality={1}
+              mirrored
+              videoConstraints={
+                externalCam
+                  ? alternateVideoConstraints
+                  : videoConstraints
+              }
+              imageSmoothing
+            />
+          )}
+
           <footer className="camera-footer d-flex">
             <button
               type="button"
