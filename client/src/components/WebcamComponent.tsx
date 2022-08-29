@@ -4,14 +4,20 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { FiCamera } from 'react-icons/fi';
+import { MdOutlineFlipCameraAndroid } from 'react-icons/md';
 import { RootState } from '../store';
 import { toggleDisplayCamera } from '../store/UserSlice';
 import { setCurrentImage } from '../store/PostSlice';
 
 const videoConstraints = {
-  width: 1200,
+  width: 1600,
   height: 1600,
   facingMode: 'user',
+};
+const alternateVideoConstraints = {
+  width: 1600,
+  height: 1600,
+  facingMode: { exact: 'environment' },
 };
 
 const CameraWrapper = styled.section`
@@ -20,6 +26,12 @@ const CameraWrapper = styled.section`
   background: #171717;
   height: 100vh;
   width: 100vw;
+  video {
+    position: fixed;
+    top: 5vh;
+    height: 85vh;
+    width: 100%;
+  }
   button {
     cursor: pointer;
   }
@@ -36,8 +48,12 @@ const CameraWrapper = styled.section`
       transition: all 0.35s ease;
     }
   }
+  .camera {
+    display: flex;
+    flex-direction: column;
+  }
   .camera-header {
-    height: 5%;
+    height: 5vh;
     position: fixed;
     width: 100vw;
     display: flex;
@@ -46,20 +62,21 @@ const CameraWrapper = styled.section`
     justify-content: flex-end;
     z-index: 10;
     .exit-btn {
+      font-size: 2rem;
       background: none;
       border: none;
       color: white;
       position: relative;
-      right: 1em;
       z-index: 10;
     }
   }
   .camera-footer {
     position: fixed;
+    height: 10vh;
     width: 100vw;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     bottom: 1em;
     z-index: 10;
     .capture-btn {
@@ -67,14 +84,18 @@ const CameraWrapper = styled.section`
       border-radius: 3em;
       border: solid 0.2rem #da0037;
     }
+    .flip-btn {
+      background: white;
+      border-radius: 3em;
+    }
   }
   .preview {
     display: flex;
     flex-direction: column;
     align-items: center;
     .preview-snapshot {
-      width: 100%;
-      height: 37em;
+      width: 60%;
+      height: 20em;
     }
     .preview-footer {
       margin-top: 1rem;
@@ -90,6 +111,7 @@ function WebcamComponent() {
     shallowEqual,
   );
   const [previewImage, setPreviewImage] = useState(false);
+  const [externalCam, setExternalCam] = useState(false);
   const capture = useCallback(() => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
@@ -110,6 +132,14 @@ function WebcamComponent() {
   // if user wants to retake photo
   const retakePhoto = () => {
     setPreviewImage(false);
+  };
+  // if user wants to switch cameras
+  const switchCams = () => {
+    if (!externalCam) {
+      setExternalCam(true);
+    } else {
+      setExternalCam(false);
+    }
   };
   return (
     <CameraWrapper>
@@ -139,7 +169,7 @@ function WebcamComponent() {
           </footer>
         </section>
       ) : (
-        <>
+        <section className="camera">
           <header className="camera-header d-flex">
             <section className="exit-btn-container">
               <button
@@ -154,15 +184,25 @@ function WebcamComponent() {
           {/* it is a video html tag */}
           <Webcam
             audio={false}
-            height="100%"
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             screenshotQuality={1}
-            width="100%"
-            videoConstraints={videoConstraints}
+            mirrored
+            videoConstraints={
+              externalCam
+                ? alternateVideoConstraints
+                : videoConstraints
+            }
             imageSmoothing
           />
           <footer className="camera-footer d-flex">
+            <button
+              type="button"
+              className="flip-btn"
+              onClick={switchCams}
+            >
+              <MdOutlineFlipCameraAndroid size="50px" />
+            </button>
             <button
               type="button"
               className="capture-btn"
@@ -170,8 +210,9 @@ function WebcamComponent() {
             >
               <FiCamera size="50px" />
             </button>
+            <p />
           </footer>
-        </>
+        </section>
       )}
     </CameraWrapper>
   );
