@@ -10,13 +10,13 @@ import { toggleDisplayCamera } from '../store/UserSlice';
 import { setCurrentImage } from '../store/PostSlice';
 
 const videoConstraints = {
-  width: 1600,
-  height: 1600,
+  height: 720,
+  width: 1280,
   facingMode: 'user',
 };
 const alternateVideoConstraints = {
-  width: 1600,
-  height: 1600,
+  height: 720,
+  width: 1280,
   facingMode: { exact: 'environment' },
 };
 
@@ -27,10 +27,12 @@ const CameraWrapper = styled.section`
   height: 100vh;
   width: 100vw;
   video {
-    position: fixed;
-    top: 5vh;
-    height: 85vh;
-    width: 100%;
+    position: absolute;
+    text-align: center;
+    z-index: 8;
+    height: 100vh;
+    width: 100vw;
+    object-fit: fill;
   }
   button {
     cursor: pointer;
@@ -68,11 +70,11 @@ const CameraWrapper = styled.section`
       color: white;
       position: relative;
       z-index: 10;
+      margin-right: 0.3em;
     }
   }
   .camera-footer {
     position: fixed;
-    height: 10vh;
     width: 100vw;
     display: flex;
     flex-direction: row-reverse;
@@ -94,11 +96,17 @@ const CameraWrapper = styled.section`
     flex-direction: column;
     align-items: center;
     .preview-snapshot {
-      width: 60%;
-      height: 20em;
+      width: 95%;
+      height: 83vh;
     }
     .preview-footer {
       margin-top: 1rem;
+      button {
+        height: 1.7em;
+        padding: 0 0.7em 0 0.7em;
+        margin-right: 1em;
+        margin-left: 1em;
+      }
     }
   }
 `;
@@ -182,35 +190,21 @@ function WebcamComponent() {
             </section>
           </header>
           {/* it is a video html tag */}
-          {externalCam ? (
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              screenshotQuality={1}
-              videoConstraints={
-                externalCam
-                  ? alternateVideoConstraints
-                  : videoConstraints
-              }
-              imageSmoothing
-            />
-          ) : (
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              screenshotQuality={1}
-              mirrored
-              videoConstraints={
-                externalCam
-                  ? alternateVideoConstraints
-                  : videoConstraints
-              }
-              imageSmoothing
-            />
-          )}
-
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            screenshotQuality={1}
+            width="500"
+            height="500"
+            mirrored={!externalCam}
+            videoConstraints={
+              externalCam
+                ? alternateVideoConstraints
+                : videoConstraints
+            }
+            imageSmoothing
+          />
           <footer className="camera-footer d-flex">
             <button
               type="button"

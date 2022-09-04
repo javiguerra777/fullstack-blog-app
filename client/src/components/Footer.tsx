@@ -18,7 +18,7 @@ const FooterWrapper = styled.footer`
   display: flex;
   flex-direction: column;
   width: 98vw;
-  height: 10vh;
+  height: 12vh;
   background: #171717;
   color: #ededed;
   border-radius: 0.5em;
@@ -85,7 +85,7 @@ function Footer() {
           aria-label="Photos"
           onClick={() => dispatch(toggleDisplayCamera())}
         >
-          <AiOutlineCamera />
+          <AiOutlineCamera size="25px" />
         </button>
         {/* <button type="button" aria-label="Videos">
           <AiOutlineVideoCamera />
@@ -95,7 +95,7 @@ function Footer() {
           aria-label="Add New Post"
           onClick={createNewPost}
         >
-          <BsFileEarmarkPlus />
+          <BsFileEarmarkPlus size="25px" />
         </button>
         {/* <button type="button" aria-label="Add Gif">
           <AiOutlineGif />
