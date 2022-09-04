@@ -17,16 +17,24 @@ const HomeWrapper = styled.main`
   height: 90vh;
   width: 100vw;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  overflow: hidden;
+  .content {
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
   @media (max-width: 576px) {
     flex-direction: column;
     jusitfy-content: center;
     align-items: center;
   }
   @media (max-width: 768px) {
-    flex-direction: column;
-    jusitfy-content: center;
-    align-items: center;
+    .content {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 `;
 
@@ -56,9 +64,11 @@ function Home() {
     <>
       <GlobalStyles />
       <HomeWrapper>
-        {categoriesLoading ? <LoadingSpinner /> : <Filter />}
-        {postsLoading ? <LoadingSpinner /> : <Posts />}
         {loggedIn && <Footer />}
+        <section className="content">
+          {categoriesLoading ? <LoadingSpinner /> : <Filter />}
+          {postsLoading ? <LoadingSpinner /> : <Posts />}
+        </section>
         {displayLogInPrompt && <LoginPrompt />}
         {displayCamera && <WebcamComponent />}
       </HomeWrapper>

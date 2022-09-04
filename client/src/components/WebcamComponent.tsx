@@ -26,6 +26,7 @@ const CameraWrapper = styled.section`
   background: #171717;
   height: 100vh;
   width: 100vw;
+  z-index: 2;
   video {
     position: absolute;
     text-align: center;

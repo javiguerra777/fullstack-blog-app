@@ -5,10 +5,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import Notification from './Notification';
 import { RootState } from '../store';
-// import logo from '../img/telegram.png';
 import convertUnixToDate, {
   limitCharacters,
 } from '../utils/functions';
@@ -21,259 +19,7 @@ import { deletePost, updateFilteredPosts } from '../store/PostSlice';
 import '../styles/notifications.css';
 import { PostProps } from '../types/types';
 import defaultIcon from '../img/default_user_image.png';
-
-const DeleteWrapper = styled.section`
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-  .delete-prompt {
-    position: absolute;
-    top: 3em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #171717;
-    height: auto;
-    width: auto;
-    padding: 0 1.5em 1em 1.5em;
-    h1 {
-      font-size: 1.5rem;
-    }
-    p {
-      font-size: 1rem;
-    }
-  }
-`;
-
-export const StyledPost = styled.section`
-  height: 900px;
-  width: 65%;
-  background: #444444;
-  border-radius: 5px;
-  position: relative;
-  margin: 2rem 0;
-  .comments {
-    text-decoration: none;
-    color: white;
-  }
-  .like-btn {
-    color: white;
-  }
-  & .wrapper {
-    padding: 2rem;
-  }
-  & .user-info {
-    position: absolute;
-    top: 2vh;
-    height: 50px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin: 1rem auto;
-    & p {
-      font-size: 1rem;
-    }
-    & small {
-      margin: 0 1rem;
-      font-size: 0.15rem;
-    }
-    & img {
-      height: 50px;
-      width: 50px;
-      margin-right: 20px;
-      border-radius: 50%;
-    }
-    & .username {
-      font-weight: 400;
-      font-size: 1.25rem;
-    }
-  }
-  & .post-menu-btn {
-    position: absolute;
-    top: 5vh;
-    right: 5vw;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  & .post-menu {
-    height: 150px;
-    width: 100px;
-    position: absolute;
-    top: 5vh;
-    right: 5vw;
-    border-radius: 5px;
-    background: #171717;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    box-shadow: 0 0 2px 2px rgba(255, 255, 255, 0.2);
-    z-index: 10;
-    & .close {
-      background: none;
-      border: none;
-      color: #da0037;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    & a {
-      color: #ededed;
-      text-decoration: none;
-      margin: 0.5rem;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  & .title {
-    position: absolute;
-    top: 11vh;
-    margin: 0 auto;
-    font-size: 4.5rem;
-    font-weight: 200;
-    text-decoration: none;
-    color: #ededed;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  & .post-image {
-    height: 55%;
-    width: 90%;
-    position: absolute;
-    top: 21vh;
-    margin: auto;
-  }
-  & .interactions {
-    position: absolute;
-    bottom: 13.5vh;
-    margin: auto;
-    width: 75%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    & button {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    & img {
-      height: 30px;
-      width: 30px;
-      margin: -1rem 0.55rem;
-    }
-  }
-  & .content {
-    position: absolute;
-    bottom: 2.5vh;
-    margin: auto;
-    width: 75%;
-    font-size: 1.2rem;
-    & a {
-      color: #ededed;
-    }
-  }
-  .delete-post {
-    background: none;
-    border: none;
-    color: #ededed;
-    cursor: pointer;
-  }
-  .delete-post: hover {
-    text-decoration: underline;
-  }
-  @media (max-width: 576px) {
-    margin: 1rem 0.25rem;
-    & .wrapper {
-      padding: 0;
-    }
-    & .user-info {
-      width: 90%;
-      & img {
-        margin: 0 1rem;
-      }
-    }
-    & .title {
-      margin: 0 1rem;
-    }
-    & .post-image {
-      width: 100%;
-    }
-    & .interactions {
-      width: 95%;
-    }
-    & .content {
-      width: 100%;
-      bottom: 5vh;
-      padding: 0 0.75rem;
-      font-size: 1rem;
-      line-height: 1.5rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    word-wrap: break-word;
-    overflow-x: hidden;
-    width: 95%;
-    font-size: 0.7rem;
-    margin: 1rem auto;
-    & .post-image {
-      top: 17vh;
-    }
-    .category {
-      position: absolute;
-      bottom: 2em;
-      right: 0;
-    }
-    .comments {
-      position: absolute;
-      bottom: 3.5em;
-      left: 6em;
-    }
-    .like-btn {
-      position: absolute;
-      bottom: 3em;
-    }
-    .title {
-      font-size: 3em;
-    }
-    .user-info {
-      margin: 1rem auto;
-      & small {
-        margin: 0 1rem;
-        font-size: 0.25rem;
-      }
-      & img {
-        height: 50px;
-        width: 50px;
-        margin-right: 20px;
-        border-radius: 50%;
-      }
-      & .username {
-        font-weight: 400;
-        font-size: 1rem;
-      }
-    }
-  }
-  @media (max-width: 1025px) {
-    width: 90%;
-    .user-info {
-      & p {
-        font-size: 0.75rem;
-      }
-    }
-  }
-`;
+import StyledPost, { DeleteWrapper } from '../styles/PostStyles';
 
 function Post({
   id,
@@ -413,60 +159,66 @@ function Post({
   return (
     <StyledPost>
       <div className="wrapper">
-        <div className="user-info">
-          <img
-            src={profilepicture || defaultIcon}
-            className="user-icon"
-            alt="user icon"
-          />
-          <p className="username" id="username">
-            @{username}
-          </p>{' '}
-          <small>
-            <i className="fa-solid fa-circle" />
-          </small>
-          <p className="timestamp">{convertUnixToDate(date)}</p>{' '}
-          <small>
-            <i className="fa-solid fa-circle" />
-          </small>
-          <p className="read-length">{randomNum()} min read</p>
-        </div>
-        {isOpen ? (
-          <div className="post-menu">
-            <button
-              type="button"
-              className="close"
-              onClick={openPostMenu}
-            >
-              Close
-            </button>
-            {currentUser === username ? (
-              <div>
-                <Link to={`editPost/${id}`}>Edit Post</Link>
-                <button
-                  type="button"
-                  className="delete-post"
-                  onClick={displayDeleteMessage}
-                >
-                  Delete Post
-                </button>
-              </div>
-            ) : (
-              <Link to={`post/${id}`}>View Post</Link>
-            )}
+        <header className="post-header">
+          <div className="user-info">
+            <img
+              src={profilepicture || defaultIcon}
+              className="user-icon"
+              alt="user icon"
+            />
+            <p className="username" id="username">
+              @<Link to={`/profile/${username}`}>{username}</Link>
+            </p>{' '}
+            <small>
+              <i className="fa-solid fa-circle" />
+            </small>
+            <p className="timestamp">{convertUnixToDate(date)}</p>{' '}
+            <small>
+              <i className="fa-solid fa-circle" />
+            </small>
+            <p className="read-length">{randomNum()} min read</p>
           </div>
-        ) : (
-          <div className="post-menu-btn" onClick={openPostMenu}>
-            <i className="fa-solid fa-ellipsis-vertical" />
-          </div>
-        )}
-        <Link to={`/post/${id}`} className="title" id="title">
-          {title}
-        </Link>
-        {image && (
-          <img className="post-image" src={image} alt="pic" />
-        )}
-        <div className="interactions">
+          {isOpen ? (
+            <div className="post-menu">
+              <button
+                type="button"
+                className="close"
+                onClick={openPostMenu}
+              >
+                Close
+              </button>
+              {currentUser === username ? (
+                <div>
+                  <Link className="editPost" to={`editPost/${id}`}>
+                    Edit Post
+                  </Link>
+                  <button
+                    type="button"
+                    className="delete-post"
+                    onClick={displayDeleteMessage}
+                  >
+                    Delete Post
+                  </button>
+                </div>
+              ) : (
+                <Link to={`post/${id}`}>View Post</Link>
+              )}
+            </div>
+          ) : (
+            <div className="post-menu-btn" onClick={openPostMenu}>
+              <i className="fa-solid fa-ellipsis-vertical" />
+            </div>
+          )}
+        </header>
+        <main className="post-main">
+          <Link to={`/post/${id}`} className="title" id="title">
+            {title}
+          </Link>
+          {image && (
+            <img className="post-image" src={image} alt="pic" />
+          )}
+        </main>
+        <footer className="interactions">
           <div>
             {isLiked ? (
               <button
@@ -501,13 +253,17 @@ function Post({
               <strong>{category}</strong>
             )}
           </p>
-        </div>
-        <p className="content">
-          {limitCharacters(content, maxLength)}{' '}
-          {content.length >= maxLength && (
-            <Link to={`/post/${id}`}>...read more</Link>
-          )}
-        </p>
+        </footer>
+        <section className="post-body">
+          <p>
+            {limitCharacters(content, maxLength)}{' '}
+            {content.length >= maxLength && (
+              <Link className="readMore" to={`/post/${id}`}>
+                ...read more
+              </Link>
+            )}
+          </p>
+        </section>
       </div>
       {message && (
         <div className="post-notification">

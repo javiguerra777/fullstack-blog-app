@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  AiOutlineCamera,
-  // AiOutlineVideoCamera,
-  // AiOutlineGif,
-} from 'react-icons/ai';
+import { AiOutlineCamera } from 'react-icons/ai';
 import { BsFileEarmarkPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -13,12 +9,10 @@ import defaultImage from '../img/user.png';
 import { RootState } from '../store';
 
 const FooterWrapper = styled.footer`
-  position: fixed;
-  bottom: 0;
   display: flex;
   flex-direction: column;
   width: 98vw;
-  height: 12vh;
+  height: auto;
   background: #171717;
   color: #ededed;
   border-radius: 0.5em;

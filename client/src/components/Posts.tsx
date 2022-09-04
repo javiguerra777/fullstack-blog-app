@@ -10,8 +10,6 @@ import { Date, PostType } from '../types/types';
 const PostsWrapper = styled.section`
   width: 100%;
   margin-left: 3vw;
-  overflow-y: scroll;
-  padding-bottom: 10vh;
 `;
 
 function Posts() {
