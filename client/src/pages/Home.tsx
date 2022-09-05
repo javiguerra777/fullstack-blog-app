@@ -27,7 +27,7 @@ const HomeWrapper = styled.main`
   }
   @media (max-width: 576px) {
     flex-direction: column;
-    jusitfy-content: center;
+    justify-content: center;
     align-items: center;
   }
   @media (max-width: 768px) {

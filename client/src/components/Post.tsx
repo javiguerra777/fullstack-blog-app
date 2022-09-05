@@ -166,9 +166,15 @@ function Post({
               className="user-icon"
               alt="user icon"
             />
-            <p className="username" id="username">
-              @<Link to={`/profile/${username}`}>{username}</Link>
-            </p>{' '}
+            {username === currentUser ? (
+              <p className="username" id="username">
+                @<Link to="/userProfile">{username}</Link>
+              </p>
+            ) : (
+              <p className="username" id="username">
+                @<Link to={`/profile/${username}`}>{username}</Link>
+              </p>
+            )}
             <small>
               <i className="fa-solid fa-circle" />
             </small>

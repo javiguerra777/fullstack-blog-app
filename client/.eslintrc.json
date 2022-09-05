@@ -28,11 +28,13 @@
   ],
   "rules": {
     "no-use-before-define": "off",
+    "object-curly-spacing": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "react/jsx-wrap-multilines": 0,
+    "react/jsx-one-expression-per-line": "off",
     "react/jsx-filename-extension": [
       "warn",
       {

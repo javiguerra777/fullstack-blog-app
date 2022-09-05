@@ -11,6 +11,8 @@ import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
 import UserInfo from './components/UserInfo';
 import EmailPassword from './pages/EmailPassword';
+import Profile from './pages/Profile';
+import UsersProfile from './pages/UsersProfile';
 import NotFound from './pages/NotFound';
 import { RootState } from './store';
 import ResetPassword from './pages/ResetPassword';
@@ -65,7 +67,7 @@ function App() {
         {/* WebCamUpload is a protected route where users
         upload an image taken from React Webcam */}
         <Route
-          path="uploadImage"
+          path="/uploadImage"
           element={
             <ProtectedRoute loggedin={loggedIn}>
               <WebCamUpload />
@@ -73,10 +75,26 @@ function App() {
           }
         />
         <Route
-          path="userInfo"
+          path="/userInfo"
           element={
             <ProtectedRoute loggedin={loggedIn}>
               <UserInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:username"
+          element={
+            <ProtectedRoute loggedin={loggedIn}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/userProfile"
+          element={
+            <ProtectedRoute loggedin={loggedIn}>
+              <UsersProfile />
             </ProtectedRoute>
           }
         />

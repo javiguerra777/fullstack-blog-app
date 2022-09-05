@@ -3,6 +3,7 @@ import PostSlice from './PostSlice';
 import UserSlice from './UserSlice';
 import CategorySlice from './CategorySlice';
 import CommentSlice from './CommentSlice';
+import ProfileSlice from './ProfileSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     user: UserSlice,
     category: CategorySlice,
     comment: CommentSlice,
+    usersProfile: ProfileSlice,
   },
 });
 
