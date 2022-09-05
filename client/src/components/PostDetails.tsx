@@ -1,51 +1,48 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import '../index.css';
 import defaultIcon from '../img/user.png';
 
 const PostDetailsWrapper = styled.section`
-  height: 70vh;
-  width: 50%;
+  height: auto;
+  width: 93%;
   border-top: none;
   background: #444444;
-  overflow-y: scroll;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   position: relative;
   border-radius: 5px 5px 0 0;
-  & p {
-    width: 85%;
-    font-size: 1.1rem;
-  }
-  & .user-info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    margin: 0.85rem;
-    & img {
-      height: 60px;
-      width: 60px;
-      border-radius: 50%;
+  border-bottom: solid black 1px;
+  .user-info {
+    header: width: 100%;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    .prof-img {
+      margin-left: 1em;
+      height: 50px;
+      width: 50px;
+      border-radius: 3em;
+    }
+    .username {
+      margin-left: 0.5em;
+      a {
+        color: white;
+        text-decoration: none;
+      }
     }
   }
-  & .username {
-    font-weight: 400;
-    margin: 1rem;
-  }
-  & .post-image {
-    height: 65%;
-    width: 85%;
-  }
-
-  @media (max-width: 576px) {
-    width: 95%;
-  }
-  @media (max-width: 768px) {
-    width: 90%;
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .post-image {
+      height: 30em;
+      width: 95%;
+    }
   }
 `;
 function PostDetails({ post }: any) {
@@ -53,13 +50,23 @@ function PostDetails({ post }: any) {
   const { username, body, image, profilepicture } = post;
   return (
     <PostDetailsWrapper className="webkit">
-      <div className="user-info">
-        <img src={profilepicture || defaultIcon} alt="user icon" />
+      <header className="user-info">
+        <img
+          className="prof-img"
+          src={profilepicture || defaultIcon}
+          alt="user icon"
+        />
         {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-        <h1 className="username">@{username}</h1>
-      </div>
-      {image && <img src={image} className="post-image" alt="img" />}
-      <p>{body}</p>
+        <h1 className="username">
+          @<Link to={`/profile/${username}`}>{username}</Link>
+        </h1>
+      </header>
+      <main className="main-content">
+        {image && (
+          <img src={image} className="post-image" alt="img" />
+        )}
+        <p>{body}</p>
+      </main>
     </PostDetailsWrapper>
   );
 }

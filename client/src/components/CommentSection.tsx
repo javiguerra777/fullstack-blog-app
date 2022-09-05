@@ -12,21 +12,19 @@ type CommentProps = {
 };
 
 const CommentSectionWrapper = styled.section`
-  height: 22vh;
-  width: 50%;
-  background: #444444;
+  height: auto;
+  width: 100%;
   margin: 0 auto;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  padding-bottom: 2em;
   .comment {
     width: 60%;
-    height: 25px;
+    height: auto;
     display: flex;
     align-items: center;
-    margin: 1rem;
     & .user-icon {
       height: 35px;
       width: 35px;

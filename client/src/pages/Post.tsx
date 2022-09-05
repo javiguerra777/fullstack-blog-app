@@ -16,55 +16,34 @@ import {
 } from '../store/CommentSlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
 import '../styles/notifications.css';
+import '../index.css';
 
 const PostWrapper = styled.section`
   width: 100vw;
-  height: 100vh;
+  height: 92vh;
   display: flex;
   flex-direction: column;
-  & .add-comment {
-    width: 100%;
+  .comment-form {
+    position: fixed;
+    bottom: 0.1em;
+    height: 2em;
+    width: 100vw;
+    background: #171717;
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-  }
-  .form-container {
-    height: 6vh;
-    width: 50%;
-    background: #444444;
-    display: flex;
-    align-items: center;
-    border-radius: 0 0 5px 5px;
-    & input {
-      width: 500px;
-      height: 30px;
-      margin-left: 1rem;
+    input {
+      width: 90%;
+      height: 2em;
       border-radius: 15px;
       border: none;
+      margin-left: 1em;
     }
-  }
-  img {
-    height: 50px;
-    width: 50px;
-  }
-  & button {
-    background: none;
-    border: none;
-    font-size: 1.25rem;
-    transform: translateX(-50px);
-  }
-  @media (max-width: 576px) {
-    & .form-container {
-      height: 7vh;
-      width: 95%;
-      & input {
-        width: 300px;
-      }
-    }
-  }
-  @media (max-width: 768px) {
-    & .form-container {
-      width: 90%;
+    button {
+      border: none;
+      font-size: 1.25rem;
+      transform: translateX(-50px);
     }
   }
 `;
@@ -177,25 +156,21 @@ function Post() {
       ) : (
         <section>
           <CommentSection comments={comments} />
-          <div className="add-comment">
-            <section className="form-container">
-              <form onSubmit={sendComment}>
-                <input
-                  type="text"
-                  name="comment"
-                  id="comment"
-                  placeholder="Share your thoughts..."
-                  value={comment}
-                  onChange={(e) =>
-                    // eslint-disable-next-line implicit-arrow-linebreak, prettier/prettier
-                    dispatch(changeComment(e.target.value))}
-                />
-                <button type="submit" disabled={comment === ''}>
-                  <i className="fa-solid fa-paper-plane" />
-                </button>
-              </form>
-            </section>
-          </div>
+          <form className="comment-form" onSubmit={sendComment}>
+            <input
+              type="text"
+              name="comment"
+              id="comment"
+              placeholder="Share your thoughts..."
+              value={comment}
+              onChange={(e) =>
+                // eslint-disable-next-line implicit-arrow-linebreak, prettier/prettier
+                dispatch(changeComment(e.target.value))}
+            />
+            <button type="submit" disabled={comment === ''}>
+              <i className="fa-solid fa-paper-plane" />
+            </button>
+          </form>
         </section>
       )}
       {message && (
