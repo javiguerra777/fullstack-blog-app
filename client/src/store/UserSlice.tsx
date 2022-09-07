@@ -137,6 +137,10 @@ export const userSlice = createSlice({
     toggleDisplayCamera(state) {
       state.displayCamera = !state.displayCamera;
     },
+    setDisplayFalse(state) {
+      state.displayCamera = false;
+      state.displayLogInPrompt = false;
+    },
     clearError(state) {
       state.error = false;
     },
@@ -271,6 +275,7 @@ export const {
   toggleDisplayCamera,
   clearError,
   setLoggedInTrue,
+  setDisplayFalse,
 } = userSlice.actions;
 
 export default userSlice.reducer;

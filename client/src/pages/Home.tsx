@@ -11,6 +11,7 @@ import WebcamComponent from '../components/WebcamComponent';
 import { getAllPosts } from '../store/PostSlice';
 import { getAllCategories } from '../store/CategorySlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
+import { setDisplayFalse } from '../store/UserSlice';
 
 const HomeWrapper = styled.main`
   position: relative;
@@ -60,6 +61,12 @@ function Home() {
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
+  useEffect(
+    () => () => {
+      dispatch(setDisplayFalse());
+    },
+    [dispatch],
+  );
   return (
     <>
       <GlobalStyles />

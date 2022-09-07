@@ -82,6 +82,9 @@ const CameraWrapper = styled.section`
     justify-content: space-between;
     bottom: 1em;
     z-index: 10;
+    button {
+      font-size: 2em;
+    }
     .capture-btn {
       background: white;
       border-radius: 3em;
@@ -93,12 +96,14 @@ const CameraWrapper = styled.section`
     }
   }
   .preview {
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     .preview-snapshot {
       width: 95%;
-      height: 83vh;
+      height: 75vh;
     }
     .preview-footer {
       margin-top: 1rem;
@@ -212,14 +217,14 @@ function WebcamComponent() {
               className="flip-btn"
               onClick={switchCams}
             >
-              <MdOutlineFlipCameraAndroid size="50px" />
+              <MdOutlineFlipCameraAndroid />
             </button>
             <button
               type="button"
               className="capture-btn"
               onClick={capture}
             >
-              <FiCamera size="50px" />
+              <FiCamera />
             </button>
             <p />
           </footer>
