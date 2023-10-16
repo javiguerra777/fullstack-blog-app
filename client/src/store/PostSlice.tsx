@@ -2,16 +2,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { DeletePostParams, PostState } from '../types/reduxTypes';
-
-// the url for the backend server
-const urlBase = 'https://rest-api-blog-backend.herokuapp.com/api/';
-// api calls using async thunk
+import baseUrl from '../environment';
 
 // gets all the posts from the database
 export const getAllPosts = createAsyncThunk(
   'post/getPosts',
   async () => {
-    const { data } = await axios.get(`${urlBase}posts`);
+    const { data } = await axios.get(`${baseUrl}posts`);
     return data;
   },
 );
@@ -20,7 +17,7 @@ export const getAllPosts = createAsyncThunk(
 export const getPost = createAsyncThunk(
   'post/getPost',
   async (id: string) => {
-    const { data } = await axios.get(`${urlBase}posts/${id}`);
+    const { data } = await axios.get(`${baseUrl}posts/${id}`);
     return data;
   },
 );
@@ -30,7 +27,7 @@ export const getPostByCategory = createAsyncThunk(
   'post/getByCategory',
   async (category: Record<string, unknown>) => {
     const { data } = await axios.post(
-      `${urlBase}filteredpost`,
+      `${baseUrl}filteredpost`,
       category,
 
       {
@@ -47,7 +44,7 @@ export const getPostByCategory = createAsyncThunk(
 export const addNewPost = createAsyncThunk(
   'post/addNewPost',
   async (post: Record<string, unknown>) => {
-    const { data } = await axios.post(`${urlBase}posts`, post.post, {
+    const { data } = await axios.post(`${baseUrl}posts`, post.post, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${post.userId}`,
@@ -61,16 +58,12 @@ export const addNewPost = createAsyncThunk(
 export const addWebCamImage = createAsyncThunk(
   'post/addWebCamImage',
   async (image: Record<string, unknown>) => {
-    const { data } = await axios.post(
-      `${urlBase}/image`,
-      image.post,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${image.userId}`,
-        },
+    const { data } = await axios.post(`${baseUrl}image`, image.post, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${image.userId}`,
       },
-    );
+    });
     return data;
   },
 );
@@ -80,7 +73,7 @@ export const editPost = createAsyncThunk(
   'post/editPost',
   async (post: Record<string, unknown>) => {
     const { data } = await axios.put(
-      `${urlBase}posts/${post.postId}`,
+      `${baseUrl}posts/${post.postId}`,
       post.post,
       {
         headers: {
@@ -97,7 +90,7 @@ export const editPost = createAsyncThunk(
 export const deletePost = createAsyncThunk(
   'post/deletePost',
   async ({ id, userId }: DeletePostParams) => {
-    const { data } = await axios.delete(`${urlBase}posts/${id}`, {
+    const { data } = await axios.delete(`${baseUrl}posts/${id}`, {
       headers: { Authorization: `Bearer ${userId}` },
     });
     return data;

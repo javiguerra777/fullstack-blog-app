@@ -2,14 +2,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CommentState } from '../types/reduxTypes';
+import baseUrl from '../environment';
 
-// the url for the backend server
-const urlBase = 'https://rest-api-blog-backend.herokuapp.com/api/';
 // api calls using async thunk
 export const getComments = createAsyncThunk(
   'comment/getComments',
   async (id: string) => {
-    const { data } = await axios.get(`${urlBase}comments/${id}`);
+    const { data } = await axios.get(`${baseUrl}comments/${id}`);
     return data;
   },
 );

@@ -2,14 +2,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CategoryState } from '../types/reduxTypes';
+import baseUrl from '../environment';
 
-// the url for the backend server
-const urlBase = 'https://rest-api-blog-backend.herokuapp.com/api/';
 // api calls using async thunk
 export const getAllCategories = createAsyncThunk(
   'category/getCategories',
   async () => {
-    const { data } = await axios.get(`${urlBase}categories`);
+    const { data } = await axios.get(`${baseUrl}categories`);
     return data;
   },
 );
