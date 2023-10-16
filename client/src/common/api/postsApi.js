@@ -4,16 +4,16 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import baseUrl from '../../environment';
 
-const categoriesApi = createApi({
-  reducerPath: 'api/categoriesApi',
+const postsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
-  tagTypes: ['Categories'],
+  tagTypes: ['Posts'],
   endpoints: (builder) => ({
-    getAllCategories: builder.query({
-      query: () => 'categories',
+    getAllPosts: builder.query({
+      query: () => 'posts',
       transformResponse: (response) => response.data,
     }),
   }),
 });
-export const { useGetAllCategoriesQuery } = categoriesApi;
-export default categoriesApi;
+
+export const { useGetAllPostsQuery } = postsApi;
+export default postsApi;

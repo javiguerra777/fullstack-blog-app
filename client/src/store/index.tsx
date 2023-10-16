@@ -4,6 +4,7 @@ import PostSlice from './PostSlice';
 import UserSlice from './UserSlice';
 import CommentSlice from './CommentSlice';
 import categoriesApi from '../common/api/categoriesApi';
+import postsApi from '../common/api/postsApi';
 
 const store = configureStore({
   reducer: {
@@ -11,9 +12,13 @@ const store = configureStore({
     user: UserSlice,
     comment: CommentSlice,
     [categoriesApi.reducerPath]: categoriesApi.reducer,
+    [postsApi.reducerPath]: postsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(categoriesApi.middleware),
+    getDefaultMiddleware().concat(
+      categoriesApi.middleware,
+      postsApi.middleware,
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
