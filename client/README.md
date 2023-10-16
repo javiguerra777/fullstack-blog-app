@@ -1,7 +1,73 @@
-Frontend for blog using React and Typescript
-# Getting Started with Create React App
+# Blog React Client
+<a name="top"></a>
+This is the React client for the blog application. It was built with React and Typescript
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Table of contents
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+        <!-- <li><a href="#wireframe">Wireframe</a></li> -->
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+# About the Project
+<a name="about-the-project"></a>
+This website is to present my portfolio to anyone interested.
+<p align="left">(<a href="#top">back to top</a>)</p>
+
+### Built with
+<a name="built-with"></a>
+A few of the frameworks/libraries that were used to build the project are
+* React
+* Typescript
+* Node.js
+* React Redux 
+* React Router
+* Socket-io/client
+* EsLint and AirBnb
+<p align="left">(<a href="#top">back to top</a>)</p>
+<!-- ### wireframe
+  ### Getting Started The App build out with simple wireframes using Figma.
+<img width="328" alt="wire-frame-frontend" src=""> -->
+
+## Getting Started
+<a name="getting-started"></a>
+To get started follow these steps
+
+### Prerequisites
+<a name="prerequisites"></a>
+* npm
+  ```
+  npm install npm@latest -g
+  ```
+
+### Installation
+<a name="installation"></a>
+1. Install npm packages
+  ```sh
+  npm install
+  ```
+2. Run the npm start command to run the client server.
+```
+npm start
+```
+<p align="left">(<a href="#top">back to top</a>)</p>
+
+## Deploying
+The steps to deploy the application are TBD
 
 ## Available Scripts
 
