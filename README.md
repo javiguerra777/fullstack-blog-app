@@ -1,6 +1,3 @@
-If you run npm run dev you will be able to use concurrently so that both the client and server will be ran at the same time. 
-If you are interested in just the frontend or just the backend you can see more instructions on how each is ran.
-More instructions to run the client and server will be provided within each folder's directory.
 # Fullstack Blog Application
 <a name="top"></a>
 This is a fullstack applcition made for a blog. The client side application was built with React, Typescript, Redux Tool Kit, and Socket-io.client.
@@ -58,10 +55,14 @@ To get started follow these steps
 ```
 npm start
 ```
-If you want to just run the client side application follow these commands
+If you want to just run the client side application follow these commands.
 ```
 cd client
 npm start
+```
+If you want to checkout the server follow these commands. Or checkout the server folder and read the documentation on how to run the server.
+```
+cd server
 ```
 <p align="left">(<a href="#top">back to top</a>)</p>
 
