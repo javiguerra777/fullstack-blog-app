@@ -9,8 +9,8 @@ import Posts from '../components/Posts';
 import LoginPrompt from '../components/LoginPrompt';
 import WebcamComponent from '../components/WebcamComponent';
 import { getAllPosts } from '../store/PostSlice';
-import { getAllCategories } from '../store/CategorySlice';
 import LoadingSpinner from '../styles/LoadingSpinner';
+import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 
 const HomeWrapper = styled.main`
   position: relative;
@@ -32,6 +32,7 @@ const HomeWrapper = styled.main`
 
 function Home() {
   const dispatch: AppDispatch = useDispatch();
+  const { isLoading, data } = useGetAllCategoriesQuery('categories');
   const { loggedIn, displayLogInPrompt, displayCamera } = useSelector(
     (state: RootState) => state.user,
     shallowEqual,
@@ -40,23 +41,15 @@ function Home() {
     (state: RootState) => state.post.loading,
     shallowEqual,
   );
-  const categoriesLoading: boolean = useSelector(
-    (state: RootState) => state.category.loading,
-    shallowEqual,
-  );
 
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getAllCategories());
   }, [dispatch]);
   return (
     <>
       <GlobalStyles />
       <HomeWrapper>
-        {categoriesLoading ? <LoadingSpinner /> : <Filter />}
+        {isLoading ? <LoadingSpinner /> : <Filter data={data} />}
         {postsLoading ? <LoadingSpinner /> : <Posts />}
         {loggedIn && <Footer />}
         {displayLogInPrompt && <LoginPrompt />}

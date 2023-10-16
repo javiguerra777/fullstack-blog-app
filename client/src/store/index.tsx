@@ -1,16 +1,19 @@
+/* eslint-disable implicit-arrow-linebreak */
 import { configureStore } from '@reduxjs/toolkit';
 import PostSlice from './PostSlice';
 import UserSlice from './UserSlice';
-import CategorySlice from './CategorySlice';
 import CommentSlice from './CommentSlice';
+import categoriesApi from '../common/api/categoriesApi';
 
 const store = configureStore({
   reducer: {
     post: PostSlice,
     user: UserSlice,
-    category: CategorySlice,
     comment: CommentSlice,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(categoriesApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -13,6 +13,7 @@ import {
   addNewPost,
 } from '../store/PostSlice';
 import { Category } from '../types/types';
+import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 
 export const StyledNewPost = styled.section`
   height: auto;
@@ -110,6 +111,7 @@ export const StyledNewPost = styled.section`
 function NewPost() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { data } = useGetAllCategoriesQuery('categories');
 
   // redux useSelectors
   const { title, content } = useSelector(
@@ -120,7 +122,6 @@ function NewPost() {
     (state: RootState) => state.user,
     shallowEqual,
   );
-  const { categories } = useSelector((state: RootState) => state.category, shallowEqual);
 
   // states used in component
   const [image, setImage] = useState({});
@@ -193,7 +194,7 @@ function NewPost() {
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
-        {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+        {data?.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="form">
         <section className="post-content">

@@ -14,17 +14,17 @@ import {
 import { Category } from '../types/types';
 import { AppDispatch, RootState } from '../store';
 import { StyledNewPost } from './NewPost';
+import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 
 function EditPost() {
   const dispatch: AppDispatch = useDispatch();
+  const { data } = useGetAllCategoriesQuery('categories');
   const navigate = useNavigate();
   const { id } = useParams<string>();
   const { title, content } = useSelector(
     (state: RootState) => state.post,
     shallowEqual,
   );
-  const { categories } = useSelector((state: RootState) => state.category, shallowEqual);
-
   const { userId } = useSelector((state: RootState) => state.user, shallowEqual);
   const [category, setCategory] = useState<string>();
 
@@ -84,7 +84,7 @@ function EditPost() {
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
-        {categories.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+        {data?.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="edit-form">
         <section className="post-content">
