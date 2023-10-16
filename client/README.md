@@ -19,7 +19,6 @@ This is the React client for the blog application. It was built with React and T
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
