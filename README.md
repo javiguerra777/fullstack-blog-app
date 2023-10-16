@@ -1,6 +1,6 @@
 # Fullstack Blog Application
 <a name="top"></a>
-This is a fullstack applcition made for a blog. The client side application was built with React, Typescript, Redux Tool Kit, and Socket-io.client.
+This is a fullstack application made for a blog. The client side application was built with React, Typescript, Redux Tool Kit, and Socket-io.client.
 The server side application was built with Node.js, Express, and used MongoDB/Mongoose as the choice of database.
 
 # Table of contents
@@ -77,20 +77,7 @@ If you have a suggestion that could improve this project, please fork the repo a
 <p align="left">(<a href="#top">back to top</a>)</p>
 
 ## Deploying
-This website is deployed on github and uses github pages to be able to properly deploy this site use the following steps.
-
-1. Make sure it's being deployed from the development branch
-```
-git switch development
-```
-2. Make sure to run the predeploy in the CLI to run a build
-```
-npm run predeploy
-```
-3. Lastly run npm deploy so the build will get published to github pages properly
-```
-npm run deploy
-```
+Steps to deploy this application are TBD.
 
 ## Contact
 <a name="contact"></a>
