@@ -1,6 +1,8 @@
-/* eslint-disable prettier/prettier */
 import React, {
-  FormEvent, useState, ChangeEvent, useEffect,
+  FormEvent,
+  useState,
+  ChangeEvent,
+  useEffect,
 } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -14,6 +16,7 @@ import {
 } from '../store/PostSlice';
 import { Category } from '../types/types';
 import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
+import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
 
 export const StyledNewPost = styled.section`
   height: auto;
@@ -88,9 +91,9 @@ export const StyledNewPost = styled.section`
   }
 
   @media (max-width: 700px) {
-    select{
+    select {
       width: 30vw;
-    } 
+    }
     & form {
       & #title {
         width: 75vw;
@@ -118,10 +121,7 @@ function NewPost() {
     (state: RootState) => state.post,
     shallowEqual,
   );
-  const { username, userId, image: profilepicture } = useSelector(
-    (state: RootState) => state.user,
-    shallowEqual,
-  );
+  const { username, id, image: profilepicture } = UseGetStoreUser();
 
   // states used in component
   const [image, setImage] = useState({});
@@ -172,7 +172,7 @@ function NewPost() {
         profilepicture,
         category,
       },
-      userId,
+      id,
     };
     const createPost = await dispatch<any>(addNewPost(newPost));
     if (!createPost.error) {
@@ -194,7 +194,11 @@ function NewPost() {
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
-        {data?.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+        {data?.map((categ: Category) => (
+          <option key={uuidv4()} value={categ.category}>
+            {categ.category}
+          </option>
+        ))}
       </select>
       <form onSubmit={handleSubmit} data-testid="form">
         <section className="post-content">
@@ -205,7 +209,9 @@ function NewPost() {
               type="text"
               placeholder="Title of post"
               value={title}
-              onChange={(e) => dispatch(setCurrentTitle(e.target.value))}
+              onChange={(e) =>
+                dispatch(setCurrentTitle(e.target.value))
+              }
               data-testid="title-input"
             />
           </label>
@@ -215,7 +221,9 @@ function NewPost() {
             className="content"
             id="content"
             value={content}
-            onChange={(e) => dispatch(setCurrentContent(e.target.value))}
+            onChange={(e) =>
+              dispatch(setCurrentContent(e.target.value))
+            }
             data-testid="textarea"
           />
           <input
@@ -226,8 +234,20 @@ function NewPost() {
             className="prof-img-file"
           />
         </section>
-        {previewImage && <img className="preview-img" src={previewImage} alt="file-img" />}
-        <button className="submit-form" type="submit" disabled={invalidateInputs()}>Post</button>
+        {previewImage && (
+          <img
+            className="preview-img"
+            src={previewImage}
+            alt="file-img"
+          />
+        )}
+        <button
+          className="submit-form"
+          type="submit"
+          disabled={invalidateInputs()}
+        >
+          Post
+        </button>
       </form>
     </StyledNewPost>
   );

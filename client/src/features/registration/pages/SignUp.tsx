@@ -4,19 +4,19 @@ import React, {
   FormEvent,
   ChangeEvent,
 } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { RootState } from '../store';
-import { StyledForm } from './Signin';
+import { RegistrationForm } from '../styles/RegistrationForm';
+import { useAppDispatch } from '../../../hook';
 import {
   signUpUser,
   setLoggedInTrue,
   updateProfilePicture,
-} from '../store/UserSlice';
-import { getUsers } from '../utils/api';
-import { ExistingUser } from '../types/types';
-import { validateEmail } from '../utils/functions';
+} from '../../../store/UserSlice';
+import { getUsers } from '../../../utils/api';
+import { ExistingUser } from '../../../types/types';
+import { validateEmail } from '../../../utils/functions';
+import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
 
 const ProfilePictureWrapper = styled.section`
   height: 92vh;
@@ -80,14 +80,9 @@ const ProfilePictureWrapper = styled.section`
 `;
 
 function SignUp() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    userId,
-    id,
-    username: reduxName,
-    error,
-  } = useSelector((state: RootState) => state.user, shallowEqual);
+  const { id, username: reduxName, error, token } = UseGetStoreUser();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [email, setEmail] = useState('');
@@ -131,7 +126,7 @@ function SignUp() {
   const addProfilePicture = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const addImageParams = {
-      userId,
+      token,
       body: {
         id,
         image: picture,
@@ -181,7 +176,7 @@ function SignUp() {
     },
   );
   return (
-    <StyledForm>
+    <RegistrationForm>
       {signedUp ? (
         <ProfilePictureWrapper>
           <h1>Add a profile picture to your account</h1>
@@ -277,7 +272,7 @@ function SignUp() {
           </form>
         </section>
       )}
-    </StyledForm>
+    </RegistrationForm>
   );
 }
 
