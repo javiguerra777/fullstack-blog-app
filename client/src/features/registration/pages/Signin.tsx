@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,6 +7,7 @@ import { loginUser, clearError } from '../../../store/UserSlice';
 import { RegistrationForm } from '../styles/RegistrationForm';
 import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
 import UseIsLoggedIn from '../hooks/UseIsLoggedIn';
+import LoginErrorNotification from '../components/LoginErrorNotification';
 
 type SignInInput = {
   email: string;
@@ -16,7 +16,7 @@ type SignInInput = {
 function Signin() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<SignInInput>();
-  const { loginLoading } = UseGetStoreUser();
+  const { loginLoading, loginError } = UseGetStoreUser();
   const [formValidation] = useState(true);
   const onSubmit: SubmitHandler<SignInInput> = (data) => {
     dispatch(
@@ -37,6 +37,7 @@ function Signin() {
   }, [dispatch]);
   return (
     <RegistrationForm>
+      {loginError && <LoginErrorNotification />}
       <p>Sign In</p>
       <i className="fa-solid fa-user-astronaut" />
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -138,7 +138,7 @@ export const userSlice = createSlice({
       state.displayCamera = !state.displayCamera;
     },
     clearError(state) {
-      state.error = false;
+      state.loginError = false;
     },
     setLoggedInTrue(state) {
       state.loggedIn = true;
