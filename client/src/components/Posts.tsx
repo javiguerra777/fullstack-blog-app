@@ -1,11 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import React, { useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
-import { RootState } from '../store';
 import Post from './Post';
-import { Date, PostType } from '../types/types';
+import type { PostModel } from '../common/models/post';
 
 const PostsWrapper = styled.section`
   width: 100%;
@@ -14,35 +12,32 @@ const PostsWrapper = styled.section`
   padding-bottom: 10vh;
 `;
 
-function Posts() {
-  const { posts } = useSelector(
-    (state: RootState) => state.post,
-    shallowEqual,
-  );
-
+type Props = {
+  data: PostModel[];
+}
+function Posts({ data }: Props) {
   // fixing bug with array sort method
-  const postsForSort = [...posts];
+  const postsForSort = useMemo(() => [...data], [data]);
   return (
     <PostsWrapper>
-      {postsForSort.length > 0
-        && postsForSort
-          .sort((a: Date, b: Date) => (b.date - a.date))
-          .map((post: PostType) => (
-            <Post
-              key={uuidv4()}
+      {postsForSort
+        .sort((a: any, b: any) => (b.created_at - a.created_at))
+        .map((post: PostModel) => (
+          <Post
+            key={uuidv4()}
               // eslint-disable-next-line no-underscore-dangle
-              id={post._id}
-              username={post.username}
-              title={post.title}
-              content={post.body}
-              category={post.category}
-              date={post.date}
-              image={post.image || ''}
-              likes={post.likes || []}
-              comments={post.comments || []}
-              profilepicture={post.profilepicture}
-            />
-          ))}
+            id={post.id}
+            username={post.username}
+            title={post.title}
+            body={post.body}
+            category={post.category}
+            created_at={post.created_at}
+            image={post.image || ''}
+            likes={post.likes || []}
+            comments={post.comments || []}
+            profile_picture={post.profile_picture}
+          />
+        ))}
     </PostsWrapper>
   );
 }

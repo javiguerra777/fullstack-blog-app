@@ -13,15 +13,16 @@ import {
 import { RootState } from '../store';
 import { Category } from '../types/types';
 import { StyledNewPost } from '../components/NewPost';
+import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 
 function WebCamUpload() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { data } = useGetAllCategoriesQuery('categories');
   const { title, content, image } = useSelector(
     (state: RootState) => state.post,
     shallowEqual,
   );
-  const { categories } = useSelector((state: RootState) => state.category, shallowEqual);
   const {
     userId,
     username,
@@ -84,7 +85,7 @@ function WebCamUpload() {
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
-        {categories.map(({ category: theCategory } : Category) => <option key={uuidv4()} value={theCategory}>{theCategory}</option>)}
+        {data?.map(({ category: theCategory } : Category) => <option key={uuidv4()} value={theCategory}>{theCategory}</option>)}
       </select>
       <form onSubmit={handleSubmit} data-testid="image-form">
         <section className="post-content">

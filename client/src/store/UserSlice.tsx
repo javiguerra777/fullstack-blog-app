@@ -7,16 +7,14 @@ import {
   SignUpParams,
   UpdateUserParams,
   UpdatePasswordParams,
-  UserState,
 } from '../types/reduxTypes';
+import baseUrl from '../environment';
 
-// the url for the backend server
-const urlBase = 'https://rest-api-blog-backend.herokuapp.com/api/';
 // api calls using async thunk
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (request: RequestParams) => {
-    const { data } = await axios.post(`${urlBase}login`, request, {
+    const { data } = await axios.post(`${baseUrl}login`, request, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -27,7 +25,7 @@ export const loginUser = createAsyncThunk(
 export const signUpUser = createAsyncThunk(
   'user/signUpuser',
   async (request: SignUpParams) => {
-    const { data } = await axios.post(`${urlBase}signup`, request, {
+    const { data } = await axios.post(`${baseUrl}signup`, request, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -39,7 +37,7 @@ export const updateUsername = createAsyncThunk(
   'user/updateUserName',
   async (request: UpdateUserParams) => {
     const { data } = await axios.put(
-      `${urlBase}updateusername`,
+      `${baseUrl}updateusername`,
       request.body,
       {
         headers: {
@@ -56,7 +54,7 @@ export const updatePassword = createAsyncThunk(
   'user/updatePassword',
   async (request: UpdatePasswordParams) => {
     const { data } = await axios.put(
-      `${urlBase}updatepassword`,
+      `${baseUrl}updatepassword`,
       request.body,
       {
         headers: {
@@ -73,7 +71,7 @@ export const updateProfilePicture = createAsyncThunk(
   'user/updateProfilePicture',
   async (request: Record<string, unknown>) => {
     const { data } = await axios.put(
-      `${urlBase}updateprofilepicture`,
+      `${baseUrl}updateprofilepicture`,
       request.body,
       {
         headers: {
@@ -90,7 +88,7 @@ export const updateEmail = createAsyncThunk(
   'user/updateEmail',
   async (request: Record<string, unknown>) => {
     const { data } = await axios.put(
-      `${urlBase}updateEmail`,
+      `${baseUrl}updateEmail`,
       request.body,
       {
         headers: {
@@ -104,7 +102,7 @@ export const updateEmail = createAsyncThunk(
 );
 
 const initialState = {
-  userId: '',
+  userId: 0,
   username: '',
   image: '',
   error: false,
@@ -112,9 +110,9 @@ const initialState = {
   loggedIn: false,
   displayLogInPrompt: false,
   displayCamera: false,
-  id: '',
+  id: 0,
   email: '',
-} as UserState;
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -125,10 +123,10 @@ export const userSlice = createSlice({
     },
     signOut(state) {
       state.loggedIn = false;
-      state.userId = '';
+      state.userId = 0;
       state.username = '';
       state.image = '';
-      state.id = '';
+      state.id = 0;
       state.email = '';
     },
     toggleDisplayPrompt(state) {

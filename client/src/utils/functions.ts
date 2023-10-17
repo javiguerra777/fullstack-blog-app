@@ -1,5 +1,4 @@
-/* eslint-disable arrow-body-style */
-export default function convertUnixToDate(unix: number): string {
+export default function convertUnixToDate(unix: string): string {
   const date: Date = new Date(unix);
   const dateToString: string = date.toLocaleString('en-US');
   const readableDate: string[] = dateToString.split(',');
@@ -13,10 +12,9 @@ export function limitCharacters(
   return text.slice(0, length);
 }
 
-export const validateEmail = (email: string) => {
-  return String(email)
+export const validateEmail = (email: string) =>
+  String(email)
     .toLowerCase()
     .match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     );
-};

@@ -9,7 +9,8 @@
       "airbnb",
       "plugin:@typescript-eslint/recommended" ,
       "eslint:recommended",
-      "plugin:react/recommended"
+      "plugin:react/recommended",
+      "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -47,7 +48,9 @@
       "ignorePackages",
       {
         "ts": "never",
-        "tsx": "never"
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
       }
     ],
     "no-shadow": "off",

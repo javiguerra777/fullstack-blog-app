@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { getPostByCategory, getAllPosts } from '../store/PostSlice';
 import { Category } from '../types/types';
-import { RootState, AppDispatch } from '../store';
+import { AppDispatch } from '../store';
 
 const StyledFilter = styled.section`
   height: 150px;
@@ -59,12 +59,8 @@ const StyledFilter = styled.section`
   }
 `;
 
-function Filter() {
+function Filter({ data }: any) {
   const dispatch: AppDispatch = useDispatch();
-  const { categories } = useSelector(
-    (state: RootState) => state.category,
-    shallowEqual,
-  );
   const [category, setCategory] = useState<string>();
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
@@ -87,7 +83,7 @@ function Filter() {
             onChange={handleChange}
           >
             <option value="">none</option>
-            {categories.map(({ category: theCategory }: Category) => (
+            {data.map(({ category: theCategory }: Category) => (
               <option key={uuidv4()} value={theCategory}>
                 {theCategory}
               </option>

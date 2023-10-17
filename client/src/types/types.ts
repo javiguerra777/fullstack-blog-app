@@ -9,21 +9,7 @@ export interface Date {
 export interface CommentsArray {
   username: string;
   comment: string;
-  date: number;
-  profilepicture: string;
-}
-
-export interface PostType {
-  body: string;
-  category: string;
-  date: number;
-  title: string;
-  username: string;
-  __v: number;
-  _id: string;
-  image?: string;
-  likes?: [];
-  comments: [];
+  date: string;
   profilepicture: string;
 }
 

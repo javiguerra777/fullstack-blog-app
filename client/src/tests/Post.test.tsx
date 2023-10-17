@@ -11,16 +11,16 @@ test('Verifying that all elements are present', async () => {
     <Provider store={store}>
       <BrowserRouter>
         <Post
-          id=""
+          id={0}
           username=""
           title=""
-          content=""
+          body=""
           category=""
-          date={0}
+          created_at=""
           image=""
           likes={[]}
           comments={[]}
-          profilepicture=""
+          profile_picture=""
         />
       </BrowserRouter>
     </Provider>,

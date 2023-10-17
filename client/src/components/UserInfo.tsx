@@ -5,7 +5,7 @@ import React, {
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
-  updateUsername, updatePassword, updateProfilePicture, updateEmail,
+  updateProfilePicture, updateEmail,
 } from '../store/UserSlice';
 import { RootState } from '../store';
 import defaultUserIcon from '../img/user.png';
@@ -96,34 +96,9 @@ function UserInfo() {
   };
   const changeUsername = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userNameRequest = {
-      userId,
-      body: {
-        id,
-        username,
-        newusername: newUserName.toLowerCase(),
-      },
-    };
-    const response = await dispatch<any>(updateUsername(userNameRequest));
-    if (response.error) {
-      return;
-    }
-    setNewUserName('');
   };
   const changePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const passwordRequest = {
-      userId,
-      body: {
-        id,
-        password: newPassword,
-      },
-    };
-    const request = await dispatch<any>(updatePassword(passwordRequest));
-    if (request.error) {
-      return;
-    }
-    setNewPassword('');
   };
   const changeProfilePicture = async (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
