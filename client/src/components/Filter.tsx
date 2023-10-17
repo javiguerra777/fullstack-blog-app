@@ -1,10 +1,8 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { getPostByCategory, getAllPosts } from '../store/PostSlice';
-import { Category } from '../types/types';
-import { AppDispatch } from '../store';
+import { useSearchParams } from 'react-router-dom';
+import { CategoryModel } from '../common/models/category';
 
 const StyledFilter = styled.section`
   height: 150px;
@@ -59,23 +57,25 @@ const StyledFilter = styled.section`
   }
 `;
 
-function Filter({ data }: any) {
-  const dispatch: AppDispatch = useDispatch();
-  const [category, setCategory] = useState<string>();
+type Props = {
+  data: CategoryModel[];
+};
+function Filter({ data }: Props) {
+  // eslint-disable-next-line no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [category, setCategory] = useState('');
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     setCategory(e.target.value);
   }
-  const changeCategory = async (e: FormEvent<HTMLFormElement>) => {
+  const submitCategorySearch = async (
+    e: FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
-    if (category === '') {
-      dispatch(getAllPosts());
-    } else {
-      dispatch(getPostByCategory({ category }));
-    }
+    setSearchParams({ filter: category });
   };
   return (
     <StyledFilter>
-      <form onSubmit={changeCategory}>
+      <form onSubmit={submitCategorySearch}>
         <label htmlFor="category">
           <select
             value={category}
@@ -83,9 +83,9 @@ function Filter({ data }: any) {
             onChange={handleChange}
           >
             <option value="">none</option>
-            {data.map(({ category: theCategory }: Category) => (
-              <option key={uuidv4()} value={theCategory}>
-                {theCategory}
+            {data.map((item: CategoryModel) => (
+              <option key={uuidv4()} value={item.category}>
+                {item.category}
               </option>
             ))}
           </select>
