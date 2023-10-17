@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
@@ -17,12 +17,10 @@ type Props = {
 };
 function Posts({ data }: Props) {
   const [searchParams] = useSearchParams();
-  // fixing bug with array sort method
-  const postsForSort = useMemo(() => [...data], [data]);
   return (
     <PostsWrapper>
-      {postsForSort
-        .filter((post) => {
+      {data
+        ?.filter((post) => {
           if (searchParams.get('filter')) {
             return post.category === searchParams.get('filter');
           }

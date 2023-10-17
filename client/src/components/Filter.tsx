@@ -83,7 +83,7 @@ function Filter({ data }: Props) {
             onChange={handleChange}
           >
             <option value="">none</option>
-            {data.map((item: CategoryModel) => (
+            {data?.map((item: CategoryModel) => (
               <option key={uuidv4()} value={item.category}>
                 {item.category}
               </option>

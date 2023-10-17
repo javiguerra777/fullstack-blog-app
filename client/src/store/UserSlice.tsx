@@ -25,7 +25,7 @@ export const loginUser = createAsyncThunk(
 export const signUpUser = createAsyncThunk(
   'user/signUpuser',
   async (request: SignUpParams) => {
-    const { data } = await axios.post(`${baseUrl}signup`, request, {
+    const { data } = await axios.post(`${baseUrl}users`, request, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -107,8 +107,10 @@ const initialState = {
   image: '',
   loginError: false,
   loginLoading: false,
-  error: false,
-  loading: false,
+  signInError: false,
+  signInLoading: false,
+  updateLoading: false,
+  updateError: false,
   loggedIn: false,
   displayLogInPrompt: false,
   displayCamera: false,
@@ -140,6 +142,9 @@ export const userSlice = createSlice({
     clearError(state) {
       state.loginError = false;
     },
+    clearSignInError(state) {
+      state.signInError = false;
+    },
     setLoggedInTrue(state) {
       state.loggedIn = true;
     },
@@ -169,14 +174,14 @@ export const userSlice = createSlice({
     });
     // for user sign up route
     builder.addCase(signUpUser.pending, (state) => {
-      state.loading = true;
-      state.error = false;
+      state.signInLoading = true;
+      state.signInError = false;
     });
     builder.addCase(
       signUpUser.fulfilled,
       (state, { payload: { token, userName, email, id } }) => {
-        state.loading = false;
-        state.error = false;
+        state.signInLoading = false;
+        state.signInError = false;
         state.token = token;
         state.id = id;
         state.email = email;
@@ -184,83 +189,82 @@ export const userSlice = createSlice({
       },
     );
     builder.addCase(signUpUser.rejected, (state) => {
-      state.loading = false;
-      state.error = true;
+      state.signInLoading = false;
+      state.signInError = true;
     });
     // updating username
     builder.addCase(updateUsername.pending, (state) => {
-      state.error = false;
-      state.loading = true;
+      state.updateError = false;
+      state.updateLoading = true;
     });
     builder.addCase(
       updateUsername.fulfilled,
       (state, { payload: { token, username } }) => {
         state.token = token;
         state.username = username;
-        state.error = false;
-        state.loading = false;
+        state.updateError = false;
+        state.updateLoading = false;
       },
     );
     builder.addCase(updateUsername.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.updateError = true;
+      state.updateLoading = false;
     });
     // update password
     builder.addCase(updatePassword.pending, (state) => {
-      state.error = false;
-      state.loading = true;
+      state.updateError = false;
+      state.updateLoading = true;
     });
     builder.addCase(
       updatePassword.fulfilled,
       (state, { payload: { token } }) => {
         state.token = token;
-        state.error = false;
-        state.loading = false;
+        state.updateError = false;
+        state.updateLoading = false;
       },
     );
     builder.addCase(updatePassword.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.updateError = true;
+      state.updateLoading = false;
     });
     // update profile picture
     builder.addCase(updateProfilePicture.pending, (state) => {
-      state.error = false;
-      state.loading = true;
+      state.updateError = false;
+      state.updateLoading = true;
     });
     builder.addCase(
       updateProfilePicture.fulfilled,
       (state, { payload: { profilepicture } }) => {
         state.image = profilepicture;
-        state.error = false;
-        state.loading = false;
+        state.updateError = false;
+        state.updateLoading = false;
       },
     );
     builder.addCase(updateProfilePicture.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.updateError = true;
+      state.updateLoading = false;
     });
     // update email
     builder.addCase(updateEmail.pending, (state) => {
-      state.error = false;
-      state.loading = true;
+      state.updateError = false;
+      state.updateLoading = true;
     });
     builder.addCase(
       updateEmail.fulfilled,
       (state, { payload: { token, email } }) => {
         state.token = token;
         state.email = email;
-        state.error = false;
-        state.loading = false;
+        state.updateError = false;
+        state.updateLoading = false;
       },
     );
     builder.addCase(updateEmail.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.updateError = true;
+      state.updateLoading = false;
     });
   },
 });
 
-// eslint-disable-next-line prettier/prettier
 export const {
   signOut,
   changeUsername,
@@ -268,6 +272,7 @@ export const {
   toggleDisplayCamera,
   clearError,
   setLoggedInTrue,
+  clearSignInError,
 } = userSlice.actions;
 
 export default userSlice.reducer;
