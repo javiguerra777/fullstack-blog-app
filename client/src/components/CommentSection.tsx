@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import '../index.css';
@@ -64,10 +63,9 @@ const CommentSectionWrapper = styled.section`
 `;
 function CommentSection({ comments }: CommentProps) {
   // to fix issue with sorting comments array
-  const commentsToSort = [...comments];
+  const commentsToSort = useMemo(() => [...comments], [comments]);
   return (
     <CommentSectionWrapper className="webkit">
-      {/* eslint-disable-next-line operator-linebreak */}
       {commentsToSort.length > 0 &&
         commentsToSort
           .sort((a: Date, b: Date) => a.date - b.date)

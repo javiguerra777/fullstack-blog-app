@@ -7,7 +7,6 @@ import {
   SignUpParams,
   UpdateUserParams,
   UpdatePasswordParams,
-  UserState,
 } from '../types/reduxTypes';
 import baseUrl from '../environment';
 
@@ -103,7 +102,7 @@ export const updateEmail = createAsyncThunk(
 );
 
 const initialState = {
-  userId: '',
+  userId: 0,
   username: '',
   image: '',
   error: false,
@@ -111,9 +110,9 @@ const initialState = {
   loggedIn: false,
   displayLogInPrompt: false,
   displayCamera: false,
-  id: '',
+  id: 0,
   email: '',
-} as UserState;
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -124,10 +123,10 @@ export const userSlice = createSlice({
     },
     signOut(state) {
       state.loggedIn = false;
-      state.userId = '';
+      state.userId = 0;
       state.username = '';
       state.image = '';
-      state.id = '';
+      state.id = 0;
       state.email = '';
     },
     toggleDisplayPrompt(state) {

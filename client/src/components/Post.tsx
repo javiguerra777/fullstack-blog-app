@@ -1,25 +1,21 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Notification from './Notification';
 import { RootState } from '../store';
-// import logo from '../img/telegram.png';
 import convertUnixToDate, {
   limitCharacters,
 } from '../utils/functions';
-import { addLike, removeLike } from '../utils/api';
 import likeBtn from '../img/like.png';
 import colorLikeBtn from '../img/heartRed.png';
 import commentImg from '../img/sms.png';
-import { toggleDisplayPrompt } from '../store/UserSlice';
-import { deletePost, updateFilteredPosts } from '../store/PostSlice';
 import '../styles/notifications.css';
-import { PostProps } from '../types/types';
+import { PostModel } from '../common/models/post';
 
 const DeleteWrapper = styled.section`
   height: 100vh;
@@ -278,14 +274,15 @@ function Post({
   id,
   username,
   title,
-  content,
+  body,
   category,
-  date,
+  created_at,
   image,
   likes,
   comments,
-  profilepicture,
-}: PostProps) {
+  profile_picture,
+  user_id,
+}: PostModel) {
   // max length for trimming content
   const maxLength = 100;
   const dispatch = useDispatch();
@@ -293,96 +290,23 @@ function Post({
   // redux states
   const {
     loggedIn,
-    userId, // users jwt that is used for authentication purposes in app
-    id: uniqueUserId, // users id from the database
-    username: currentUser,
+    id: userIdNumber, // users id from the database
+    username: userUsername,
   } = useSelector((state: RootState) => state.user, shallowEqual);
-  const { posts } = useSelector(
-    (state: RootState) => state.post,
-    shallowEqual,
-  );
 
   // states used in component
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteMsg, setDeleteMsg] = useState(false);
-  const [likesArray, setLikesArray] = useState(likes);
   const [message, setMessage] = useState('');
 
-  // useEffect to determine if a post is liked by a user
-  useEffect(() => {
-    likes.forEach((like) => {
-      if (uniqueUserId === like) {
-        setIsLiked(true);
-      }
-    });
-  }, [currentUser, likes, uniqueUserId]);
-
+  const toggleLike = () => {
+    if (!loggedIn) return;
+    setIsLiked((prev) => !prev);
+  };
   // removes post from database
-  const removePost = async (postId: string) => {
-    const deleteParams = {
-      userId,
-      id: postId,
-    };
-    await dispatch<any>(deletePost(deleteParams));
-    const filteredPosts: any[] = [...posts];
-    const newPosts = filteredPosts.filter(
-      (post) => post._id !== postId,
-    );
-    dispatch(updateFilteredPosts(newPosts));
+  const removePost = async (postId: number) => {
     setDeleteMsg(false);
   };
-
-  async function handleLikes(thisPostId: string) {
-    if (!loggedIn) {
-      dispatch(toggleDisplayPrompt());
-      return 'not logged In';
-    }
-    // params sent to the server to update the likes array
-    const likeParams = {
-      postId: thisPostId,
-      userId,
-      body: { uniqueUserId },
-    };
-    // this allows the user to add a like to the likes array in the database
-    if (!isLiked) {
-      const likeRequest = await addLike(likeParams);
-      /*
-      if the post has been deleted we receive null data
-       and make sure user is unable to change isLiked State in component
-      */
-      if (likeRequest === null) {
-        setMessage('Unable to like the post, error occurred');
-        return 'Unable to like, error occurred';
-      }
-      /*
-      if the post exists, then username is then
-      added to current likes array to update current count on the UI
-      */
-      setLikesArray((prevArray) => [...prevArray, uniqueUserId]);
-    } else {
-      // this allows a user to remove a like from the likes array in the database
-      const unlikeRequest = await removeLike(likeParams);
-      /*
-      if the post has been deleted we receive null data
-       and make sure user is unable to change isLiked State in component
-      */
-      if (unlikeRequest === null) {
-        setMessage('Unable to unlike the post, error occurred');
-        return 'Unable to unlike, error occurred';
-      }
-      /*
-      If the post exists, then the array
-      is updated to remove the current users id from the array
-      this updates the likes array on the UI
-       */
-      // eslint-disable-next-line prettier/prettier
-      const updatedArray = likesArray.filter((like) => like !== uniqueUserId);
-      setLikesArray(updatedArray);
-    }
-    // eslint-disable-next-line no-unused-expressions
-    isLiked ? setIsLiked(false) : setIsLiked(true);
-    return 'un-liking comment';
-  }
 
   const randomNum = () => {
     const num = Math.floor(Math.random() * 5 + 1);
@@ -414,7 +338,7 @@ function Post({
       <div className="wrapper">
         <div className="user-info">
           <img
-            src={profilepicture}
+            src={profile_picture}
             className="user-icon"
             alt="user icon"
           />
@@ -424,7 +348,7 @@ function Post({
           <small>
             <i className="fa-solid fa-circle" />
           </small>
-          <p className="timestamp">{convertUnixToDate(date)}</p>{' '}
+          <p className="timestamp">{convertUnixToDate(created_at)}</p>{' '}
           <small>
             <i className="fa-solid fa-circle" />
           </small>
@@ -439,7 +363,7 @@ function Post({
             >
               Close
             </button>
-            {currentUser === username ? (
+            {userIdNumber === user_id ? (
               <div>
                 <Link to={`editPost/${id}`}>Edit Post</Link>
                 <button
@@ -455,9 +379,13 @@ function Post({
             )}
           </div>
         ) : (
-          <div className="post-menu-btn" onClick={openPostMenu}>
+          <button
+            type="button"
+            className="post-menu-btn"
+            onClick={openPostMenu}
+          >
             <i className="fa-solid fa-ellipsis-vertical" />
-          </div>
+          </button>
         )}
         <Link to={`/post/${id}`} className="title" id="title">
           {title}
@@ -467,28 +395,18 @@ function Post({
         )}
         <div className="interactions">
           <div>
-            {isLiked ? (
-              <button
-                className="like-btn"
-                type="button"
-                onClick={() => handleLikes(id)}
-              >
-                <img src={colorLikeBtn} alt="heart" />
-                {likesArray.length > 0 ? likesArray.length : ''}
-              </button>
-            ) : (
-              <button
-                className="like-btn"
-                type="button"
-                onClick={() => handleLikes(id)}
-              >
-                <img src={likeBtn} alt="heart filled red" />
-                {likesArray.length > 0 ? likesArray.length : ''}
-              </button>
-            )}
+            <button
+              className="like-btn"
+              type="button"
+              onClick={toggleLike}
+            >
+              <img
+                src={isLiked ? colorLikeBtn : likeBtn}
+                alt="like-btn"
+              />
+            </button>
             <Link to={`/post/${id}`} className="comments">
               <img src={commentImg} alt="text message bubble" />
-              {comments.length > 0 ? comments.length : ''}
             </Link>
           </div>
 
@@ -502,8 +420,8 @@ function Post({
           </p>
         </div>
         <p className="content">
-          {limitCharacters(content, maxLength)}{' '}
-          {content.length >= maxLength && (
+          {limitCharacters(body, maxLength)}{' '}
+          {body.length >= maxLength && (
             <Link to={`/post/${id}`}>...read more</Link>
           )}
         </p>

@@ -5,6 +5,7 @@ import {
 import baseUrl from '../../environment';
 
 const postsApi = createApi({
+  reducerPath: 'api/postsApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ['Posts'],
   endpoints: (builder) => ({
