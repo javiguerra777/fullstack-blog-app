@@ -3,17 +3,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
-  RequestParams,
+  LoginParams,
   SignUpParams,
   UpdateUserParams,
   UpdatePasswordParams,
-} from '../types/reduxTypes';
+} from '../common/models/userslice';
 import baseUrl from '../environment';
 
 // api calls using async thunk
 export const loginUser = createAsyncThunk(
   'user/loginUser',
-  async (request: RequestParams) => {
+  async (request: LoginParams) => {
     const { data } = await axios.post(`${baseUrl}login`, request, {
       headers: {
         'Content-Type': 'application/json',
@@ -102,9 +102,11 @@ export const updateEmail = createAsyncThunk(
 );
 
 const initialState = {
-  userId: 0,
+  token: 0,
   username: '',
   image: '',
+  loginError: false,
+  loginLoading: false,
   error: false,
   loading: false,
   loggedIn: false,
@@ -123,7 +125,7 @@ export const userSlice = createSlice({
     },
     signOut(state) {
       state.loggedIn = false;
-      state.userId = 0;
+      state.token = 0;
       state.username = '';
       state.image = '';
       state.id = 0;
@@ -145,28 +147,25 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     // for logging in user
     builder.addCase(loginUser.pending, (state) => {
-      state.error = false;
-      state.loading = true;
+      state.loginError = false;
+      state.loginLoading = true;
     });
     builder.addCase(
       loginUser.fulfilled,
-      (
-        state,
-        { payload: { token, username, profileImage, userId, email } },
-      ) => {
-        state.userId = token;
-        state.username = username;
-        state.image = profileImage;
+      (state, { payload: { user } }) => {
+        state.token = user.token || 0;
+        state.username = user.username;
+        state.image = user.profile_picture;
         state.loggedIn = true;
-        state.error = false;
-        state.loading = false;
-        state.id = userId;
-        state.email = email;
+        state.loginError = false;
+        state.loginLoading = false;
+        state.id = user.id;
+        state.email = user.email;
       },
     );
     builder.addCase(loginUser.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.loginError = true;
+      state.loginLoading = false;
     });
     // for user sign up route
     builder.addCase(signUpUser.pending, (state) => {
@@ -178,7 +177,7 @@ export const userSlice = createSlice({
       (state, { payload: { token, userName, email, id } }) => {
         state.loading = false;
         state.error = false;
-        state.userId = token;
+        state.token = token;
         state.id = id;
         state.email = email;
         state.username = userName;
@@ -196,7 +195,7 @@ export const userSlice = createSlice({
     builder.addCase(
       updateUsername.fulfilled,
       (state, { payload: { token, username } }) => {
-        state.userId = token;
+        state.token = token;
         state.username = username;
         state.error = false;
         state.loading = false;
@@ -214,7 +213,7 @@ export const userSlice = createSlice({
     builder.addCase(
       updatePassword.fulfilled,
       (state, { payload: { token } }) => {
-        state.userId = token;
+        state.token = token;
         state.error = false;
         state.loading = false;
       },
@@ -248,7 +247,7 @@ export const userSlice = createSlice({
     builder.addCase(
       updateEmail.fulfilled,
       (state, { payload: { token, email } }) => {
-        state.userId = token;
+        state.token = token;
         state.email = email;
         state.error = false;
         state.loading = false;

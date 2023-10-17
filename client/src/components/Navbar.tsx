@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -203,7 +202,7 @@ function Navbar() {
             Sign out
           </button>
         ) : (
-          <NavLink to="/signin">Sign in</NavLink>
+          <NavLink to="/register">Sign in</NavLink>
         )}
       </div>
     </StyledNavbar>

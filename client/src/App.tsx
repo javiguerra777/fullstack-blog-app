@@ -5,8 +5,6 @@ import EditPost from './components/EditPost';
 import NewPost from './components/NewPost';
 import Home from './pages/Home';
 import Post from './pages/Post';
-import Signin from './pages/Signin';
-import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
 import UserInfo from './components/UserInfo';
@@ -14,10 +12,11 @@ import EmailPassword from './pages/EmailPassword';
 import NotFound from './pages/NotFound';
 import { RootState } from './store';
 import ResetPassword from './pages/ResetPassword';
+import RegistrationRoutes from './features/registration/RegistrationRoutes';
 
 type RoutesType = {
   loggedin: boolean;
-  children: any;
+  children: React.ReactElement;
 };
 
 // protect routes against users who are not logged in, will reroute them to the home page
@@ -82,8 +81,7 @@ function App() {
         />
         <Route path="/validateEmail" element={<EmailPassword />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/register/*" element={<RegistrationRoutes />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -1,13 +1,11 @@
-/* eslint-disable prettier/prettier */
-import React, {
-  useState, ChangeEvent, FormEvent,
-} from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
+import { useAppDispatch } from '../hook';
 import {
-  updateProfilePicture, updateEmail,
+  updateProfilePicture,
+  updateEmail,
 } from '../store/UserSlice';
-import { RootState } from '../store';
+import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
 import defaultUserIcon from '../img/user.png';
 
 const UserInfoWrapper = styled.main`
@@ -73,10 +71,8 @@ const UserInfoWrapper = styled.main`
   }
 `;
 function UserInfo() {
-  const dispatch = useDispatch();
-  const {
-    username, image, userId, id, email,
-  } = useSelector((state: RootState) => state.user, shallowEqual);
+  const dispatch = useAppDispatch();
+  const { username, image, id, token, email } = UseGetStoreUser();
   const [newUserName, setNewUserName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newProfilePicture, setNewProfilePicture] = useState({});
@@ -100,17 +96,21 @@ function UserInfo() {
   const changePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-  const changeProfilePicture = async (e:FormEvent<HTMLFormElement>) => {
+  const changeProfilePicture = async (
+    e: FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
     const pictureRequest = {
-      userId,
+      token,
       body: {
         image: newProfilePicture,
         id,
         username,
       },
     };
-    const response = await dispatch<any>(updateProfilePicture(pictureRequest));
+    const response = await dispatch<any>(
+      updateProfilePicture(pictureRequest),
+    );
     if (response.error) {
       return;
     }
@@ -121,7 +121,7 @@ function UserInfo() {
   const changeEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailRequest = {
-      userId,
+      token,
       body: {
         email: newEmail,
         id,
@@ -140,44 +140,75 @@ function UserInfo() {
       <form onSubmit={changeProfilePicture} className="update-form">
         <label htmlFor="profilePicture" className="update-info">
           <p>Current Profile Picture</p>
-          <img className="profile-img" src={image || defaultUserIcon} alt="user profile pic" />
+          <img
+            className="profile-img"
+            src={image || defaultUserIcon}
+            alt="user profile pic"
+          />
           <p>Upload New Profile Picture</p>
-          <input type="file" className="image-input" onChange={handleImageChange} />
+          <input
+            type="file"
+            className="image-input"
+            onChange={handleImageChange}
+          />
         </label>
-        {previewPicture && <img className="prev-img" src={previewPicture} alt="prev-img" />}
-        <button type="submit" disabled={disabled}> Change Profile Picture</button>
+        {previewPicture && (
+          <img
+            className="prev-img"
+            src={previewPicture}
+            alt="prev-img"
+          />
+        )}
+        <button type="submit" disabled={disabled}>
+          {' '}
+          Change Profile Picture
+        </button>
       </form>
       {/* Update email form */}
       <form onSubmit={changeEmail} className="update-form">
         <label htmlFor="email" className="update-info">
-          <p>
-            Current Email:
+          <p>Current Email: {email}</p>
+          <input
+            type="email"
+            placeholder="example@gmail.com"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+          />
+          <button type="submit" disabled={newEmail === ''}>
             {' '}
-            {email}
-          </p>
-          <input type="email" placeholder="example@gmail.com" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
-          <button type="submit" disabled={newEmail === ''}> Change Email</button>
+            Change Email
+          </button>
         </label>
       </form>
       {/* Update username form */}
       <form onSubmit={changeUsername} className="update-form">
         <label htmlFor="username" className="update-info">
-          <p>
-            Current Username:
-            {' '}
-            {username}
-          </p>
-          <input type="text" placeholder="New Username" value={newUserName} onChange={(e) => setNewUserName(e.target.value)} />
+          <p>Current Username: {username}</p>
+          <input
+            type="text"
+            placeholder="New Username"
+            value={newUserName}
+            onChange={(e) => setNewUserName(e.target.value)}
+          />
         </label>
-        <button type="submit" disabled={newUserName === ''}>Change Username</button>
+        <button type="submit" disabled={newUserName === ''}>
+          Change Username
+        </button>
       </form>
       <form onSubmit={changePassword} className="update-form">
         {/* Update password form */}
         <label htmlFor="password" className="update-info">
           <p>Enter New Password</p>
-          <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+          <input
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
         </label>
-        <button type="submit" disabled={newPassword === ''}>Change Password</button>
+        <button type="submit" disabled={newPassword === ''}>
+          Change Password
+        </button>
       </form>
     </UserInfoWrapper>
   );

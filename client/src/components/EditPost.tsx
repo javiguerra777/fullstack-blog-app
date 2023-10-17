@@ -15,6 +15,7 @@ import { Category } from '../types/types';
 import { AppDispatch, RootState } from '../store';
 import { StyledNewPost } from './NewPost';
 import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
+import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
 
 function EditPost() {
   const dispatch: AppDispatch = useDispatch();
@@ -25,7 +26,7 @@ function EditPost() {
     (state: RootState) => state.post,
     shallowEqual,
   );
-  const { userId } = useSelector((state: RootState) => state.user, shallowEqual);
+  const { id: userId} = UseGetStoreUser();
   const [category, setCategory] = useState<string>();
 
   useEffect(() => {
