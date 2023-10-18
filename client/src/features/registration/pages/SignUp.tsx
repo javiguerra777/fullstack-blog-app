@@ -22,13 +22,18 @@ type SignUpInput = {
 function SignUp() {
   const dispatch = useAppDispatch();
   const { signInError, signInLoading } = UseGetStoreUser();
-  const { register, handleSubmit } = useForm<SignUpInput>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, touchedFields, isValid, isDirty },
+  } = useForm<SignUpInput>({ mode: 'all' });
   const onSubmit: SubmitHandler<SignUpInput> = (data) => {
     dispatch(
       signUpUser({
         email: data.email.toLowerCase().trim(),
         username: data.username.toLowerCase().trim(),
         password: data.password,
+        profile_picture: 'default',
       }),
     );
   };
@@ -51,41 +56,61 @@ function SignUp() {
       <p>Sign Up</p>
       <i className="fa-solid fa-user-plus" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label
-          htmlFor="email"
-          id="email"
-          style={{ marginTop: '1em' }}
-        >
+        <label htmlFor="email" id="email" className="mt-1">
           {' '}
           Enter Email:
         </label>
+        {errors.email && touchedFields.email && (
+          <div className="w-full text-start text-red-600">
+            Invalid Email
+          </div>
+        )}
         <input
-          {...register('email', { required: true })}
+          {...register('email', {
+            required: true,
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Enter a valid email address',
+            },
+          })}
           type="email"
           placeholder="example@gmail.com"
-          className=""
-          id="email"
+          className="text-black"
         />
         <label htmlFor="username" id="username">
           {' '}
           Enter Username:
         </label>
+        {errors.username && touchedFields.username && (
+          <div className="w-full text-start text-red-600">
+            Invalid Username
+          </div>
+        )}
         <input
           {...register('username', { required: true })}
           type="text"
           placeholder="@username"
-          className=""
+          className="text-black"
         />
         <label htmlFor="password" id="password">
           {' '}
           Enter Password:
         </label>
+        {errors.password && touchedFields.password && (
+          <div className="w-full text-start text-red-600">
+            Invalid Password
+          </div>
+        )}
         <input
           {...register('password', { required: true })}
           type="password"
           placeholder="Your Password"
+          className="text-black"
         />
-        <button type="submit" disabled={signInLoading}>
+        <button
+          type="submit"
+          disabled={signInLoading || !isValid || !isDirty}
+        >
           Sign Up
         </button>
       </form>

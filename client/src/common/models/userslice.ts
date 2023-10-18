@@ -6,6 +6,7 @@ export type SignUpParams = {
   username: string;
   password: string;
   email: string;
+  profile_picture: any;
 };
 export type UpdateUserParams = {
   userId: string;

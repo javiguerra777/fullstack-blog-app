@@ -63,9 +63,9 @@ function Signin() {
           })}
           type="email"
           placeholder="YourEmail@gmail.com"
-          className={
+          className={`text-black ${
             errors.email && touchedFields.email ? 'invalid' : ''
-          }
+          }`}
         />
         <label htmlFor="password" id="password">
           {' '}
