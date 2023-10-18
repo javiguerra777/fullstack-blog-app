@@ -81,9 +81,10 @@ function Filter({ data }: Props) {
             value={category}
             id="category"
             onChange={handleChange}
+            className="text-black"
           >
             <option value="">none</option>
-            {data.map((item: CategoryModel) => (
+            {data?.map((item: CategoryModel) => (
               <option key={uuidv4()} value={item.category}>
                 {item.category}
               </option>
