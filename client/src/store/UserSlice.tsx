@@ -25,11 +25,18 @@ export const loginUser = createAsyncThunk(
 export const signUpUser = createAsyncThunk(
   'user/signUpuser',
   async (request: SignUpParams) => {
-    const { data } = await axios.post(`${baseUrl}users`, request, {
-      headers: {
-        'Content-Type': 'application/json',
+    const properRequest = {
+      user: request,
+    };
+    const { data } = await axios.post(
+      `${baseUrl}users`,
+      properRequest,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
     return data;
   },
 );
@@ -179,13 +186,15 @@ export const userSlice = createSlice({
     });
     builder.addCase(
       signUpUser.fulfilled,
-      (state, { payload: { token, userName, email, id } }) => {
+      (state, { payload: { data } }) => {
         state.signInLoading = false;
         state.signInError = false;
-        state.token = token;
-        state.id = id;
-        state.email = email;
-        state.username = userName;
+        state.loggedIn = true;
+        state.token = data.token || 0;
+        state.id = data.id;
+        state.email = data.email;
+        state.username = data.username;
+        state.image = data.profile_picture;
       },
     );
     builder.addCase(signUpUser.rejected, (state) => {
