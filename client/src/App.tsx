@@ -9,7 +9,7 @@ import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
 import UserInfo from './components/UserInfo';
 import EmailPassword from './pages/EmailPassword';
-import NotFound from './pages/NotFound';
+import NotFound from './common/components/NotFound';
 import { RootState } from './store';
 import ResetPassword from './pages/ResetPassword';
 import RegistrationRoutes from './features/registration/RegistrationRoutes';
