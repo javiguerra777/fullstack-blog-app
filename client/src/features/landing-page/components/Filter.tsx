@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchParams } from 'react-router-dom';
-import { CategoryModel } from '../common/models/category';
+import { CategoryModel } from '../../../common/models/category';
 
 const StyledFilter = styled.section`
   height: 150px;

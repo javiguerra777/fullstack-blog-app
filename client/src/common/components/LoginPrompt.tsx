@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toggleDisplayPrompt } from '../store/UserSlice';
+import { toggleDisplayPrompt } from '../../store/UserSlice';
 
 const LoginPromptWrapper = styled.main`
   background: rgba(0, 0, 0, 0.5);

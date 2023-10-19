@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import Post from './Post';
-import { PostModel } from '../common/models/post';
+import { PostModel } from '../../../common/models/post';
 
 const PostsWrapper = styled.section`
   width: 100%;

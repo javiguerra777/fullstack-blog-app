@@ -1,21 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Notification from './Notification';
-import { RootState } from '../store';
+import Notification from '../../../components/Notification';
+import { RootState } from '../../../store';
 import convertUnixToDate, {
   limitCharacters,
-} from '../utils/functions';
-import likeBtn from '../assets/img/like.png';
-import colorLikeBtn from '../assets/img/heartRed.png';
-import commentImg from '../assets/img/sms.png';
-import '../styles/notifications.css';
-import { PostModel } from '../common/models/post';
+} from '../../../utils/functions';
+import likeBtn from '../../../assets/img/like.png';
+import colorLikeBtn from '../../../assets/img/heartRed.png';
+import commentImg from '../../../assets/img/sms.png';
+import { PostModel } from '../../../common/models/post';
 
 const DeleteWrapper = styled.section`
   height: 100vh;

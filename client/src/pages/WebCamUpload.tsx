@@ -14,7 +14,7 @@ import {
 } from '../store/PostSlice';
 import { RootState } from '../store';
 import { Category } from '../types/types';
-import { StyledNewPost } from '../components/NewPost';
+import { StyledNewPost } from '../features/posts/pages/NewPost';
 import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
 

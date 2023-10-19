@@ -8,15 +8,15 @@ import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { AppDispatch, RootState } from '../store';
+import { AppDispatch, RootState } from '../../../store';
 import {
   setCurrentContent,
   setCurrentTitle,
   addNewPost,
-} from '../store/PostSlice';
-import { Category } from '../types/types';
-import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
-import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
+} from '../../../store/PostSlice';
+import { Category } from '../../../types/types';
+import { useGetAllCategoriesQuery } from '../../../common/api/categoriesApi';
+import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
 
 export const StyledNewPost = styled.section`
   height: auto;
