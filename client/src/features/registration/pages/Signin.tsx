@@ -108,7 +108,7 @@ function Signin() {
       <div className="mt-2">
         Forgot your password?{' '}
         <Link
-          to="/validateEmail"
+          to="/register/validate-email"
           className="underline hover:text-blue-600"
         >
           Click Here

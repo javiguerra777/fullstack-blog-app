@@ -11,9 +11,9 @@ import { RootState } from '../store';
 import convertUnixToDate, {
   limitCharacters,
 } from '../utils/functions';
-import likeBtn from '../img/like.png';
-import colorLikeBtn from '../img/heartRed.png';
-import commentImg from '../img/sms.png';
+import likeBtn from '../assets/img/like.png';
+import colorLikeBtn from '../assets/img/heartRed.png';
+import commentImg from '../assets/img/sms.png';
 import '../styles/notifications.css';
 import { PostModel } from '../common/models/post';
 

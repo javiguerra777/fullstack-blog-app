@@ -1,18 +1,15 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector, shallowEqual } from 'react-redux';
+import UseGetStoreUser from './common/hooks/UseGetStoreUser';
 import EditPost from './components/EditPost';
 import NewPost from './components/NewPost';
 import Home from './pages/Home';
 import Post from './pages/Post';
 import Main from './pages/Main';
 import WebCamUpload from './pages/WebCamUpload';
-import UserInfo from './components/UserInfo';
-import EmailPassword from './pages/EmailPassword';
 import NotFound from './common/components/NotFound';
-import { RootState } from './store';
-import ResetPassword from './pages/ResetPassword';
 import RegistrationRoutes from './features/registration/RegistrationRoutes';
+import UserAccountRoutes from './features/user-account/UserAccountRoutes';
 
 type RoutesType = {
   loggedin: boolean;
@@ -28,10 +25,7 @@ function ProtectedRoute({ loggedin, children }: RoutesType) {
 }
 
 function App() {
-  const { loggedIn } = useSelector(
-    (state: RootState) => state.user,
-    shallowEqual,
-  );
+  const { loggedIn } = UseGetStoreUser();
   return (
     <Routes>
       <Route path="/" element={<Main />}>
@@ -72,15 +66,13 @@ function App() {
           }
         />
         <Route
-          path="userInfo"
+          path="/account-info/*"
           element={
             <ProtectedRoute loggedin={loggedIn}>
-              <UserInfo />
+              <UserAccountRoutes />
             </ProtectedRoute>
           }
         />
-        <Route path="/validateEmail" element={<EmailPassword />} />
-        <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/register/*" element={<RegistrationRoutes />} />
         <Route path="*" element={<NotFound />} />
       </Route>

@@ -9,7 +9,7 @@ import { BsFileEarmarkPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { toggleDisplayCamera } from '../store/UserSlice';
-import defaultImage from '../img/user.png';
+import defaultImage from '../assets/img/user.png';
 import { RootState } from '../store';
 
 const FooterWrapper = styled.footer`

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../index.css';
-import defaultIcon from '../img/user.png';
+import defaultIcon from '../assets/img/user.png';
 
 const PostDetailsWrapper = styled.section`
   height: 70vh;
