@@ -1,23 +1,18 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { useAppDispatch } from '../../hook';
-import { signOut } from '../../store/UserSlice';
 import icon from '../../assets/img/plane.png';
-import defautUserIcon from '../../assets/img/user.png';
 import { StyledNavBar } from '../styles/StyledNavBar';
 import Drawer from './Drawer';
 import UseGetStoreUser from '../hooks/UseGetStoreUser';
 
 function Navbar() {
-  const dispatch = useAppDispatch();
-  const { loggedIn, username, image } = UseGetStoreUser();
-  const buttonSignOut = () => {
-    dispatch(signOut());
-  };
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { loggedIn } = UseGetStoreUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const closeDrawer = useCallback(() => {
+    setDrawerOpen(false);
+  }, []);
   return (
     <>
       <StyledNavBar>
@@ -73,14 +68,14 @@ function Navbar() {
           ) : (
             <NavLink
               to="/register"
-              className="bg-blue-500 p-2 rounded"
+              className="bg-blue-500 p-2 rounded-lg"
             >
               Sign in
             </NavLink>
           )}
         </div>
       </StyledNavBar>
-      <Drawer isOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+      <Drawer isOpen={drawerOpen} closeDrawer={closeDrawer} />
     </>
   );
 }
