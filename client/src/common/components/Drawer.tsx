@@ -61,7 +61,7 @@ export default function Drawer({ isOpen, closeDrawer }: DrawerProps) {
             Home
           </NavLink>
           <NavLink
-            to="/userInfo"
+            to="/account-info"
             className="hover:underline"
             onClick={closeDrawer}
           >

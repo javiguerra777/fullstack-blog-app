@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -29,37 +28,9 @@ function Navbar() {
         </NavLink>
 
         <div className="pr-4">
-          {/* {loggedIn && (
-            <div className="profile-info">
-              <p>
-                Welcome, <span> </span> {username}
-              </p>
-              <div
-                className={isOpen ? 'open' : 'closed'}
-                onMouseLeave={() => setIsOpen(false)}
-              >
-                <NavLink to="/userInfo" className="user-profile">
-                  View/Edit Profile
-                </NavLink>
-              </div>
-              <img
-                src={image || defautUserIcon}
-                className="userIcon"
-                alt="generic user icon"
-                onMouseEnter={() => setIsOpen(true)}
-              />
-            </div>
-          )} */}
           {loggedIn ? (
-            // <button
-            //   type="button"
-            //   className="signout"
-            //   onClick={buttonSignOut}
-            // >
-            //   Sign out
-            // </button>
             <button
-              className="bg-white w-10 h-10 text-black rounded-full flex items-center justify-center"
+              className="bg-white w-10 h-10 text-black rounded-full flex items-center justify-center hover:bg-gray-300"
               type="button"
               onClick={() => setDrawerOpen(true)}
             >

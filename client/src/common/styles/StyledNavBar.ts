@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { NavBarHeight } from './StyleVariables';
 
 export const StyledNavBar = styled.nav`
   width: 100%;
-  height: 8vh;
+  height: ${NavBarHeight};
   background: none;
   color: #ededed;
   font-weight: 500;

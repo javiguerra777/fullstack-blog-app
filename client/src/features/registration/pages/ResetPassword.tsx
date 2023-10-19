@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { validateUserOnServer, resetPassword } from '../utils/api';
+import { validateUserOnServer, resetPassword } from '../../../utils/api';
 import { ResetPasswordWrapper } from './EmailPassword';
 
 function ResetPassword() {

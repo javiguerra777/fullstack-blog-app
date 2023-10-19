@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
-import { validateEmailOnServer } from '../utils/api';
+import { validateEmailOnServer } from '../../../utils/api';
 
 export const ResetPasswordWrapper = styled.main`
   height: 92vh;
