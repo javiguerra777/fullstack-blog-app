@@ -6,7 +6,7 @@ import {
   updateEmail,
 } from '../store/UserSlice';
 import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
-import defaultUserIcon from '../img/user.png';
+import defaultUserIcon from '../assets/img/user.png';
 
 const UserInfoWrapper = styled.main`
   width: 100vw;

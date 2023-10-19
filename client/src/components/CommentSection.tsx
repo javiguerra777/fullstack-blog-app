@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import '../index.css';
 import convertUnixToDate from '../utils/functions';
 import { CommentsArray, Date } from '../types/types';
-import defaultIcon from '../img/user.png';
+import defaultIcon from '../assets/img/user.png';
 
 type CommentProps = {
   comments: [];

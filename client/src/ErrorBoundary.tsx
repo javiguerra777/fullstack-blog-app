@@ -1,7 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './common/components/Navbar';
 import GlobalStyles from './styles/GlobalStyles';
 
 const StyledError = styled.div`
