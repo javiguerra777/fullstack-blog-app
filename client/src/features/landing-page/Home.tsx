@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector, shallowEqual } from 'react-redux';
-import { RootState } from '../../store';
-import Footer from '../../components/Footer';
 import Filter from './components/Filter';
 import Posts from './components/Posts';
 import LoginPrompt from '../../common/components/LoginPrompt';
@@ -10,22 +7,21 @@ import WebcamComponent from '../../components/WebcamComponent';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
 import { useGetAllCategoriesQuery } from '../../common/api/categoriesApi';
 import { useGetAllPostsQuery } from '../../common/api/postsApi';
+import UseGetStoreUser from '../../common/hooks/UseGetStoreUser';
+import { PageHeight } from '../../common/styles/StyleVariables';
 
 const HomeWrapper = styled.main`
   position: relative;
-  height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: ${PageHeight};
   width: 100vw;
   display: flex;
-  flex-direction: row;
-  @media (max-width: 576px) {
-    flex-direction: column;
-    jusitfy-content: center;
-    align-items: center;
-  }
-  @media (max-width: 768px) {
-    flex-direction: column;
-    jusitfy-content: center;
-    align-items: center;
+  flex-direction: column;
+  align-items: center;
+  @media (min-width: 800px) {
+    flex-direction: row;
+    align-items: normal;
   }
 `;
 
@@ -33,15 +29,11 @@ function Home() {
   const { isLoading, data } = useGetAllCategoriesQuery('categories');
   const { isLoading: postsLoading, data: posts } =
     useGetAllPostsQuery('posts');
-  const { loggedIn, displayLogInPrompt, displayCamera } = useSelector(
-    (state: RootState) => state.user,
-    shallowEqual,
-  );
+  const { displayLogInPrompt, displayCamera } = UseGetStoreUser();
   return (
     <HomeWrapper>
       {isLoading ? <LoadingSpinner /> : <Filter data={data} />}
       {postsLoading ? <LoadingSpinner /> : <Posts data={posts} />}
-      {loggedIn && <Footer />}
       {displayLogInPrompt && <LoginPrompt />}
       {displayCamera && <WebcamComponent />}
     </HomeWrapper>

@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import React, { useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import Notification from '../../../components/Notification';
-import { RootState } from '../../../store';
 import convertUnixToDate, {
   limitCharacters,
 } from '../../../utils/functions';
@@ -13,259 +11,10 @@ import likeBtn from '../../../assets/img/like.png';
 import colorLikeBtn from '../../../assets/img/heartRed.png';
 import commentImg from '../../../assets/img/sms.png';
 import { PostModel } from '../../../common/models/post';
-
-const DeleteWrapper = styled.section`
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-  .delete-prompt {
-    position: absolute;
-    top: 3em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #171717;
-    height: auto;
-    width: auto;
-    padding: 0 1.5em 1em 1.5em;
-    h1 {
-      font-size: 1.5rem;
-    }
-    p {
-      font-size: 1rem;
-    }
-  }
-`;
-
-export const StyledPost = styled.section`
-  height: 900px;
-  width: 65%;
-  background: #444444;
-  border-radius: 5px;
-  position: relative;
-  margin: 2rem 0;
-  .comments {
-    text-decoration: none;
-    color: white;
-  }
-  .like-btn {
-    color: white;
-  }
-  & .wrapper {
-    padding: 2rem;
-  }
-  & .user-info {
-    position: absolute;
-    top: 2vh;
-    height: 50px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin: 1rem auto;
-    & p {
-      font-size: 1rem;
-    }
-    & small {
-      margin: 0 1rem;
-      font-size: 0.15rem;
-    }
-    & img {
-      height: 50px;
-      width: 50px;
-      margin-right: 20px;
-      border-radius: 50%;
-    }
-    & .username {
-      font-weight: 400;
-      font-size: 1.25rem;
-    }
-  }
-  & .post-menu-btn {
-    position: absolute;
-    top: 5vh;
-    right: 5vw;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  & .post-menu {
-    height: 150px;
-    width: 100px;
-    position: absolute;
-    top: 5vh;
-    right: 5vw;
-    border-radius: 5px;
-    background: #171717;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    box-shadow: 0 0 2px 2px rgba(255, 255, 255, 0.2);
-    z-index: 10;
-    & .close {
-      background: none;
-      border: none;
-      color: #da0037;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    & a {
-      color: #ededed;
-      text-decoration: none;
-      margin: 0.5rem;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  & .title {
-    position: absolute;
-    top: 11vh;
-    margin: 0 auto;
-    font-size: 4.5rem;
-    font-weight: 200;
-    text-decoration: none;
-    color: #ededed;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  & .post-image {
-    height: 55%;
-    width: 90%;
-    position: absolute;
-    top: 21vh;
-    margin: auto;
-  }
-  & .interactions {
-    position: absolute;
-    bottom: 13.5vh;
-    margin: auto;
-    width: 75%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    & button {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    & img {
-      height: 30px;
-      width: 30px;
-      margin: -1rem 0.55rem;
-    }
-  }
-  & .content {
-    position: absolute;
-    bottom: 2.5vh;
-    margin: auto;
-    width: 75%;
-    font-size: 1.2rem;
-    & a {
-      color: #ededed;
-    }
-  }
-  .delete-post {
-    background: none;
-    border: none;
-    color: #ededed;
-    cursor: pointer;
-  }
-  .delete-post: hover {
-    text-decoration: underline;
-  }
-  @media (max-width: 576px) {
-    margin: 1rem 0.25rem;
-    & .wrapper {
-      padding: 0;
-    }
-    & .user-info {
-      width: 90%;
-      & img {
-        margin: 0 1rem;
-      }
-    }
-    & .title {
-      margin: 0 1rem;
-    }
-    & .post-image {
-      width: 100%;
-    }
-    & .interactions {
-      width: 95%;
-    }
-    & .content {
-      width: 100%;
-      bottom: 5vh;
-      padding: 0 0.75rem;
-      font-size: 1rem;
-      line-height: 1.5rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    word-wrap: break-word;
-    overflow-x: hidden;
-    width: 95%;
-    font-size: 0.7rem;
-    margin: 1rem auto;
-    & .post-image {
-      top: 17vh;
-    }
-    .category {
-      position: absolute;
-      bottom: 2em;
-      right: 0;
-    }
-    .comments {
-      position: absolute;
-      bottom: 3.5em;
-      left: 6em;
-    }
-    .like-btn {
-      position: absolute;
-      bottom: 3em;
-    }
-    .title {
-      font-size: 3em;
-    }
-    .user-info {
-      margin: 1rem auto;
-      & small {
-        margin: 0 1rem;
-        font-size: 0.25rem;
-      }
-      & img {
-        height: 50px;
-        width: 50px;
-        margin-right: 20px;
-        border-radius: 50%;
-      }
-      & .username {
-        font-weight: 400;
-        font-size: 1rem;
-      }
-    }
-  }
-  @media (max-width: 1025px) {
-    width: 90%;
-    .user-info {
-      & p {
-        font-size: 0.75rem;
-      }
-    }
-  }
-`;
+import { DeleteWrapper } from '../styles/Delete';
+import { StyledPost } from '../styles/PostStyle';
+import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
+import default_icon from '../../../assets/img/default_user_image.png';
 
 function Post({
   id,
@@ -281,178 +30,141 @@ function Post({
   user_id,
 }: PostModel) {
   // max length for trimming content
-  const maxLength = 100;
-  const dispatch = useDispatch();
-
+  const maxLength = useMemo(() => 100, []);
   // redux states
   const {
     loggedIn,
     id: userIdNumber, // users id from the database
-    username: userUsername,
-  } = useSelector((state: RootState) => state.user, shallowEqual);
+  } = UseGetStoreUser();
 
   // states used in component
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [deleteMsg, setDeleteMsg] = useState(false);
-  const [message, setMessage] = useState('');
-
   const toggleLike = () => {
     if (!loggedIn) return;
     setIsLiked((prev) => !prev);
   };
-  // removes post from database
-  const removePost = async (postId: number) => {
-    setDeleteMsg(false);
-  };
 
-  const randomNum = () => {
+  const randomNum = useMemo(() => {
     const num = Math.floor(Math.random() * 5 + 1);
     return num;
-  };
+  }, []);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   function openPostMenu() {
-    // eslint-disable-next-line no-unused-expressions
-    !isOpen ? setIsOpen(true) : setIsOpen(false);
+    setIsOpen((prev) => !prev);
   }
   // opens delete message prompt and closes the post menu
-  const displayDeleteMessage = () => {
-    setDeleteMsg(true);
-    openPostMenu();
+  const deletePost = () => {
+    const answer = window.confirm('Delete post?');
+    if (answer) {
+      console.log('Post will be deleted');
+    }
   };
-  // function to clear any notifications
-  const clearMessage = () => {
-    setMessage('');
-  };
-
-  // clears message notification after a set time if user has not cleared it already
-  if (message) {
-    setTimeout(() => {
-      setMessage('');
-    }, 5000);
-  }
   return (
     <StyledPost>
-      <div className="wrapper">
-        <div className="user-info">
+      <div className="flex justify-between relative">
+        <div className="flex">
           <img
-            src={profile_picture}
-            className="user-icon"
+            src={
+              profile_picture === 'default'
+                ? default_icon
+                : profile_picture
+            }
+            className="h-20 w-20 rounded-lg"
             alt="user icon"
           />
-          <p className="username" id="username">
-            @{username}
-          </p>{' '}
-          <small>
-            <i className="fa-solid fa-circle" />
-          </small>
-          <p className="timestamp">{convertUnixToDate(created_at)}</p>{' '}
-          <small>
-            <i className="fa-solid fa-circle" />
-          </small>
-          <p className="read-length">{randomNum()} min read</p>
+          <div className="ml-3">
+            <p className="username" id="username">
+              @{username}
+            </p>
+            <div className="flex items-center">
+              <i className="fa-solid fa-circle small-dot" />
+              <p className="ml-1 text-sm">
+                {convertUnixToDate(created_at)}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <i className="fa-solid fa-circle small-dot" />
+              <p className="ml-1 text-sm">{randomNum} min read</p>
+            </div>
+          </div>
         </div>
         {isOpen ? (
-          <div className="post-menu">
+          <div className="absolute top-0 right-0 flex flex-col bg-black p-2 rounded w-40">
             <button
               type="button"
-              className="close"
+              className="close text-red-600 text-lg"
               onClick={openPostMenu}
             >
-              Close
+              Close Menu
             </button>
-            {userIdNumber === user_id ? (
-              <div>
-                <Link to={`editPost/${id}`}>Edit Post</Link>
+            {userIdNumber === user_id && (
+              <div className="flex flex-col">
+                <Link
+                  to={`/post/edit-post/${id}`}
+                  className="bg-green-700 p-2 rounded my-3 hover:bg-green-500 text-center"
+                >
+                  Edit Post
+                </Link>
                 <button
                   type="button"
-                  className="delete-post"
-                  onClick={displayDeleteMessage}
+                  className="bg-red-700 p-2 rounded hover:bg-red-500 text-center"
+                  onClick={deletePost}
                 >
                   Delete Post
                 </button>
               </div>
-            ) : (
-              <Link to={`post/${id}`}>View Post</Link>
             )}
           </div>
         ) : (
           <button
             type="button"
-            className="post-menu-btn"
+            className="absolute top-0 right-0"
             onClick={openPostMenu}
           >
-            <i className="fa-solid fa-ellipsis-vertical" />
+            <i className="fa-solid fa-ellipsis-vertical text-2xl" />
           </button>
         )}
-        <Link to={`/post/${id}`} className="title" id="title">
-          {title}
-        </Link>
-        {image && (
-          <img className="post-image" src={image} alt="pic" />
-        )}
-        <div className="interactions">
-          <div>
-            <button
-              className="like-btn"
-              type="button"
-              onClick={toggleLike}
-            >
-              <img
-                src={isLiked ? colorLikeBtn : likeBtn}
-                alt="like-btn"
-              />
-            </button>
-            <Link to={`/post/${id}`} className="comments">
-              <img src={commentImg} alt="text message bubble" />
-            </Link>
-          </div>
-
-          <p className="category">
-            Category:{' '}
-            {category === undefined ? (
-              <strong>miscellaneous</strong>
-            ) : (
-              <strong>{category}</strong>
-            )}
-          </p>
+      </div>
+      <Link
+        to={`/post/details/${id}`}
+        className="hover:underline text-3xl"
+      >
+        {title}
+      </Link>
+      {image && <img className="post-image" src={image} alt="pic" />}
+      <div className="flex justify-between">
+        <div className="flex">
+          <button
+            className="h-10 w-10"
+            type="button"
+            onClick={toggleLike}
+          >
+            <img
+              src={isLiked ? colorLikeBtn : likeBtn}
+              alt="like-btn"
+            />
+          </button>
+          <Link to={`/post/details/${id}`} className="h-10 w-10 ml-3">
+            <img src={commentImg} alt="text message bubble" />
+          </Link>
         </div>
-        <p className="content">
-          {limitCharacters(body, maxLength)}{' '}
-          {body.length >= maxLength && (
-            <Link to={`/post/${id}`}>...read more</Link>
+        <p className="category">
+          Category:{' '}
+          {!category ? (
+            <strong>miscellaneous</strong>
+          ) : (
+            <strong>{category}</strong>
           )}
         </p>
       </div>
-      {message && (
-        <div className="post-notification">
-          <Notification
-            message={message}
-            clearMessage={clearMessage}
-          />
-        </div>
-      )}
-      {deleteMsg && (
-        <DeleteWrapper>
-          <section className="delete-prompt">
-            <h1>Are you sure you want to delete this post?</h1>
-            <p>
-              If you delete this post, the data cannot be retrieved in
-              the future.
-            </p>
-            <footer>
-              <button type="button" onClick={() => removePost(id)}>
-                Yes
-              </button>
-              <button
-                type="button"
-                onClick={() => setDeleteMsg(false)}
-              >
-                No
-              </button>
-            </footer>
-          </section>
-        </DeleteWrapper>
-      )}
+      <p className="text-lg">
+        {limitCharacters(body, maxLength)}{' '}
+        {body.length >= maxLength && (
+          <Link to={`/post/${id}`} className="hover:undelrine">
+            ...read more
+          </Link>
+        )}
+      </p>
     </StyledPost>
   );
 }
