@@ -15,7 +15,6 @@ import {
 } from '../../../store/PostSlice';
 import { Category } from '../../../types/types';
 import { AppDispatch, RootState } from '../../../store';
-import { StyledNewPost } from './NewPost';
 import { useGetAllCategoriesQuery } from '../../../common/api/categoriesApi';
 import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
 
@@ -75,7 +74,7 @@ function EditPost() {
   }
 
   return (
-    <StyledNewPost>
+    <section>
       <h1 data-testid="edit-post-description">Edit Post</h1>
       <label className="category-label" htmlFor="category">
         {' '}
@@ -129,7 +128,7 @@ function EditPost() {
           Post
         </button>
       </form>
-    </StyledNewPost>
+    </section>
   );
 }
 
