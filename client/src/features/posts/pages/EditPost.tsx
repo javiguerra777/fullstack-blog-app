@@ -43,6 +43,7 @@ function EditPost() {
       user_id: userId,
       title: values.title,
       body: values.body,
+      category,
     };
     try {
       await updatePostInDB({ id, payload }).unwrap();
