@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import store from '../store';
-import NewPost from '../components/NewPost';
+import NewPost from '../features/posts/pages/NewPost';
 
 test('check if new post form is displayed', async () => {
   render(

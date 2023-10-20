@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 // import userEvent from '@testing-library/user-event';
 import store from '../store';
-import Post from '../components/Post';
+import Post from '../features/landing-page/components/Post';
 
 test('Verifying that all elements are present', async () => {
   render(

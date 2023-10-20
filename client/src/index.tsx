@@ -6,6 +6,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './store';
 import App from './App';
 import ErrorBoundary from './ErrorBoundary';
+import './index.css';
+import './common/styles/notifications.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

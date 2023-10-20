@@ -3,19 +3,18 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { io } from 'socket.io-client';
 import styled from 'styled-components';
-import { AppDispatch, RootState } from '../store';
+import { AppDispatch, RootState } from '../../../store';
 import PostDetails from '../components/PostDetails';
 // eslint-disable-next-line no-unused-vars
 import CommentSection from '../components/CommentSection';
-import Notification from '../components/Notification';
-import { getPost } from '../store/PostSlice';
+import Notification from '../../../components/Notification';
+import { getPost } from '../../../store/PostSlice';
 import {
   getComments,
   changeComment,
   changeComments,
-} from '../store/CommentSlice';
-import LoadingSpinner from '../styles/LoadingSpinner';
-import '../styles/notifications.css';
+} from '../../../store/CommentSlice';
+import LoadingSpinner from '../../../common/components/LoadingSpinner';
 
 const PostWrapper = styled.section`
   width: 100vw;
@@ -80,7 +79,7 @@ const socket = io(
   },
 );
 
-function Post() {
+export default function CommentPage() {
   const { id } = useParams<string>();
   const dispatch: AppDispatch = useDispatch();
   const { username, image: profilepicture } = useSelector(
@@ -209,5 +208,3 @@ function Post() {
     </PostWrapper>
   );
 }
-
-export default Post;

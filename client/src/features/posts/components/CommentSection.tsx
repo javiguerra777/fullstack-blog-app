@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
-import '../index.css';
-import convertUnixToDate from '../utils/functions';
-import { CommentsArray, Date } from '../types/types';
-import defaultIcon from '../assets/img/user.png';
+import convertUnixToDate from '../../../utils/functions';
+import { CommentsArray, Date } from '../../../types/types';
+import defaultIcon from '../../../assets/img/default_user_image.png';
 
 type CommentProps = {
   comments: [];

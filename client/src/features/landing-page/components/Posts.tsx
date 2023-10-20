@@ -3,22 +3,26 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import Post from './Post';
-import { PostModel } from '../common/models/post';
+import { PostModel } from '../../../common/models/post';
+import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
+import UserPostCard from '../../../common/components/UserPostCard';
 
 const PostsWrapper = styled.section`
   width: 100%;
-  margin-left: 3vw;
-  overflow-y: scroll;
-  padding-bottom: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 type Props = {
   data: PostModel[];
 };
 function Posts({ data }: Props) {
+  const { loggedIn } = UseGetStoreUser();
   const [searchParams] = useSearchParams();
   return (
     <PostsWrapper>
+      {loggedIn && <UserPostCard />}
       {data
         ?.filter((post) => {
           if (searchParams.get('filter')) {
@@ -29,7 +33,6 @@ function Posts({ data }: Props) {
         .map((post: PostModel) => (
           <Post
             key={uuidv4()}
-            // eslint-disable-next-line no-underscore-dangle
             id={post.id}
             username={post.username}
             title={post.title}
@@ -40,6 +43,7 @@ function Posts({ data }: Props) {
             likes={post.likes || []}
             comments={post.comments || []}
             profile_picture={post.profile_picture}
+            user_id={post.user_id}
           />
         ))}
     </PostsWrapper>

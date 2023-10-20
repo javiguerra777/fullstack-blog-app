@@ -1,6 +1,8 @@
-/* eslint-disable prettier/prettier */
 import React, {
-  FormEvent, useEffect, useState, ChangeEvent,
+  FormEvent,
+  useEffect,
+  useState,
+  ChangeEvent,
 } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -10,12 +12,12 @@ import {
   setCurrentTitle,
   getPost,
   editPost,
-} from '../store/PostSlice';
-import { Category } from '../types/types';
-import { AppDispatch, RootState } from '../store';
+} from '../../../store/PostSlice';
+import { Category } from '../../../types/types';
+import { AppDispatch, RootState } from '../../../store';
 import { StyledNewPost } from './NewPost';
-import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
-import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
+import { useGetAllCategoriesQuery } from '../../../common/api/categoriesApi';
+import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
 
 function EditPost() {
   const dispatch: AppDispatch = useDispatch();
@@ -26,7 +28,7 @@ function EditPost() {
     (state: RootState) => state.post,
     shallowEqual,
   );
-  const { id: userId} = UseGetStoreUser();
+  const { id: userId } = UseGetStoreUser();
   const [category, setCategory] = useState<string>();
 
   useEffect(() => {
@@ -64,7 +66,9 @@ function EditPost() {
         category,
       },
     };
-    const editPostResults = await dispatch<any>(editPost(editInformation));
+    const editPostResults = await dispatch<any>(
+      editPost(editInformation),
+    );
     if (!editPostResults.error) {
       navigate('/');
     }
@@ -84,8 +88,11 @@ function EditPost() {
         data-testid="select-edit-category"
       >
         <option value="">none</option>
-        {/* eslint-disable-next-line max-len */}
-        {data?.map((categ: Category) => <option key={uuidv4()} value={categ.category}>{categ.category}</option>)}
+        {data?.map((categ: Category) => (
+          <option key={uuidv4()} value={categ.category}>
+            {categ.category}
+          </option>
+        ))}
       </select>
       <form onSubmit={handleSubmit} data-testid="edit-form">
         <section className="post-content">
@@ -96,7 +103,9 @@ function EditPost() {
               type="text"
               placeholder="Title of post"
               value={title}
-              onChange={(e) => dispatch(setCurrentTitle(e.target.value))}
+              onChange={(e) =>
+                dispatch(setCurrentTitle(e.target.value))
+              }
               data-testid="edit-title"
             />
           </label>
@@ -106,11 +115,19 @@ function EditPost() {
             className="content"
             id="content"
             value={content}
-            onChange={(e) => dispatch(setCurrentContent(e.target.value))}
+            onChange={(e) =>
+              dispatch(setCurrentContent(e.target.value))
+            }
             data-testid="edit-content"
           />
         </section>
-        <button type="submit" className="submit-form" disabled={invalidateInputs()}>Post</button>
+        <button
+          type="submit"
+          className="submit-form"
+          disabled={invalidateInputs()}
+        >
+          Post
+        </button>
       </form>
     </StyledNewPost>
   );

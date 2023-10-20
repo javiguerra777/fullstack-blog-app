@@ -2,7 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Navbar from './common/components/Navbar';
-import GlobalStyles from './styles/GlobalStyles';
+import GlobalStyles from './common/components/GlobalStyles';
 
 const StyledError = styled.div`
   height: 100vh;

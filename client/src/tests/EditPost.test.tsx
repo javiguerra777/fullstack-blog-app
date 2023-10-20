@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import store from '../store';
-import EditPost from '../components/EditPost';
+import EditPost from '../features/posts/pages/EditPost';
 
 // tests for the EditPost component
 test('check that edit form is displaying', async () => {

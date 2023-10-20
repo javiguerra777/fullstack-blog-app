@@ -1,15 +1,14 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import UseGetStoreUser from './common/hooks/UseGetStoreUser';
-import EditPost from './components/EditPost';
-import NewPost from './components/NewPost';
-import Home from './pages/Home';
-import Post from './pages/Post';
-import Main from './pages/Main';
+import Home from './features/landing-page/Home';
+// import Post from './pages/Post';
+import Main from './common/components/Main';
 import WebCamUpload from './pages/WebCamUpload';
 import NotFound from './common/components/NotFound';
 import RegistrationRoutes from './features/registration/RegistrationRoutes';
 import UserAccountRoutes from './features/user-account/UserAccountRoutes';
+import PostsRoutes from './features/posts/PostsRoutes';
 
 type RoutesType = {
   loggedin: boolean;
@@ -35,26 +34,14 @@ function App() {
         a user to be logged in to access this page
          */}
         <Route
-          path="/newPost"
+          path="/post/*"
           element={
             <ProtectedRoute loggedin={loggedIn}>
-              <NewPost />
+              <PostsRoutes />
             </ProtectedRoute>
           }
         />
-        <Route path="/post/:id" element={<Post />} />
-        {/*
-        EditPost is a protected route and requires
-        a user to be logged in to access this page
-        */}
-        <Route
-          path="/editPost/:id"
-          element={
-            <ProtectedRoute loggedin={loggedIn}>
-              <EditPost />
-            </ProtectedRoute>
-          }
-        />
+        {/* <Route path="/post/:id" element={<Post />} /> */}
         {/* WebCamUpload is a protected route where users
         upload an image taken from React Webcam */}
         <Route
