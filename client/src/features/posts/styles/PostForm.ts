@@ -5,6 +5,9 @@ export const FormContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  textarea {
+    resize: none;
+  }
   @media (min-width: 800px) {
     width: 75%;
   }
