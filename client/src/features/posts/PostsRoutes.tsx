@@ -8,7 +8,7 @@ export default function PostsRoutes() {
   return (
     <Routes>
       <Route path="/new-post" element={<NewPost />} />
-      <Route path="/edit-post" element={<EditPost />} />
+      <Route path="/edit-post/:id" element={<EditPost />} />
       <Route path="/details/:id" element={<CommentPage />} />
     </Routes>
   );

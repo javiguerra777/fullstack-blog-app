@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import React, { useState, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Notification from '../../../components/Notification';
 import convertUnixToDate, {
   limitCharacters,
 } from '../../../utils/functions';
@@ -11,10 +9,10 @@ import likeBtn from '../../../assets/img/like.png';
 import colorLikeBtn from '../../../assets/img/heartRed.png';
 import commentImg from '../../../assets/img/sms.png';
 import { PostModel } from '../../../common/models/post';
-import { DeleteWrapper } from '../styles/Delete';
 import { StyledPost } from '../styles/PostStyle';
 import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
 import default_icon from '../../../assets/img/default_user_image.png';
+import { useDeletePostMutation } from '../../../common/api/postsApi';
 
 function Post({
   id,
@@ -32,10 +30,8 @@ function Post({
   // max length for trimming content
   const maxLength = useMemo(() => 100, []);
   // redux states
-  const {
-    loggedIn,
-    id: userIdNumber, // users id from the database
-  } = UseGetStoreUser();
+  const { loggedIn, id: userIdNumber } = UseGetStoreUser();
+  const [deletePostFromDB] = useDeletePostMutation();
 
   // states used in component
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -53,10 +49,17 @@ function Post({
     setIsOpen((prev) => !prev);
   }
   // opens delete message prompt and closes the post menu
-  const deletePost = () => {
+  const deletePost = async () => {
     const answer = window.confirm('Delete post?');
     if (answer) {
-      console.log('Post will be deleted');
+      try {
+        await deletePostFromDB({
+          id,
+          user_id: userIdNumber,
+        }).unwrap();
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   return (

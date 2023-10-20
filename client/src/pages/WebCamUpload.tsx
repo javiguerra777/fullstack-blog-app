@@ -14,7 +14,6 @@ import {
 } from '../store/PostSlice';
 import { RootState } from '../store';
 import { Category } from '../types/types';
-import { StyledNewPost } from '../features/posts/pages/NewPost';
 import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
 
@@ -76,7 +75,7 @@ function WebCamUpload() {
     }
   }
   return (
-    <StyledNewPost>
+    <section>
       <h1 data-testid="image-post-description">Upload Image</h1>
       <label className="category-label" htmlFor="category">
         {' '}
@@ -129,7 +128,7 @@ function WebCamUpload() {
           Post
         </button>
       </form>
-    </StyledNewPost>
+    </section>
   );
 }
 

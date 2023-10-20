@@ -1,135 +1,122 @@
-import React, {
-  FormEvent,
-  useEffect,
-  useState,
-  ChangeEvent,
-} from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-unused-vars */
+import React, { useState, useMemo } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  setCurrentContent,
-  setCurrentTitle,
-  getPost,
-  editPost,
-} from '../../../store/PostSlice';
-import { Category } from '../../../types/types';
-import { AppDispatch, RootState } from '../../../store';
-import { StyledNewPost } from './NewPost';
 import { useGetAllCategoriesQuery } from '../../../common/api/categoriesApi';
 import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
+import { FormContentWrapper } from '../styles/PostForm';
+import {
+  useGetPostQuery,
+  useUpdatePostMutation,
+} from '../../../common/api/postsApi';
+import { CategoryModel } from '../../../common/models/category';
 
+type EditPostForm = {
+  title: string;
+  body: string;
+};
 function EditPost() {
-  const dispatch: AppDispatch = useDispatch();
-  const { data } = useGetAllCategoriesQuery('categories');
   const navigate = useNavigate();
   const { id } = useParams<string>();
-  const { title, content } = useSelector(
-    (state: RootState) => state.post,
-    shallowEqual,
-  );
+  const { data } = useGetAllCategoriesQuery('categories');
+  const { data: postData } = useGetPostQuery({ id });
+  const [updatePostInDB] = useUpdatePostMutation();
   const { id: userId } = UseGetStoreUser();
-  const [category, setCategory] = useState<string>();
-
-  useEffect(() => {
-    dispatch(getPost(id || ''));
-    /*
-    If the user decides to leave the page
-    before submitting the edited post
-    this will clear the content and title in the redux slice
-    */
-    return () => {
-      dispatch(setCurrentContent(''));
-      dispatch(setCurrentTitle(''));
+  const {
+    register,
+    formState: { isValid },
+    handleSubmit,
+  } = useForm({
+    mode: 'all',
+    values: {
+      title: postData?.title,
+      body: postData?.body,
+    },
+  });
+  const [category, setCategory] = useState<string>(
+    postData?.category,
+  );
+  const onSubmit: SubmitHandler<EditPostForm> = async (values) => {
+    const payload = {
+      user_id: userId,
+      title: values.title,
+      body: values.body,
+      category,
     };
-  }, [id, dispatch]);
-
-  // handle category change
-  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
-    setCategory(e.target.value);
-  }
-  function invalidateInputs() {
-    if (!title || !content) {
-      return true;
-    }
-    return false;
-  }
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const editInformation = {
-      userId,
-      postId: id,
-      post: {
-        title,
-        body: content,
-        date: Date.now(),
-        category,
-      },
-    };
-    const editPostResults = await dispatch<any>(
-      editPost(editInformation),
-    );
-    if (!editPostResults.error) {
+    try {
+      await updatePostInDB({ id, payload }).unwrap();
       navigate('/');
+    } catch (err) {
+      console.log(err);
     }
-  }
-
+  };
+  const isFormValid = useMemo(() => {
+    if (!category || !isValid) {
+      return false;
+    }
+    return true;
+  }, [category, isValid]);
   return (
-    <StyledNewPost>
-      <h1 data-testid="edit-post-description">Edit Post</h1>
-      <label className="category-label" htmlFor="category">
-        {' '}
-        Select Category
-      </label>
-      <select
-        value={category}
-        id="category"
-        onChange={handleChange}
-        data-testid="select-edit-category"
-      >
-        <option value="">none</option>
-        {data?.map((categ: Category) => (
-          <option key={uuidv4()} value={categ.category}>
-            {categ.category}
-          </option>
-        ))}
-      </select>
-      <form onSubmit={handleSubmit} data-testid="edit-form">
-        <section className="post-content">
-          <label htmlFor="title">
-            <input
-              className="title"
-              id="title"
-              type="text"
-              placeholder="Title of post"
-              value={title}
-              onChange={(e) =>
-                dispatch(setCurrentTitle(e.target.value))
-              }
-              data-testid="edit-title"
-            />
-          </label>
-
-          <textarea
-            placeholder="Content...."
-            className="content"
-            id="content"
-            value={content}
-            onChange={(e) =>
-              dispatch(setCurrentContent(e.target.value))
-            }
-            data-testid="edit-content"
-          />
-        </section>
-        <button
-          type="submit"
-          className="submit-form"
-          disabled={invalidateInputs()}
+    <form
+      className="flex flex-col w-full items-center"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <FormContentWrapper>
+        <div className="flex justify-between w-full">
+          <h2 className="text-2xl">Edit Post</h2>
+          <button
+            type="submit"
+            className={`bg-blue-500 px-3 py-1 rounded ${
+              !isFormValid ? 'bg-gray-400' : ''
+            }`}
+            disabled={!isFormValid}
+          >
+            Post!
+          </button>
+        </div>
+        <label htmlFor="category" className="category mt-2 text-lg">
+          {' '}
+          Select Category
+        </label>
+        <select
+          id="category"
+          className="text-black rounded py-2 mt-1"
+          data-testid="select"
+          onChange={(e) => setCategory(e.target.value)}
+          value={category}
         >
-          Post
-        </button>
-      </form>
-    </StyledNewPost>
+          <option value="">None</option>
+          {data?.map((value: CategoryModel) => (
+            <option key={uuidv4()} value={value.category}>
+              {value.category}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="title" className="mt-2 text-lg">
+          {' '}
+          Title
+        </label>
+        <input
+          id="title"
+          className="py-2 px-1 rounded mt-1 text-black"
+          placeholder="What is your post about?"
+          {...register('title', { required: true })}
+        />
+        <label htmlFor="body" className="text-lg mt-1">
+          {' '}
+          Content
+        </label>
+        <textarea
+          id="body"
+          className="text-black rounded mt-1 px-1 py-2"
+          rows={7}
+          placeholder="What's on your mind?"
+          {...register('body', { required: true })}
+        />
+      </FormContentWrapper>
+    </form>
   );
 }
 
