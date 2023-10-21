@@ -1,6 +1,6 @@
-# Fullstack Blog Application
+# Fullstack CMS Application
 <a name="top"></a>
-This is a fullstack application made for a blog. The client side application was built with React, Typescript, Redux Tool Kit, and Socket-io.client.
+This is a fullstack application made for a CMS (Content Management System). The client side application was built with React, Typescript, Redux Tool Kit, and Socket-io.client.
 The server side application was built with Ruby on Rails.
 
 # Table of contents
@@ -25,8 +25,26 @@ The server side application was built with Ruby on Rails.
 
 # About the Project
 <a name="about-the-project"></a>
-This website is to present my portfolio to anyone interested.
+This application is a content management system that was built with React on the client and Ruby on Rails on the server.
 <p align="left">(<a href="#top">back to top</a>)</p>
+
+# Built With
+<a name="built-with"></a>
+
+## Client
+A few of the libraries that the client application was built with are
+* React
+* Typescript
+* Node.js
+* React Redux 
+* React Router
+* EsLint and AirBnb
+
+## Server
+The libraires that the server side application was built with are
+* Ruby on Rails
+* Cors
+* SQLite 3
 
 ## Getting Started
 <a name="getting-started"></a>
@@ -60,6 +78,43 @@ To get started follow these steps
   ```she
   git clone https://github.com/javiguerra777/fullstack-blog-app
   ```
+Check below to see the available scripts to build and run the application.
+
+### Available Scripts
+To build the application:
+```
+scripts/build.sh
+```
+To run server application:
+```
+scripts/server.sh
+```
+To run the client application:
+```
+scripts/client.sh start
+```
+To install a dependency on the client application:
+```
+scripts/client.sh install "package name"
+```
+To remove a dependency on the client application:
+```
+scripts/client.sh remove "package-name"
+```
+To run tests for the client application:
+```
+scripts/client.sh test
+```
+To build the client application to be able to deploy it:
+```
+scripts/client.sh build
+```
+To eject the client application *(not recommended)
+```
+scripts/client.sh eject
+```
+
+### Other Methods to Install
 Switch to the client and follow the instructions to set up the client that's built with React.
 ```
 cd client
