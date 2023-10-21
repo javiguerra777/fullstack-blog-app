@@ -13,7 +13,7 @@ import {
   addWebCamImage,
 } from '../store/PostSlice';
 import { RootState } from '../store';
-import { Category } from '../types/types';
+import { CategoryModel } from '../common/models/category';
 import { useGetAllCategoriesQuery } from '../common/api/categoriesApi';
 import UseGetStoreUser from '../common/hooks/UseGetStoreUser';
 
@@ -89,7 +89,7 @@ function WebCamUpload() {
       >
         <option value="">none</option>
         {/* eslint-disable-next-line max-len */}
-        {data?.map(({ category: theCategory }: Category) => (
+        {data?.map(({ category: theCategory }: CategoryModel) => (
           <option key={uuidv4()} value={theCategory}>
             {theCategory}
           </option>

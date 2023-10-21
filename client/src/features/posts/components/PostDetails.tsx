@@ -1,64 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
 import defaultIcon from '../../../assets/img/default_user_image.png';
+import convertUnixToDate from '../../../utils/functions';
 
 const PostDetailsWrapper = styled.section`
-  height: 70vh;
-  width: 50%;
   border-top: none;
   background: #444444;
-  overflow-y: scroll;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
-  border-radius: 5px 5px 0 0;
-  & p {
-    width: 85%;
-    font-size: 1.1rem;
-  }
-  & .user-info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    margin: 0.85rem;
-    & img {
-      height: 60px;
-      width: 60px;
-      border-radius: 50%;
-    }
-  }
-  & .username {
-    font-weight: 400;
-    margin: 1rem;
-  }
-  & .post-image {
-    height: 65%;
-    width: 85%;
-  }
-
-  @media (max-width: 576px) {
-    width: 95%;
-  }
-  @media (max-width: 768px) {
-    width: 90%;
-  }
+  padding: 15px;
 `;
-function PostDetails({ post }: any) {
-  // eslint-disable-next-line object-curly-newline
-  const { username, body, image, profilepicture } = post;
+type PostDetailsProps = {
+  post: {
+    username: string;
+    body: string;
+    image: string;
+    profile_picture: string;
+    created_at: string;
+    title: string;
+  };
+};
+function PostDetails({ post }: PostDetailsProps) {
+  console.log(post);
+  const {
+    username,
+    body,
+    image,
+    profile_picture,
+    created_at,
+    title,
+  } = post;
   return (
-    <PostDetailsWrapper className="webkit">
-      <div className="user-info">
-        <img src={profilepicture || defaultIcon} alt="user icon" />
-        {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-        <h1 className="username">@{username}</h1>
+    <PostDetailsWrapper>
+      <div className="flex flex-row w-full">
+        <img
+          src={profile_picture || defaultIcon}
+          alt="user-icon"
+          className="h-20 w-20 rounded"
+        />
+        <div className="ml-2">
+          <p className="username text-lg font-semibold">
+            @{username || 'Username'}
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold">Posted on: </span>
+            {convertUnixToDate(created_at)}
+          </p>
+        </div>
       </div>
+      <p className="w-full text-2xl mt-4">{title}</p>
       {image && <img src={image} className="post-image" alt="img" />}
-      <p>{body}</p>
+      <p className="w-full mt-2 text-lg">{body}</p>
     </PostDetailsWrapper>
   );
 }
