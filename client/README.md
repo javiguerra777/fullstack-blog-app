@@ -19,6 +19,11 @@ To get started follow these steps
 ```
 npm start
 ```
+3. To install a dependency to the project.
+```
+npm install "package name"
+```
+
 <p align="left">(<a href="#top">back to top</a>)</p>
 
 ## Deploying
