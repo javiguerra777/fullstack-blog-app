@@ -32,6 +32,27 @@ This website is to present my portfolio to anyone interested.
 <a name="getting-started"></a>
 To get started follow these steps
 
+## Prerequisites
+1. Make sure to have node installed on your device. To check if you have node installed run this command
+   ```
+   node --version
+   ```
+   To install node on your device [Node Installation Website](https://nodejs.org/en/download)
+2. Make sure to have ruby installed on your device. To install ruby go to this website.
+   ```
+   ruby --version
+   ```
+   To install ruby on your device [Ruby Installation Website](https://www.ruby-lang.org/en/documentation/installation/)
+3. Make sure to have rails installed on your device.
+   ```
+   rails --version
+   ```
+   To install rails make sure you have ruby installed on your device and then run.
+   ```
+   gem install rails
+   ```
+<p align="left">(<a href="#top">back to top</a>)</p>
+
 ### Installation
 <a name="installation"></a>
 
@@ -39,13 +60,10 @@ To get started follow these steps
   ```she
   git clone https://github.com/javiguerra777/fullstack-blog-app
   ```
-
 Switch to the client and follow the instructions to set up the client that's built with React.
 ```
 cd client
-npm start
 ```
-
 Switch to the blog-api and follow the instruction to set up the Ruby on Rails API server.
 ```
 cd blog-api
@@ -67,7 +85,6 @@ Steps to deploy this application are TBD.
 
 ## Contact
 <a name="contact"></a>
-Javier Guerra - javier.guerra1001@gmail.com
 
 Project link: https://github.com/javiguerra777/fullstack-blog-app
 <p align="left">(<a href="#top">back to top</a>)</p>
