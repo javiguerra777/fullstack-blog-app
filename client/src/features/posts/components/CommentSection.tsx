@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import convertUnixToDate from '../../../utils/functions';
-import { CommentsArray, Date } from '../../../types/types';
+import { CommentsArray } from '../../../types/types';
 import defaultIcon from '../../../assets/img/default_user_image.png';
 
 type CommentProps = {
@@ -66,27 +66,25 @@ function CommentSection({ comments }: CommentProps) {
   return (
     <CommentSectionWrapper className="webkit">
       {commentsToSort.length > 0 &&
-        commentsToSort
-          .sort((a: Date, b: Date) => a.date - b.date)
-          .map(
-            ({
-              username,
-              comment,
-              date,
-              profilepicture,
-            }: CommentsArray) => (
-              <div key={uuidv4()} className="comment">
-                <img
-                  src={profilepicture || defaultIcon}
-                  alt="user profile icon"
-                  className="user-icon"
-                />
-                <h1> {username}:</h1>
-                <p>{comment} - </p>
-                <small>{convertUnixToDate(date)}</small>
-              </div>
-            ),
-          )}
+        commentsToSort.map(
+          ({
+            username,
+            comment,
+            date,
+            profilepicture,
+          }: CommentsArray) => (
+            <div key={uuidv4()} className="comment">
+              <img
+                src={profilepicture || defaultIcon}
+                alt="user profile icon"
+                className="user-icon"
+              />
+              <h1> {username}:</h1>
+              <p>{comment} - </p>
+              <small>{convertUnixToDate(date)}</small>
+            </div>
+          ),
+        )}
     </CommentSectionWrapper>
   );
 }
