@@ -41,7 +41,7 @@ A few of the libraries that the client application was built with are
 * EsLint and AirBnb
 
 ## Server
-The libraires that the server side application was built with are
+A few of the frameworks/libraries that the server side application was built with are
 * Ruby on Rails
 * Cors
 * SQLite 3
