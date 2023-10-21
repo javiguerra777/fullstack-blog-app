@@ -34,7 +34,7 @@ class PostsController < ApplicationController
 
  def update
   @post = Post.find_by(id: params[:id], user_id: params[:user_id])
-  if @post && @post.update(update_params)
+  if @post && @post.update(post_params)
     render json: {
       data: @post
     }
@@ -61,8 +61,5 @@ class PostsController < ApplicationController
  private
  def post_params
   params.require(:post).permit(:title, :body, :category, :user_id)
- end
- def update_params
-  params.require(:post).permit(:title, :body, :user_id)
  end
 end
