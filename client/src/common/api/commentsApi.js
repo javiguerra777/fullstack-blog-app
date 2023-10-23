@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 import {
   createApi,
   fetchBaseQuery,
@@ -37,11 +39,39 @@ const commentsApi = createApi({
         );
       },
     }),
+    deleteComment: builder.mutation({
+      query: ({ id, user_id }) => ({
+        url: `comments/${id}`,
+        method: 'DELETE',
+        body: { user_id },
+      }),
+      async onQueryStarted(
+        { id, post_id },
+        { dispatch, queryFulfilled },
+      ) {
+        const patchUpdate = dispatch(
+          commentsApi.util.updateQueryData(
+            'getCommentsByPostId',
+            post_id.toString(),
+            (draft) => {
+              const index = draft.findIndex((item) => item.id === id);
+              draft.splice(index, 1);
+            },
+          ),
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchUpdate.undo();
+        }
+      },
+    }),
   }),
 });
 
 export const {
   useGetCommentsByPostIdQuery,
   useCreateNewCommentMutation,
+  useDeleteCommentMutation,
 } = commentsApi;
 export default commentsApi;

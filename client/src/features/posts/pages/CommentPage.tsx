@@ -22,7 +22,10 @@ export default function CommentPage() {
         <LoadingSpinner />
       ) : (
         <>
-          <CommentSection comments={comments} />
+          <CommentSection
+            comments={comments}
+            post_id={parseFloat(id || '')}
+          />
           <CommentForm post_id={parseFloat(id || '')} />
         </>
       )}
