@@ -9,8 +9,9 @@ class CommentsController < ApplicationController
     @post = Post.find(params[:post_id])
     @comment = Comment.create(comment_params)
     if @post && @comment.save
+      @found_comment = Comment.joins(:user).select('comments.id, comment, username, user_id, email, profile_picture, comments.created_at').find_by(id: @comment.id)
       render json: {
-        data: @comment
+        data: @found_comment
       }, :status => 200
     else 
       render json: {
