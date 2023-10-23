@@ -6,6 +6,7 @@ import UserSlice from './UserSlice';
 import CommentSlice from './CommentSlice';
 import categoriesApi from '../common/api/categoriesApi';
 import postsApi from '../common/api/postsApi';
+import commentsApi from '../common/api/commentsApi';
 
 const persistConfig = {
   key: 'root',
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   comment: CommentSlice,
   [categoriesApi.reducerPath]: categoriesApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
+  [commentsApi.reducerPath]: commentsApi.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
@@ -26,6 +28,7 @@ const store = configureStore({
     getDefaultMiddleware().concat(
       categoriesApi.middleware,
       postsApi.middleware,
+      commentsApi.middleware,
     ),
   devTools: process.env.NODE_ENV !== 'production',
 });

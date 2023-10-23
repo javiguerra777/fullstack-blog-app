@@ -35,7 +35,11 @@ function PostDetails({ post }: PostDetailsProps) {
     <PostDetailsWrapper>
       <div className="flex flex-row w-full">
         <img
-          src={profile_picture || defaultIcon}
+          src={
+            profile_picture === 'default'
+              ? defaultIcon
+              : profile_picture
+          }
           alt="user-icon"
           className="h-20 w-20 rounded"
         />
