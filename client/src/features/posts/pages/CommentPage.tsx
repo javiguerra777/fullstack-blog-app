@@ -23,7 +23,7 @@ export default function CommentPage() {
       ) : (
         <>
           <CommentSection comments={comments} />
-          <CommentForm />
+          <CommentForm post_id={parseFloat(id || '')} />
         </>
       )}
     </PostWrapper>
