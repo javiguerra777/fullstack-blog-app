@@ -7,7 +7,7 @@ class PostsController < ApplicationController
  end
 
  def show
-  @post = Post.find(params[:id])
+  @post = Post.joins(:user).select('posts.id, title, body, username, user_id, email, profile_picture, category, posts.created_at').find(params[:id])
   if @post.present?
     render json: {
       data: @post
