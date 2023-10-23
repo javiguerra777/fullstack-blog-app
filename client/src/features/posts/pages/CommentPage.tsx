@@ -11,9 +11,9 @@ import { useGetCommentsByPostIdQuery } from '../../../common/api/commentsApi';
 
 export default function CommentPage() {
   const { id } = useParams<string>();
-  const { data, isLoading } = useGetPostQuery({ id });
+  const { data, isLoading } = useGetPostQuery(id);
   const { data: comments, isLoading: commentsLoading } =
-    useGetCommentsByPostIdQuery({ id });
+    useGetCommentsByPostIdQuery(id);
   return (
     <PostWrapper>
       {isLoading ? <LoadingSpinner /> : <PostDetails post={data} />}

@@ -21,7 +21,7 @@ function EditPost() {
   const navigate = useNavigate();
   const { id } = useParams<string>();
   const { data } = useGetAllCategoriesQuery('categories');
-  const { data: postData } = useGetPostQuery({ id });
+  const { data: postData } = useGetPostQuery(id);
   const [updatePostInDB] = useUpdatePostMutation();
   const { id: userId } = UseGetStoreUser();
   const {

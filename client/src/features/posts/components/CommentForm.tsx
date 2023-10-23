@@ -3,6 +3,7 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import UseGetStoreUser from '../../../common/hooks/UseGetStoreUser';
+import { useCreateNewCommentMutation } from '../../../common/api/commentsApi';
 
 type CommentFormProps = {
   post_id: number;
@@ -12,6 +13,7 @@ type CommentInput = {
 };
 export default function CommentForm({ post_id }: CommentFormProps) {
   const { id } = UseGetStoreUser();
+  const [createNewPost] = useCreateNewCommentMutation();
   const {
     register,
     handleSubmit,
@@ -20,14 +22,18 @@ export default function CommentForm({ post_id }: CommentFormProps) {
   } = useForm<CommentInput>({
     mode: 'all',
   });
-  const onSubmit: SubmitHandler<CommentInput> = (data) => {
+  const onSubmit: SubmitHandler<CommentInput> = async (data) => {
     const payload = {
       comment: data.comment,
       post_id,
       user_id: id,
     };
-    console.log(payload);
-    reset();
+    try {
+      await createNewPost({ payload }).unwrap();
+      reset();
+    } catch {
+      console.log('error');
+    }
   };
   return (
     <form

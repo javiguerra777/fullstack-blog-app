@@ -10,7 +10,7 @@ const commentsApi = createApi({
   tagTypes: ['Comments', 'Comment'],
   endpoints: (builder) => ({
     getCommentsByPostId: builder.query({
-      query: ({ id }) => `comments/${id}`,
+      query: (id) => `comments/${id}`,
       transformResponse: (response) => response.data,
       providesTags: ['Comments'],
     }),
@@ -20,6 +20,22 @@ const commentsApi = createApi({
         method: 'POST',
         body: payload,
       }),
+      transformResponse: (response) => response.data,
+      async onQueryStarted(
+        { payload },
+        { dispatch, queryFulfilled },
+      ) {
+        const { data } = await queryFulfilled;
+        dispatch(
+          commentsApi.util.updateQueryData(
+            'getCommentsByPostId',
+            payload.post_id.toString(),
+            (draft) => {
+              draft.push(data);
+            },
+          ),
+        );
+      },
     }),
   }),
 });

@@ -15,7 +15,7 @@ const postsApi = createApi({
       providesTags: ['Posts'],
     }),
     getPost: builder.query({
-      query: ({ id }) => `posts/${id}`,
+      query: (id) => `posts/${id}`,
       transformResponse: (response) => response.data,
       providesTags: ['Post'],
     }),

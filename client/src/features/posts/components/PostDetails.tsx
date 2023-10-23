@@ -22,7 +22,6 @@ type PostDetailsProps = {
   };
 };
 function PostDetails({ post }: PostDetailsProps) {
-  console.log(post);
   const {
     username,
     body,
